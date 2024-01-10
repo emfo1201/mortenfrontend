@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import queryString from 'query-string'
 import { Paper, Typography, CircularProgress, Divider } from '@material-ui/core/'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams, useNavigate } from 'react-router-dom'
