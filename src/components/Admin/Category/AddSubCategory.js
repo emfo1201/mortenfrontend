@@ -4,16 +4,15 @@ import Button from '@material-ui/core/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { addSubCategory } from '../../../actions/menu'; // Ersätt 'actions/menu' med sökvägen till din Redux-action för att lägga till subkategorier
 
-function AddSubCategory({ mainCategory }) {
+function AddSubCategory({ mainCategory, handleCloseDialog }) {
   const [subCategory, setSubCategory] = useState('');
-  const category = useSelector((state) => state.menus.find(item => item._id === mainCategory));
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // Skapa den nya subkategorin med nödvändig information
     const newSubCategory = {
-      category: category.mainMenu,
+      category: mainCategory,
       newSubCategory: subCategory,
     };
 
@@ -22,6 +21,7 @@ function AddSubCategory({ mainCategory }) {
 
     // Återställ formuläret efter inskickning
     setSubCategory('');
+    handleCloseDialog();
   };
 
   return (

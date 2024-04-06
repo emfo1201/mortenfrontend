@@ -22,6 +22,9 @@ export default makeStyles(() => ({
         display: 'flex',
         justifyContent: 'space-between',
     },
+    name: {
+        paddingLeft: '1rem',
+    },
     image: {
         marginLeft: '15px',
     },

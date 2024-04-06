@@ -4,14 +4,12 @@ import Cookies from 'js-cookie'
 export default (state = { authData: null }, action) => {
     switch (action.type) {
         case AUTH:
-            console.log(action?.data)
-        //    localStorage.setItem('profile', JSON.stringify({ ...action?.data }))
-
-            return { ...state, authData: action.data, loading: false, errors: null }
+            // Uppdatera autentiseringstillståndet när inloggning sker
+            return { ...state, authData: action.data, loading: false, errors: null };
         case LOGOUT:
-            localStorage.clear()
-            return { ...state, authData: null, loading: false, errors: null }
+            // Återställ autentiseringstillståndet när utloggning sker
+            return { ...state, authData: null, loading: false, errors: null };
         default:
-            return state
+            return state;
     }
-}
+};

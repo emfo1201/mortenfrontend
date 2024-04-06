@@ -47,8 +47,7 @@ export const deleteCategory = (id) => async (dispatch) => {
 
 export const deleteSubCategory = (category) => async (dispatch) => {
     try {
-        console.log("category " + category.category)
-        const { data } = await api.deleteCategory(category)
+        const { data } = await api.deleteSubCategory(category)
         dispatch({ type: 'DELETE_CATEGORY', payload: data })
     } catch (error) {
         console.log(error.message)

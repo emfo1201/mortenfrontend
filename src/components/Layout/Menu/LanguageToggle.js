@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LanguageToggle = () => {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const classes = useStyles();
   const toggleLanguage = () => {
     const newLanguage = i18n.language === 'no' ? 'en' : 'no';

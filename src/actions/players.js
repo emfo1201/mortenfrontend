@@ -36,20 +36,18 @@ export const getPlayerById = (id) => async (dispatch) => {
 }
 
 // Redux thunk-action
-export const addPlayer = (player, navigate) => async (dispatch) => {
+export const addPlayer = (player) => async (dispatch) => {
     try {
       dispatch({ type: START_LOADING });
       const { data } = await api.addPlayer(player);
-      console.log("värden innan ", data);
       dispatch({ type: ADD_PLAYER, payload: data });
-      console.log("värden ", data);
     } catch (error) {
-      console.log("Hoppade in i catch");
       console.log(error.message);
     }
   };
 
 export const updatePlayer = (id, player) => async (dispatch) => {
+    console.log("cat: ", id)
     try {
         const { data } = await api.updatePlayer(id, player)
         dispatch({ type: UPDATE_PLAYER, payload: data })

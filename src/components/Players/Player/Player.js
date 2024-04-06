@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Card, CardActions, CardContent, CardMedia, Button, Typography, ButtonBase, Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core/';
+import { Card, CardActions, CardMedia, Button, Typography, ButtonBase, Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core/';
 import DeleteIcon from '@material-ui/icons/Delete';
+import UpdateIcon from '@material-ui/icons/Update';
 import ScrollDialog from '../../../components/dialog';
 import { useDispatch } from 'react-redux';
-import { useNavigate, useLocation } from 'react-router-dom'
-import { deletePlayer } from '../../../actions/players'
-import UpdatePlayer from '../../Admin/Player/UpdatePlayer';
+import { useNavigate } from 'react-router-dom'
+import { deletePlayer, updatePlayer } from '../../../actions/players'
+import PlayerForm from '../../Admin/Player/PlayerForm';
+import { useAuth } from '../../Auth/AuthContext';
 
 import useStyles from './styles';
 
@@ -13,9 +15,18 @@ const Player = ({ player }) => {
     const dispatch = useDispatch()
     const history = useNavigate()
     const classes = useStyles()
-    const { searchParams } = useLocation()
+    const { isAuthenticated } = useAuth();
 
     const [openDialog, setOpenDialog] = useState(false);
+    const [openUpdatePlayer, setOpenUpdatePlayer] = useState(false);
+
+    const handleOpenUpdatePlayer = () => {
+        setOpenUpdatePlayer(true);
+    };
+
+    const handleCloseUpdatePlayer = () => {
+        setOpenUpdatePlayer(false);
+    };
 
     const handleOpenDialog = () => {
         setOpenDialog(true);
@@ -26,15 +37,39 @@ const Player = ({ player }) => {
     };
 
     const handleDeletePlayer = () => {
-        console.log("spelare: ", player._id)
         dispatch(deletePlayer(player._id));
-        setOpenDialog(false); // Stänger dialogen efter borttagning
+        setOpenDialog(false);
     };
 
     const openPlayer = () => {
-        console.log("spelare: ", player._id)
         history(`/players/${player._id}`, { redirect: true })
     }
+
+    const handleSubmit = (updatedPlayerData) => {
+        const data = new FormData();
+
+        console.log("updatedPlayerData: ", updatedPlayerData)
+  
+        // Lägg till spelarinformation i FormData
+        data.append('name', updatedPlayerData.name);
+        data.append('club', updatedPlayerData.club);
+        data.append('infoEnglish', updatedPlayerData.infoEnglish);
+        data.append('infoNorwegian', updatedPlayerData.infoNorwegian);
+        for (const categoryKey in updatedPlayerData.categories) {
+            if (updatedPlayerData.categories.hasOwnProperty(categoryKey)) {
+                const categoryValue = updatedPlayerData.categories[categoryKey];
+                data.append(`categories[${categoryKey}]`, categoryValue);
+            }
+        }
+        // Lägg till bilder i FormData
+        updatedPlayerData.images.forEach((image, index) => {
+            data.append(`images`, image);
+        });
+  
+        console.log("data: ", data.get('categories'))
+        // Skicka FormData till servern med hjälp av Redux dispatch
+        dispatch(updatePlayer(player._id, data));
+    }; 
 
     return (
         <Card className={classes.card} raised elevation={6}>
@@ -43,24 +78,30 @@ const Player = ({ player }) => {
                 className={classes.cardAction}
                 onClick={openPlayer}
             >
-                <CardMedia className={classes.media} image={`http://localhost:5000/images/${player.images[0]}`} title={player.name} />
+                <CardMedia className={classes.media} image={`https://nice-special-meadow.glitch.me/images/${player.images[0]}`} title={player.name} />
 
                 <div className={classes.overlay}>
-                    <Typography variant="h6">{player.name}</Typography>
+                    <Typography variant="h6">{player.club}</Typography>
                 </div>
-                <Typography className={classes.title} gutterBottom variant="h5" component="h2">{player.club}</Typography>
+                <Typography className={classes.name} gutterBottom variant="h5" component="h2">{player.name}</Typography>
             </ButtonBase>
             <CardActions className={classes.cardActions}>
-                {/* Öppna dialogen när "Update" klickas */}
-                <ScrollDialog title="Update Player">
-                    <UpdatePlayer player={player} /> {/* Skicka spelaren till UpdatePlayer */}
+                <ScrollDialog title="Update Player" open={openUpdatePlayer} onClose={handleCloseUpdatePlayer}>
+                    <PlayerForm player={player} handleSubmit={handleSubmit} handleCloseUpdatePlayer={handleCloseUpdatePlayer} />
                 </ScrollDialog>
-                <Button size="small" color="secondary" onClick={handleOpenDialog}>
-                    <DeleteIcon fontSize="small" /> &nbsp; Delete
-                </Button>
+                {isAuthenticated && (
+                    <>
+                        <Button size="small" color="primary" onClick={handleOpenUpdatePlayer}>
+                            <UpdateIcon fontSize="small" /> &nbsp; Update
+                        </Button>
+                        <Button size="small" color="secondary" onClick={handleOpenDialog}>
+                            <DeleteIcon fontSize="small" /> &nbsp; Delete
+                        </Button>
+                    </>
+                )}
             </CardActions>
 
-            {/* Dialogkomponent */}
+            {/* Dialogkomponent för delete player */}
             <Dialog open={openDialog} onClose={handleCloseDialog}>
                 <DialogTitle>Confirm Delete</DialogTitle>
                 <DialogContent>

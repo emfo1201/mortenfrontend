@@ -1,25 +1,20 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const API = axios.create({ baseURL: process.env.REACT_APP_API_URL });
 
-// Funktion för att hämta värdet av en cookie med ett visst namn
-function getCookie(name) {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(';').shift();
-  return null;
-}
-
-// Lägg till en request interceptor för att sätta Authorization-header med token från cookien
 API.interceptors.request.use((req) => {
-  const token = getCookie('jwtToken'); // Byt ut 'yourCookieNameHere' med namnet på din cookie
+  const token = Cookies.get('jwtToken');
   if (token) {
     req.headers.Authorization = `Bearer ${token}`;
   }
   return req;
+}, (error) => {
+  return Promise.reject(error);
 });
 
 // Dina API-anrop nedan kan förbli oförändrade
+export const validateToken = () => API.get('/users/validateToken');
 export const signIn = (formData) => API.post('/users/signin', formData);
 export const signUp = (formData) => API.post('/users/signup', formData);
 export const getCategory = () => API.get('/menus/getCategory');

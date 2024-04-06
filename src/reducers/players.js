@@ -9,8 +9,10 @@ export default (state = { loading: true, players: []}, action) => {
             return { ...state, loading: false }
         case FETCH_PLAYER:
             return { ...state, players: action.payload }
-        case FETCH_PLAYERS:
-            return { ...state, players: action.payload }
+            case FETCH_PLAYERS:
+                const updatedPlayers = Array.from(state.players).concat(action.payload);
+                return { ...state, players: updatedPlayers };
+                   
         case FETCH_PLAYER_DETAILS:
             return { ...state, player: action.payload }
         case ADD_PLAYER:

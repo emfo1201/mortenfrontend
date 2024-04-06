@@ -1,118 +1,89 @@
-// Header.js
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/core/styles';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import SearchIcon from '@material-ui/icons/Search';
+import InputBase from '@material-ui/core/InputBase';
+import Button from '@material-ui/core/Button';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import DrawerMenu from './Menu/DrawerMenu';
-import SubMenu from './Menu/SubMenu';
-import UserActions from './Menu/UserActions';
 import LanguageToggle from './Menu/LanguageToggle';
-import { getPlayers } from '../../actions/players';
+import useStyles from './styles';
+import { useAuth } from '../Auth/AuthContext';
 
-const styles = {
-  root: {
-    flexGrow: 1,
-  },
-  background: {
-    backgroundColor: 'black',
-  },
-  title: {
-    flexGrow: 1,
-    textDecoration: 'none',
-  },
-  language: {
-    paddingLeft: 30,
-  },
-};
-
-const Header = ({ isAuthenticated, logout, classes }) => {
-  const [openDrawer, setOpenDrawer] = useState(false);
-  const [openSubDrawer, setOpenSubDrawer] = useState(false);
-  const [selectedMenu, setSelectedMenu] = useState(null);
+const Header = () => {
+  const [loading, setLoading] = useState(true);
   const category = useSelector((state) => state.menus);
-  const dispatch = useDispatch();
-  const history = useNavigate();
-  const drawerWidth = 400;
+  const classes = useStyles();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { isAuthenticated, logout } = useAuth(); // Använd logout från AuthContext
 
-  
   useEffect(() => {
-    console.log("categories: ", category);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
+
+  useEffect(() => {
+    console.log("is auth: ", isAuthenticated)
+    // Uppdatera komponenten när autentiseringstillståndet ändras
+    setLoading(true); // Ställ in loading till true för att visa laddningsindikator
+    setTimeout(() => {
+      setLoading(false); // Ställ tillbaka loading till false efter en kort fördröjning
+    }, 1000); // Justera vid behov
+  }, [isAuthenticated]); // Lyssna på förändringar i isAuthenticated
+
+  useEffect(() => {
   }, [category]);
 
-  const handleLogout = () => {
-    logout();
-  };
-
-  const signin = () => {
-    history('/login', { redirect: true });
-  };
-
-  const toggleDrawer = (openDrawer, openSubDrawer) => (event) => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-      return;
-    }
-    setOpenDrawer(openDrawer);
-    setOpenSubDrawer(openSubDrawer);
-  };
-
-  const openSubMenu = (menuId) => {
-    console.log("menuId: ", menuId)
-    setSelectedMenu(menuId);
-    setOpenSubDrawer(true)
-  };
-
-  const listPlayer = (e, mainMenu, sub) => {
+  const handleLogout = (e) => {
     e.preventDefault();
-    const categories = [mainMenu, sub];
-    dispatch(getPlayers({ name: categories.join(',') }));
-    history(`/players/search?searchQuery=${categories.join(',')}`, { redirect: true });
-  };
+    logout();
+    navigate('/');
+  }
 
-  const filteredCategories = isAuthenticated
-    ? category
-    : category.filter((menu) => menu.subMenu.length > 0);
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
-  const menuItems = filteredCategories;
-  const subMenuItems = selectedMenu
-    ? category.filter((menu) => menu._id === selectedMenu)
-    : [];
-
+  const menuItems = isAuthenticated ? category : category.filter((menu) => menu.subMenu.length > 0);
+  
   return (
     <div className={classes.root}>
-      <AppBar position="static" className={classes.background}>
-        <Toolbar component="div">
-          <DrawerMenu
-            openDrawer={openDrawer}
-            toggleDrawer={toggleDrawer}
-            drawerWidth={drawerWidth}
-            menuItems={menuItems}
-            openSubMenu={openSubMenu}
-            isAuthenticated={isAuthenticated}
-            selectedMenu={selectedMenu}
-          />
-          <Typography variant="h6" color="inherit" className={classes.title} component={Link} to="./../">
-            Norske Fotballdrakter
-          </Typography>
-          <LanguageToggle />
-          <UserActions user={isAuthenticated} logout={handleLogout} signin={signin} />
-        </Toolbar>
+      <AppBar position="static" className={location.pathname === '/' ? classes.transparentBackground : classes.blackBackground}>
+        <div className={classes.appBar}>
+          <Toolbar component="div">
+          <DrawerMenu categories={menuItems} isAuthenticated={isAuthenticated} />
+            <Typography variant="h6" color="inherit" className={classes.title} component={Link} to="./../">
+              Norske Fotballdrakter
+            </Typography>
+            <div className={classes.search}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                placeholder="Search…"
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                inputProps={{ 'aria-label': 'search' }}
+              />
+            </div>
+            <LanguageToggle />
+            {isAuthenticated && (
+              <Button onClick={(e) => {handleLogout(e)}} className={classes.logoutButton} color="inherit">
+                Logout
+              </Button>
+            )}
+          </Toolbar>
+        </div>
       </AppBar>
-      <SubMenu
-        openSubDrawer={openSubDrawer}
-        toggleDrawer={toggleDrawer}
-        subMenuItems={subMenuItems}
-        listPlayer={listPlayer}
-        drawerWidth={drawerWidth}
-        isAuthenticated={isAuthenticated}
-        selectedMenu={selectedMenu}
-      />
     </div>
   );
 };
 
-export default withStyles(styles)(Header);
+export default Header;

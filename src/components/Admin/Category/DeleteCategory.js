@@ -1,36 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
-import { deleteCategory } from '../../../api';
+import { deleteCategory } from '../../../actions/menu';
 
-function DeleteCategory() {
-  const [categoryToDelete, setCategoryToDelete] = useState('');
+function DeleteCategory({ category, id, handleCloseDialog }) {
   const dispatch = useDispatch();
 
-  const handleDeleteCategory = () => {
-    console.log("catDel: ", categoryToDelete)
-  //  dispatch(deleteCategory(categoryToDelete));
+  const handleDeleteCategory = (e) => {
+    e.preventDefault();
+    dispatch(deleteCategory(id));
+    handleCloseDialog(); // Stänger dialogrutan när kategorin är borttagen
   };
 
   return (
     <div>
       <h3>Delete category</h3>
-      <FormControl variant="outlined">
-        <InputLabel>Category</InputLabel>
-        <Select
-          label="Category"
-          value={categoryToDelete}
-          onChange={(e) => setCategoryToDelete(e.target.value)}
-        >
-          {/* Add your category options here */}
-        </Select>
-      </FormControl>
-      <p />
-      <Button variant="contained" color="primary" onClick={handleDeleteCategory}>
-        Delete category
+      <p>Are you sure you want to delete the category "{category}"?</p>
+      <Button variant="contained" color="secondary" onClick={handleDeleteCategory}>
+        Yes, delete
+      </Button>
+      <Button variant="contained" color="primary" onClick={handleCloseDialog}>
+        Cancel
       </Button>
     </div>
   );

@@ -1,7 +1,9 @@
-import React, { createContext, useContext, useState } from 'react';
+// AuthProvider.js
+
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
-import { useDispatch } from 'react-redux';
-import { signin } from '../../actions/auth'; // Importera din auth-funktion
+import { AUTH } from '../../constants/actionTypes';
+import { validateToken, signIn } from '../../api';
 
 const AuthContext = createContext();
 
@@ -10,35 +12,53 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [error, setError] = useState(null); // Lägg till en state för felmeddelanden
-  const [isAuthenticated, setIsAuthenticated] = useState(!!Cookies.get('jwtToken'));
-  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const login = async (formData, history) => {
+  useEffect(() => {
+    const checkAuth = async () => {
+      const token = Cookies.get('jwtToken');
+      if (token) {
+        try {
+          const isValid = await validateToken(token);
+          setIsAuthenticated(isValid);
+        } catch (error) {
+          console.error('Error validating token:', error);
+        }
+      } else {
+        setIsAuthenticated(false);
+      }
+      setLoading(false);
+    };
+    checkAuth();
+  }, []);  
+
+  const login = (formData, navigate, dispatch) => async () => {
     try {
-      setError(null); // Återställ eventuella tidigare fel
-      await dispatch(signin(formData, history));
-      setIsAuthenticated(true);
-      setUser({ username: formData.username }); // Sätt användaren i staten om inloggningen är framgångsrik
+      const { data } = await signIn(formData);
+      const expirationTime = new Date(Date.now() + 60 * 60 * 1000);
+      Cookies.set('jwtToken', data.token, { expires: expirationTime });
+    
+      dispatch({ type: AUTH, data });
+    
+      navigate('/'); // Navigera till önskad sida efter inloggning
     } catch (error) {
-      setError(error.message); // Fånga och sätt andra typer av felmeddelanden
+      console.log(error);
     }
   };
 
   const logout = () => {
-    // Rensa autentiseringstoken från cookies
+    // Ta bort JWT-token från cookies
+    console.log("removed cookie")
     Cookies.remove('jwtToken');
-    // Uppdatera isAuthenticated till false
     setIsAuthenticated(false);
   };
 
   const value = {
-    user,
+    isAuthenticated,
+    loading,
     login,
     logout,
-    error,
-    isAuthenticated,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

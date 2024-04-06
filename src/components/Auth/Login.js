@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -6,6 +6,7 @@ import Avatar from '@material-ui/core/Avatar';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Button from '@material-ui/core/Button';
 import Input from './Input';
+import { useDispatch } from 'react-redux';
 import Container from '@material-ui/core/Container';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
@@ -18,12 +19,20 @@ const initialState = { username: '', password: '' };
 function Login() {
   const navigate = useNavigate();
   const { login } = useAuth(); // Använd login från AuthContext
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState(initialState);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
-  const history = useNavigate();
+  const [loading, setLoading] = useState(false); // Tillståndsvariabel för att hantera laddningstillstånd
   const classes = useStyles();
+  const isMounted = useRef(true); // Skapa en ref för att hålla koll på om komponenten är monterad
+
+  useEffect(() => {
+    return () => {
+      isMounted.current = false; // Markera komponenten som avmonterad när den rensas upp
+    };
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -32,13 +41,17 @@ function Login() {
   const handleSignIn = async (e) => {
     e.preventDefault();
     try {
-      // Använd login-funktionen från AuthContext för att hantera inloggning
-      await login(formData, history);
-      navigate('/'); // Navigera till hemsidan om inloggningen lyckas
+      setLoading(true); // Sätt laddningstillståndet till true när inloggningen påbörjas
+      await dispatch(login(formData, navigate, dispatch));
+      if (isMounted.current) {
+        setLoading(false); // Återställ laddningstillståndet till false när inloggningen är klar
+      }
     } catch (error) {
-      // Om inloggningen misslyckas, visa felmeddelanden i Snackbar
-      setSnackbarMessage(error.message);
-      setSnackbarOpen(true);
+      if (isMounted.current) {
+        setLoading(false); // Återställ laddningstillståndet till false om inloggningen misslyckas
+        setSnackbarMessage(error.message);
+        setSnackbarOpen(true);
+      }
     }
   };
 
@@ -75,8 +88,9 @@ function Login() {
               fullWidth
               className={classes.fields}
               style={{ marginBottom: 20 }}
+              disabled={loading} // Inaktivera knappen när inloggningen pågår
             >
-              Sign in
+              {loading ? 'Loading...' : 'Sign in'} {/* Visa laddningstexten om inloggningen pågår */}
             </Button>
           </Grid>
         </form>

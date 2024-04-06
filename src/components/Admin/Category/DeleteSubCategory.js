@@ -1,42 +1,31 @@
-import React, { useState } from 'react';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import Button from '@material-ui/core/Button';
+import { deleteSubCategory } from '../../../actions/menu';
 
-function DeleteSubCategory() {
-  const [selectedCategories, setSelectedCategories] = useState([]);
+function DeleteSubCategory({ mainCategory, subCategory, handleCloseDialog }) {
+  const dispatch = useDispatch();
 
-  const handleCategoryOptions = (e) => {
-    const { options } = e.target;
-    const selectedValues = Array.from(options)
-      .filter((option) => option.selected)
-      .map((option) => option.value);
-
-    setSelectedCategories(selectedValues);
-  };
-
-  const deleteSubCategory = () => {
-    // Add your logic to delete selected sub-categories here
+  const handleDeleteCategory = (e) => {
+    e.preventDefault();
+    console.log("main: ", mainCategory, " sub ", subCategory)
+    const delSubCategory = {
+      categoryId: mainCategory,
+      subCategoryName: subCategory,
+    };
+    dispatch(deleteSubCategory(delSubCategory));
+    handleCloseDialog(); // Stänger dialogrutan när kategorin är borttagen
   };
 
   return (
     <div>
-      <h3>Delete sub category</h3>
-      <FormControl>
-        <InputLabel htmlFor="grouped-native-select">Category</InputLabel>
-        <Select
-          native
-          id="grouped-native-select"
-          multiple
-          onChange={handleCategoryOptions}
-        >
-          {/* Add your category options here */}
-        </Select>
-      </FormControl>
-      <p />
-      <Button variant="contained" color="primary" onClick={deleteSubCategory}>
-        Delete sub category
+      <h3>Delete category</h3>
+      <p>Are you sure you want to delete the sub category "{subCategory}"?</p>
+      <Button variant="contained" color="secondary" onClick={handleDeleteCategory}>
+        Yes, delete
+      </Button>
+      <Button variant="contained" color="primary" onClick={handleCloseDialog}>
+        Cancel
       </Button>
     </div>
   );

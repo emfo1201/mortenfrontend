@@ -1,68 +1,140 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { alpha, makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  transparentBackground: {
+    backgroundColor: 'transparent',
+  },
+
+  blackBackground: {
+    backgroundColor: 'black',
+  },
+  title: {
+    flexGrow: 1,
+    textDecoration: 'none',
+  },
+  language: {
+    paddingLeft: 30,
+  },
+  appBar: {
+    position: 'relative',
+    zIndex: 2,
+    backgroundColor: 'transparent',
+  },
+  search: {
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    '&:hover': {
+      backgroundColor: alpha(theme.palette.common.white, 0.25),
+    },
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(1),
+      width: 'auto',
+    },
+  },
+  searchIcon: {
+    padding: theme.spacing(0, 2),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  inputRoot: {
+    color: 'inherit',
+  },
+  inputInput: {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      width: '12ch',
+      '&:focus': {
+        width: '20ch',
+      },
+    },
+  },
+  logoutButton: {
+    backgroundColor: theme.palette.primary.light, // Use the desired color from your theme
+  },
+  list: {
+    width: 250,
+  },
+  fullList: {
+    width: 'auto',
+  },
+
+  homeContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    zIndex: 0,
+    width: '100%',
+    height: '100vh',
+  },
     hero: {
         display: 'flex',
         height: '100vh', // 100% of the viewport height
         overflow: 'hidden',
       },
-      heroImageContainer: {
-        flex: '1',
-        overflow: 'hidden',
-        display: 'flex',
-        justifyContent: 'flex-end', // Align to the right
-        alignItems: 'flex-start', // Align to the top
-      },
       heroImage: {
-        maxWidth: '90%', // Adjust the maximum width as needed
-        height: 'auto', // Maintain aspect ratio
-        objectFit: 'contain',
-        display: 'block',
+        width: '100%',
+        height: '100%',
+        objectFit: 'cover',
+        backgroundAttachment: 'fixed',
       },
-      heroContentContainer: {
-        flex: '1',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        color: theme.palette.common.white,
-      },
-      heroContent: {
-        textAlign: 'center',
-      },
-      heroWelcome: {
-        fontSize: '2.5rem',
-        fontWeight: 'bold',
-        marginBottom: theme.spacing(2),
-      },
-      heroCTA: {
-        color: theme.palette.common.white,
-        backgroundColor: theme.palette.primary.main,
-        '&:hover': {
-          backgroundColor: theme.palette.primary.dark,
+      contentContainer: {
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          textAlign: 'center',
+          color: 'white',
         },
-      },
-  featuredCollection: {
-    // Featured collection styles
-  },
-  aboutCollector: {
-    // About collector styles
-  },
-  collectionCategories: {
-    // Collection categories styles
-  },
-  testimonials: {
-    // Testimonials styles
-  },
-  newsletter: {
-    // Newsletter styles
-  },
-  socialMedia: {
-    // Social media styles
-  },
-  contact: {
-    // Contact information styles
-  },
+      
+        welcomeText: {
+          marginBottom: theme.spacing(3),
+        },
+      
+        readMoreButton: {
+          color: 'white',
+          borderColor: 'white',
+          '&:hover': {
+            color: 'black',
+            backgroundColor: 'white',
+          },
+        },
+      
+        imagesContainer: {
+          position: 'relative',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        },
+      
+        bottomImage: {
+          width: '100%',
+          height: 'auto',
+          position: 'relative',
+          zIndex: 1,
+        },
+      
+        topImage: {
+          width: '75%', // Justera efter behov
+          height: 'auto',
+          position: 'absolute',
+          top: '25%', // Justera efter behov
+          left: '12.5%', // Justera efter behov
+          zIndex: 2,
+        },
 }));
 
 export default useStyles;
