@@ -7,7 +7,7 @@ import LanguageDetector from 'i18next-browser-languagedetector'
 import HttpApi from 'i18next-http-backend'
 import { BrowserRouter } from "react-router-dom";
 import {Provider} from "react-redux";
-import { configureStore } from '@reduxjs/toolkit';
+import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 
 import { reducers } from './reducers';
@@ -35,11 +35,7 @@ const loadingMarkup = (
     </div>
 )
 
-const store = configureStore({
-    reducer: reducers,
-    middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(thunk),
-  });
+const store = createStore(reducers, compose(applyMiddleware(thunk)))
 
 ReactDOM.render(
     <Suspense fallback={loadingMarkup}>
@@ -51,7 +47,3 @@ ReactDOM.render(
     </Suspense>,
   document.getElementById('root')
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals

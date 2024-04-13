@@ -1,5 +1,5 @@
 import * as api from '../api'
-import { START_LOADING, END_LOADING, FETCH_PLAYERS, FETCH_PLAYER, FETCH_PLAYER_DETAILS, DELETE_PLAYER, ADD_PLAYER, UPDATE_PLAYER } from "../constants/actionTypes";
+import { START_LOADING, END_LOADING, FETCH_PLAYERS, FETCH_PLAYER, FETCH_PLAYER_DETAILS, DELETE_PLAYER } from "../constants/actionTypes";
 
 export const getPlayer = () => async (dispatch) => {
     try {
@@ -35,22 +35,21 @@ export const getPlayerById = (id) => async (dispatch) => {
     }
 }
 
-// Redux thunk-action
 export const addPlayer = (player) => async (dispatch) => {
     try {
-      dispatch({ type: START_LOADING });
-      const { data } = await api.addPlayer(player);
-      dispatch({ type: ADD_PLAYER, payload: data });
-    } catch (error) {
-      console.log(error.message);
+        dispatch({ type: START_LOADING })
+        const { data } = await api.addPlayer(player)
+        dispatch({ type: 'ADD_PLAYER', payload: data })
+        dispatch({ type: END_LOADING })
+    } catch(error) {
+        console.log(error.message)
     }
-  };
+}
 
 export const updatePlayer = (id, player) => async (dispatch) => {
-    console.log("cat: ", id)
     try {
         const { data } = await api.updatePlayer(id, player)
-        dispatch({ type: UPDATE_PLAYER, payload: data })
+        dispatch({ type: 'UPDATE_PLAYER', payload: data })
     } catch(error) {
         console.log(error.message)
     }
@@ -58,7 +57,7 @@ export const updatePlayer = (id, player) => async (dispatch) => {
 
 export const deletePlayer = (id) => async (dispatch) => {
     try {
-        await api.deletePlayer(id);
+        await await api.deletePlayer(id);
 
         dispatch({ type: DELETE_PLAYER, payload: id });
     } catch (error) {

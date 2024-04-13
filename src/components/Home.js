@@ -1,54 +1,47 @@
-// Home.js
+import React from 'react'
+import { useTranslation } from "react-i18next"
+import image from "../images/footballStadium.jpg"
+import CardMedia from "@mui/material/CardMedia"
+import Card from "@mui/material/Card/Card"
+import {makeStyles} from "@mui/styles"
+import Grid from "@mui/material/Grid"
+import Typography from "@mui/material/Typography";
 
-import React, { useState } from 'react';
-import Grid from '@material-ui/core/Grid';
-import useStyles from './Layout/styles';
-import { useTranslation } from 'react-i18next';
-import LandingImage from '../images/UllevaalStadion.png';
-import Welcome from './Layout/Home/Welcome'
-import About from './Layout/Home/About'
-import Image from './Layout/Home/Image'
-import Footer from './Layout/Footer';
+const useStyles = makeStyles(() => ({
+    root: {
+        minWidth: 100,
+        maxWidth: 900,
+        displayFlex: 'center',
+        marginBottom: 40,
+        border: "none",
+        boxShadow: "none",
+        justifyContent: 'center'
+    },
+    media: {
+        maxHeight: 700,
+        minHeight: 200,
+        paddingTop: '2%',
+    },
+}))
 
-const Home = () => {
-  const classes = useStyles();
-  const { i18n } = useTranslation();
-  const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
+function Home () {
+    const {t} = useTranslation()
+    const classes = useStyles()
+    return (
+            <Grid container justifyContent="center">
+                <Card className={classes.root} square>
+                    <Typography variant="h5">{t('welcome_message')}</Typography>
+                    <CardMedia
+                        component="img"
+                        className={classes.media}
+                        image={image}
+                        title="Image"
+                        alt="pic"
+                    />
+                </Card>
+            </Grid>
+    )
 
-  // Update the selected language when it changes
-  i18n.on('languageChanged', (lng) => {
-    setSelectedLanguage(lng);
-  });
-
-  return (
-    <div className={classes.homeContainer}>
-      {/* homeContainer using Grid */}
-      <Grid container spacing={3}>
-        <Grid item xs={12} sm={12}>
-          <img
-            className={classes.heroImage}
-            src={LandingImage}
-            alt="Soccer Jersey Collection"
-          />
-        </Grid>
-        <Welcome />
-        <Grid item xs={12}>
-          <About />
-        </Grid>
-        <Grid item xs={12}>
-          <Image />
-        </Grid>
-        <Grid item xs={12}>
-          <About />
-        </Grid>
-        <Grid item xs={12}>
-          <About />
-        </Grid>
-          <Footer />
-      </Grid>
-      
-    </div>
-  );
-};
+}
 
 export default Home;

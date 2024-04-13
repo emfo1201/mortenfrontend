@@ -27,15 +27,6 @@ export const addCategory = (category) => async (dispatch) => {
     }
 }
 
-export const addSubCategory = (category) => async (dispatch) => {
-    try {
-        const { data } = await api.addSubCategory(category)
-        dispatch({ type: 'CREATE_MENU', payload: data })
-    } catch (error) {
-        console.log(error.message)
-    }
-}
-
 export const deleteCategory = (id) => async (dispatch) => {
     try {
         await api.deleteCategory(id)
@@ -47,8 +38,18 @@ export const deleteCategory = (id) => async (dispatch) => {
 
 export const deleteSubCategory = (category) => async (dispatch) => {
     try {
-        const { data } = await api.deleteSubCategory(category)
+        console.log("category " + category.category)
+        const { data } = await api.deleteCategory(category)
         dispatch({ type: 'DELETE_CATEGORY', payload: data })
+    } catch (error) {
+        console.log(error.message)
+    }
+}
+
+export const addSubCategory = (category) => async (dispatch) => {
+    try {
+        const { data } = await api.addSubCategory(category)
+        dispatch({ type: 'CREATE_MENU', payload: data })
     } catch (error) {
         console.log(error.message)
     }
