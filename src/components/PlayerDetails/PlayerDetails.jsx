@@ -1,24 +1,21 @@
 import React, { useEffect } from 'react'
-import queryString from 'query-string'
-import { Paper, Typography, CircularProgress, Divider } from '@mui/material'
+import { Paper, Typography, CircularProgress, Divider } from '@material-ui/core/'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { getPlayerById } from "../../actions/players"
 import useStyles from './styles'
-import ImageList from "@mui/material/ImageList";
-import ImageListItem from "@mui/material/ImageListItem"
-import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
-import DialogContent from "@mui/material/DialogContent/DialogContent";
-import Dialog from "@mui/material/Dialog/Dialog";
+import ImageList from "@material-ui/core/ImageList";
+import ImageListItem from "@material-ui/core/ImageListItem"
+import ArrowBackIcon from '@material-ui/icons/ArrowBack'
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
+import DialogContent from "@material-ui/core/DialogContent/DialogContent";
+import Dialog from "@material-ui/core/Dialog/Dialog";
 
 const Player = () => {
-    const { player, players, isLoading } = useSelector((state) => state.players)
+    const { player, isLoading } = useSelector((state) => state.players)
     const [open, setOpen] = React.useState(false);
     const [scroll, setScroll] = React.useState('body');
-   // const [searchParams, setSearchParams] = useSearchParams() (use in update for react-router-dom v6)
     const dispatch = useDispatch()
-    const history = useNavigate()
     const classes = useStyles()
     const { id } = useParams()
 
@@ -45,7 +42,6 @@ const Player = () => {
     }, [open])
 
     if (!player) {
-        console.log("no player")
         return null }
 
     if (isLoading) {
@@ -57,7 +53,7 @@ const Player = () => {
     }
 
     return (
-        <Paper style={{ padding: '10px', borderRadius: '10px' }} elevation={6}>
+        <Paper className={classes.paper} elevation={6}>
             <div style={{ display: 'flex', justifyContent: "space-between", width: '100%'}}>
                 <ArrowBackIcon/>
                 <ArrowForwardIcon/>
@@ -67,13 +63,13 @@ const Player = () => {
                     <ImageList rowHeight={160} className={classes.imageList1} cols={1}>
                         {player.images.map((item) => (
                             <ImageListItem key={item} cols={1}>
-                                <img src={`http://localhost:5000/static/${item}`} alt={item._id} />
+                                <img src={`https://nice-special-meadow.glitch.me/images/${item}`} alt={item._id} />
                             </ImageListItem>
                         ))}
                     </ImageList>
                 </div>
                 <div className={classes.imageSection}>
-                    <img className={classes.media} src={`http://localhost:5000/static/${player.images[0]}` || "http://localhost:5000/static/1627834412100--brad.jpg"} alt={player.name}
+                    <img className={classes.media} src={`https://nice-special-meadow.glitch.me/images/${player.images[0]}` || "http://localhost:5000/images/1627834412100--brad.jpg"} alt={player.name}
                     onClick={handleClickOpen}/>
                     <Dialog
                         open={open}
@@ -83,7 +79,7 @@ const Player = () => {
                         aria-describedby="scroll-dialog-description"
                     >
                         <DialogContent dividers={scroll === 'paper'}>
-                            <img src={`http://localhost:5000/static/${player.images[0]}` || "http://localhost:5000/static/1627834412100--brad.jpg"} alt={player.name}/>
+                            <img src={`https://nice-special-meadow.glitch.me/images/${player.images[0]}` || "http://localhost:5000/images/1627834412100--brad.jpg"} alt={player.name}/>
                         </DialogContent>
                     </Dialog>
                 </div>
@@ -99,7 +95,7 @@ const Player = () => {
                 <ImageList className={classes.imageList} cols={2.5}>
                     { player.images.map((item) => (
                         <ImageListItem key={item}>
-                            <img src={`http://localhost:5000/static/${item}`} alt={item._id} />
+                            <img src={`https://nice-special-meadow.glitch.me/images/${item}`} alt={item._id} />
                         </ImageListItem>
                     ))}
                 </ImageList>

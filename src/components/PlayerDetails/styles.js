@@ -1,6 +1,11 @@
-import { makeStyles } from '@mui/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
 export default makeStyles((theme) => ({
+    paper: {
+        paddingTop: '2rem', 
+        paddingBottom: '2rem',
+        borderRadius: '0px',
+    },
     media: {
         borderRadius: '20px',
         objectFit: 'cover',

@@ -1,10 +1,10 @@
 import React from 'react'
-import Grid from '@mui/material/Grid'
-import InputAdornment from '@mui/material/InputAdornment'
-import IconButton from '@mui/material/IconButton'
-import TextField from '@mui/material/TextField'
-import Visibility from '@mui/icons-material/Visibility'
-import VisibilityOff from '@mui/icons-material/VisibilityOff'
+import TextField from '@material-ui/core/TextField'
+import Grid from '@material-ui/core/Grid'
+import InputAdornment from '@material-ui/core/InputAdornment'
+import IconButton from '@material-ui/core/IconButton'
+import Visibility from '@material-ui/icons/Visibility'
+import VisibilityOff from '@material-ui/icons/VisibilityOff'
 
 const Input = ({name, handleChange, label, autoFocus, type, handleShowPassword, half}) => (
     <Grid item xs={12} sm={half ? 6 : 12} component={'div'}>

@@ -12,32 +12,41 @@ const AddNewPlayer = ({ handleOpenDialog, handleCloseDialog, openDialog }) => {
   const dispatch = useDispatch();
 
   const handleSubmit = (updatedPlayerData) => {
-      const data = new FormData();
-
-      // Lägg till spelarinformation i FormData
-      data.append('name', updatedPlayerData.name);
-      data.append('club', updatedPlayerData.club);
-      data.append('infoEnglish', updatedPlayerData.infoEnglish);
-      data.append('infoNorwegian', updatedPlayerData.infoNorwegian);
-
-      if (Array.isArray(updatedPlayerData.category)) {
-        // Konvertera till en array och skapa en ny array med omformade element
-        const selectedCategoriesToSend = Array.from(updatedPlayerData.category).map((subCategory) => ({
-          main: subCategory.main,
-          sub: subCategory.sub,
-        }));
-      
-        data.append('categories', JSON.stringify(selectedCategoriesToSend));
-      } else {
-        console.error('updatedPlayerData.category är inte en array.');
-      }
-
-      updatedPlayerData.images.forEach((image, index) => {
-          data.append(`images`, image);
-      });
-
-      dispatch(addPlayer(data));
-  }; 
+    const data = new FormData();
+  
+    // Lägg till spelarinformation i FormData
+    data.append('name', updatedPlayerData.name);
+    data.append('club', updatedPlayerData.club);
+    data.append('infoEnglish', updatedPlayerData.infoEnglish);
+    data.append('infoNorwegian', updatedPlayerData.infoNorwegian);
+  
+    // Hantera kategorier
+    let categoriesToSend = [];
+  
+    if (Array.isArray(updatedPlayerData.category)) {
+      // Om det är en array, använd den direkt
+      categoriesToSend = updatedPlayerData.category;
+    } else {
+      // Annars, omvandla till en array och lägg till det enskilda värdet
+      categoriesToSend.push(updatedPlayerData.category);
+    }
+  
+    // Omvandla kategorier till det format du behöver och lägg till i FormData
+    const selectedCategoriesToSend = categoriesToSend.map((subCategory) => ({
+      main: subCategory.main,
+      sub: subCategory.sub,
+    }));
+  
+    data.append('categories', JSON.stringify(selectedCategoriesToSend));
+  
+    // Lägg till bilder
+    updatedPlayerData.images.forEach((image, index) => {
+      data.append(`images`, image);
+    });
+  
+    // Dispatcha addPlayer med FormData
+    dispatch(addPlayer(data));
+  };   
 
   return (
     <Grid item xs={12} sm={6} md={4}>

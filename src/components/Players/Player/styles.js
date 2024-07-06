@@ -1,4 +1,4 @@
-import { makeStyles } from "@mui/styles"
+import { makeStyles } from "@material-ui/core"
 
 export default makeStyles(() => ({
     card: {
@@ -21,6 +21,9 @@ export default makeStyles(() => ({
         padding: '0 16px 8px 16px',
         display: 'flex',
         justifyContent: 'space-between',
+    },
+    name: {
+        paddingLeft: '1rem',
     },
     image: {
         marginLeft: '15px',
