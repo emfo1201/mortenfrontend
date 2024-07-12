@@ -73,7 +73,7 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
         [player.category]: updatedSelectedSubCategories,
       });
     }
-  }, [player]);
+  }, [player, selectedCategory, selectedSubCategories, selectedSubCategoriesByCategory]);
 
   // Handle input change for player data fields
   const handleInputChange = (e) => {
