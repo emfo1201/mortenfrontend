@@ -39,6 +39,9 @@ const AddNewPlayer = ({ handleOpenDialog, handleCloseDialog, openDialog }) => {
       sub: subCategory.sub,
     }));
   
+    console.log("selectedCategoriesToSend:", selectedCategoriesToSend);
+  
+    // Lägg till kategorier som JSON-sträng i FormData
     data.append('categories', JSON.stringify(selectedCategoriesToSend));
   
     // Lägg till bilder
@@ -48,7 +51,8 @@ const AddNewPlayer = ({ handleOpenDialog, handleCloseDialog, openDialog }) => {
   
     // Dispatcha addPlayer med FormData
     dispatch(addPlayer(data));
-  };    
+  };
+      
 
   return (
     <Grid item xs={12} sm={6} md={4}>
