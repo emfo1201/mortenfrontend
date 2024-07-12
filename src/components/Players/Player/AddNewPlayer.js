@@ -21,11 +21,11 @@ const AddNewPlayer = ({ handleOpenDialog, handleCloseDialog, openDialog }) => {
     data.append('infoNorwegian', updatedPlayerData.infoNorwegian);
 
     // Handle categories
-    const categoriesToSend = [];
+    const selectedCategoriesToSend = [];
     
-    const selectedCategoriesToSend = categoriesToSend.map((subCategory) => ({
-      main: updatedPlayerData.subCategory.main,
-      sub: updatedPlayerData.subCategory.sub,
+    selectedCategoriesToSend = updatedPlayerData.subCategory.map((subCategory) => ({
+      main: subCategory.main,
+      sub: subCategory.sub,
     }));
     
     console.log("selectedCategoriesToSend:", selectedCategoriesToSend);
