@@ -36,6 +36,8 @@ const AddNewPlayer = ({ handleOpenDialog, handleCloseDialog, openDialog }) => {
       main: subCategory.main,
       sub: subCategory.sub,
     }));
+
+    console.log("selected: ", selectedCategoriesToSend)
   
     data.append('categories', JSON.stringify(selectedCategoriesToSend));
   
