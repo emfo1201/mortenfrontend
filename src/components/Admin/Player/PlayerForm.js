@@ -5,7 +5,6 @@ import Grid from '@material-ui/core/Grid';
 import CategorySelect from './CategorySelect';
 import PlayerData from './PlayerData';
 import ImageUpload from './ImageUpload';
-//import useStyles from './styles';
 
 function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) {
   const [playerData, setPlayerData] = useState({ name: '', club: '', infoEnglish: '', infoNorwegian: '', category: [] });
@@ -13,10 +12,8 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
   const [imagePreviews, setImagePreviews] = useState([]);
   const category = useSelector((state) => state.menus);
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [selectedMainCategories, setSelectedMainCategories] = useState([]);
   const [selectedSubCategories, setSelectedSubCategories] = useState([]);
   const [selectedSubCategoriesByCategory, setSelectedSubCategoriesByCategory] = useState({});
-  const [selectedSubCategoriesByMainCategory, setSelectedSubCategoriesByMainCategory] = useState({});
   const [existingImages, setExistingImages] = useState([]);
   const [menuData, setMenuData] = useState({
     categories: [],
@@ -55,8 +52,8 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
         category: player.category || [],
       });
   
-      const newMainCategories = Array.from(new Set([...selectedMainCategories, ...player.category]));
-      setSelectedMainCategories(newMainCategories);
+      const newMainCategories = Array.from(new Set([...selectedCategory, ...player.category]));
+      setSelectedCategory(newMainCategories);
       setExistingImages(player.images);
   
       // Kombinera befintliga kategorier och underkategorier till en enda array
@@ -71,13 +68,12 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
       });
   
       // Uppdatera selectedSubCategories med den nya arrayen
-      setSelectedSubCategoriesByMainCategory({
-        ...selectedSubCategoriesByMainCategory,
+      setSelectedSubCategoriesByCategory({
+        ...selectedSubCategoriesByCategory,
         [player.category]: updatedSelectedSubCategories,
       });
     }
-  }, [player, selectedMainCategories, selectedSubCategories, selectedSubCategoriesByMainCategory]);
-  
+  }, [player]);
 
   // Handle input change for player data fields
   const handleInputChange = (e) => {
@@ -147,7 +143,7 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
     
     // Kontrollera om huvudkategorin redan finns i den uppdaterade listan
     // Uppdatera selectedSubCategoriesByMainCategory för den aktuella huvudkategorin
-    const updatedSelectedSubCategories = { ...selectedSubCategoriesByMainCategory };
+    const updatedSelectedSubCategories = { ...selectedSubCategoriesByCategory };
 
     // Rensa den befintliga listan för huvudkategorin
     updatedSelectedSubCategories[selectedCategory] = [];
@@ -160,8 +156,8 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
     setSelectedSubCategories(selectedSubCategoryValues);
 
     // Uppdatera selectedSubCategoriesByMainCategory för den aktuella huvudkategorin
-    setSelectedSubCategoriesByMainCategory({
-      ...selectedSubCategoriesByMainCategory,
+    setSelectedSubCategoriesByCategory({
+      ...selectedSubCategoriesByCategory,
       [selectedCategory]: updatedSelectedSubCategories[selectedCategory],
     });
   };
@@ -178,12 +174,12 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
-    console.log("selected category: ", selectedSubCategoriesByMainCategory)
+    console.log("selected category: ", selectedSubCategoriesByCategory)
 
     // Prepare updated player data
     const updatedPlayerData = {
       ...playerData,
-      category: selectedSubCategoriesByMainCategory,
+      category: selectedSubCategoriesByCategory,
       images: existingImages.concat(imageFiles),
     };
 
