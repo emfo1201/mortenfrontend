@@ -24,8 +24,8 @@ const AddNewPlayer = ({ handleOpenDialog, handleCloseDialog, openDialog }) => {
     const categoriesToSend = [];
     
     const selectedCategoriesToSend = categoriesToSend.map((subCategory) => ({
-      main: subCategory.main,
-      sub: subCategory.sub,
+      main: updatedPlayerData.subCategory.main,
+      sub: updatedPlayerData.subCategory.sub,
     }));
     
     console.log("selectedCategoriesToSend:", selectedCategoriesToSend);
