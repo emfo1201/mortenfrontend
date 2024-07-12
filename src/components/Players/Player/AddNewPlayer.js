@@ -34,6 +34,8 @@ const AddNewPlayer = ({ handleOpenDialog, handleCloseDialog, openDialog }) => {
     }
   }
 
+  console.log("categoriesToSend :", categoriesToSend)
+
   // Omvandla kategorier till det format du behöver och lägg till i FormData
   const selectedCategoriesToSend = categoriesToSend.map((subCategory) => ({
     main: subCategory.main,
