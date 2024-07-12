@@ -37,6 +37,7 @@ export const getPlayerById = (id) => async (dispatch) => {
 
 // Redux thunk-action
 export const addPlayer = (player) => async (dispatch) => {
+    console.log("player in addPlayer: ", player)
     try {
       dispatch({ type: START_LOADING });
       const { data } = await api.addPlayer(player);
