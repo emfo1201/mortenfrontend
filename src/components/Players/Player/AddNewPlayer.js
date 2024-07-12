@@ -13,46 +13,39 @@ const AddNewPlayer = ({ handleOpenDialog, handleCloseDialog, openDialog }) => {
 
   const handleSubmit = (updatedPlayerData) => {
     const data = new FormData();
-  
-    // Lägg till spelarinformation i FormData
-    data.append('name', updatedPlayerData.name || '');
-    data.append('club', updatedPlayerData.club || '');
-    data.append('infoEnglish', updatedPlayerData.infoEnglish || '');
-    data.append('infoNorwegian', updatedPlayerData.infoNorwegian || '');
-  
-    // Hantera kategorier
+
+    // Add player information to FormData
+    data.append('name', updatedPlayerData.name);
+    data.append('club', updatedPlayerData.club);
+    data.append('infoEnglish', updatedPlayerData.infoEnglish);
+    data.append('infoNorwegian', updatedPlayerData.infoNorwegian);
+
+    // Handle categories
     let categoriesToSend = [];
-  
+
     if (updatedPlayerData.category) {
       if (Array.isArray(updatedPlayerData.category)) {
-        // Om det är en array, använd den direkt
         categoriesToSend = updatedPlayerData.category;
       } else {
-        // Annars, omvandla till en array och lägg till det enskilda värdet
         categoriesToSend.push(updatedPlayerData.category);
       }
     }
-  
-    // Omvandla kategorier till det format du behöver och lägg till i FormData
+
     const selectedCategoriesToSend = categoriesToSend.map((subCategory) => ({
       main: subCategory.main,
       sub: subCategory.sub,
     }));
-  
-    console.log("selectedCategoriesToSend:", selectedCategoriesToSend);
-  
-    // Lägg till kategorier som JSON-sträng i FormData
+
     data.append('categories', JSON.stringify(selectedCategoriesToSend));
-  
-    // Lägg till bilder
+
+    // Add images
     updatedPlayerData.images.forEach((image, index) => {
       data.append(`images`, image);
     });
-  
-    // Dispatcha addPlayer med FormData
+
+    // Dispatch addPlayer with FormData
     dispatch(addPlayer(data));
-  };
-      
+  };  
 
   return (
     <Grid item xs={12} sm={6} md={4}>
