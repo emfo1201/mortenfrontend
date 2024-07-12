@@ -58,7 +58,7 @@ const Header = () => {
           <Toolbar component="div">
           <DrawerMenu categories={menuItems} isAuthenticated={isAuthenticated} />
             <Typography variant="h6" color="inherit" className={classes.title} component={Link} to="./../">
-              Norske Fotballdrakter
+              Norsk Fotballdraktmuseum
             </Typography>
             <div className={classes.search}>
               <div className={classes.searchIcon}>
