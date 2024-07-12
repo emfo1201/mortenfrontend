@@ -15,20 +15,22 @@ const AddNewPlayer = ({ handleOpenDialog, handleCloseDialog, openDialog }) => {
     const data = new FormData();
   
     // Lägg till spelarinformation i FormData
-    data.append('name', updatedPlayerData.name);
-    data.append('club', updatedPlayerData.club);
-    data.append('infoEnglish', updatedPlayerData.infoEnglish);
-    data.append('infoNorwegian', updatedPlayerData.infoNorwegian);
+    data.append('name', updatedPlayerData.name || '');
+    data.append('club', updatedPlayerData.club || '');
+    data.append('infoEnglish', updatedPlayerData.infoEnglish || '');
+    data.append('infoNorwegian', updatedPlayerData.infoNorwegian || '');
   
     // Hantera kategorier
     let categoriesToSend = [];
   
-    if (Array.isArray(updatedPlayerData.category)) {
-      // Om det är en array, använd den direkt
-      categoriesToSend = updatedPlayerData.category;
-    } else {
-      // Annars, omvandla till en array och lägg till det enskilda värdet
-      categoriesToSend.push(updatedPlayerData.category);
+    if (updatedPlayerData.category) {
+      if (Array.isArray(updatedPlayerData.category)) {
+        // Om det är en array, använd den direkt
+        categoriesToSend = updatedPlayerData.category;
+      } else {
+        // Annars, omvandla till en array och lägg till det enskilda värdet
+        categoriesToSend.push(updatedPlayerData.category);
+      }
     }
   
     // Omvandla kategorier till det format du behöver och lägg till i FormData
@@ -36,8 +38,6 @@ const AddNewPlayer = ({ handleOpenDialog, handleCloseDialog, openDialog }) => {
       main: subCategory.main,
       sub: subCategory.sub,
     }));
-
-    console.log("selected: ", selectedCategoriesToSend)
   
     data.append('categories', JSON.stringify(selectedCategoriesToSend));
   
@@ -48,7 +48,7 @@ const AddNewPlayer = ({ handleOpenDialog, handleCloseDialog, openDialog }) => {
   
     // Dispatcha addPlayer med FormData
     dispatch(addPlayer(data));
-  };   
+  };    
 
   return (
     <Grid item xs={12} sm={6} md={4}>
