@@ -52,28 +52,20 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
         category: player.category || [],
       });
   
-      const newMainCategories = Array.from(new Set([...selectedCategory, ...player.category]));
-      setSelectedCategory(newMainCategories);
+      setSelectedCategory(player.category.map(cat => cat.main));
       setExistingImages(player.images);
   
-      // Kombinera befintliga kategorier och underkategorier till en enda array
-      const updatedSelectedSubCategories = [...selectedSubCategories];
-  
-      // Loopa igenom player.category och player.subCategory och lägg till i updatedSelectedSubCategories
-      player.category.forEach((main, index) => {
-        updatedSelectedSubCategories.push({
-          main: main,
-          sub: player.subCategory[index] || '' // Om subCategory är tom, lägg till en tom sträng
-        });
+      const updatedSelectedSubCategories = {};
+      player.category.forEach((cat, index) => {
+        if (!updatedSelectedSubCategories[cat.main]) {
+          updatedSelectedSubCategories[cat.main] = [];
+        }
+        updatedSelectedSubCategories[cat.main].push({ main: cat.main, sub: cat.sub });
       });
   
-      // Uppdatera selectedSubCategories med den nya arrayen
-      setSelectedSubCategoriesByCategory({
-        ...selectedSubCategoriesByCategory,
-        [player.category]: updatedSelectedSubCategories,
-      });
+      setSelectedSubCategoriesByCategory(updatedSelectedSubCategories);
     }
-  }, [player, selectedCategory, selectedSubCategories, selectedSubCategoriesByCategory]);
+  }, [player]);
 
   // Handle input change for player data fields
   const handleInputChange = (e) => {
@@ -138,31 +130,12 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
     // Update the selectedSubCategoriesByCategory object
     setSelectedSubCategoriesByCategory({
       ...selectedSubCategoriesByCategory,
-      [selectedCategory]: selectedSubCategoryValues,
+      [selectedCategory]: selectedSubCategoryValues.map(sub => ({ main: selectedCategory, sub })),
     });
     
-    // Kontrollera om huvudkategorin redan finns i den uppdaterade listan
-    // Uppdatera selectedSubCategoriesByMainCategory för den aktuella huvudkategorin
-    const updatedSelectedSubCategories = { ...selectedSubCategoriesByCategory };
-
-    // Rensa den befintliga listan för huvudkategorin
-    updatedSelectedSubCategories[selectedCategory] = [];
-
-    // Lägg till de valda underkategorierna
-    selectedSubCategoryValues.forEach((sub) => {
-      updatedSelectedSubCategories[selectedCategory].push({ main: selectedCategory, sub: sub });
-    });
-
     setSelectedSubCategories(selectedSubCategoryValues);
-
-    // Uppdatera selectedSubCategoriesByMainCategory för den aktuella huvudkategorin
-    setSelectedSubCategoriesByCategory({
-      ...selectedSubCategoriesByCategory,
-      [selectedCategory]: updatedSelectedSubCategories[selectedCategory],
-    });
   };
-  
-  
+
   // Function to clear form data
   const clear = () => {
     setPlayerData({ name: '', club: '', infoEnglish: '', infoNorwegian: '', category: '' });
@@ -174,16 +147,16 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
-    console.log("selected category: ", selectedSubCategoriesByCategory)
+    console.log("selected category: ", selectedSubCategoriesByCategory);
 
     // Prepare updated player data
     const updatedPlayerData = {
       ...playerData,
-      category: selectedSubCategoriesByCategory,
+      category: Object.values(selectedSubCategoriesByCategory).flat(), // Flatten nested arrays to a single array
       images: existingImages.concat(imageFiles),
     };
 
-    console.log("updatedPlayerData: ", updatedPlayerData)
+    console.log("updatedPlayerData: ", updatedPlayerData);
     // Handle form submission
     handleSubmit(updatedPlayerData);
     handleCloseUpdatePlayer(false); // Close player update form
