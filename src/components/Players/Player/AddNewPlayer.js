@@ -21,13 +21,24 @@ const AddNewPlayer = ({ handleOpenDialog, handleCloseDialog, openDialog }) => {
     data.append('infoNorwegian', updatedPlayerData.infoNorwegian);
 
     // Handle categories
-    const selectedCategoriesToSend = []
-    
-    selectedCategoriesToSend = updatedPlayerData.category.map((subCategory) => ({
-      main: subCategory.main,
-      sub: subCategory.sub,
-    }));
-    
+    let categoriesToSend = [];
+
+  if (updatedPlayerData.category) {
+    // Om det finns en kategori, oavsett om det är en sträng eller en array, gör det till en array
+    if (Array.isArray(updatedPlayerData.category)) {
+      // Om det är en array, använd den direkt
+      categoriesToSend = updatedPlayerData.category;
+    } else {
+      // Annars, skapa en array med det enskilda värdet
+      categoriesToSend = [updatedPlayerData.category];
+    }
+  }
+
+  // Omvandla kategorier till det format du behöver och lägg till i FormData
+  const selectedCategoriesToSend = categoriesToSend.map((subCategory) => ({
+    main: subCategory.main,
+    sub: subCategory.sub,
+  }));
     
     console.log("selectedCategoriesToSend:", selectedCategoriesToSend);
     
