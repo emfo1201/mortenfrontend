@@ -13,12 +13,11 @@ import { getPlayer } from "./actions/players";
 
 function App() {
     const dispatch = useDispatch();
-    const [currentPlayer, setCurrentPlayer] = useState(null);
-
+    
     useEffect(() => {
         dispatch(getPlayer());
         dispatch(getCategory());
-    }, [currentPlayer, dispatch]);
+    }, [dispatch]);
 
     return (
         <AuthProvider>

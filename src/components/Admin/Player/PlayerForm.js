@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import CategorySelect from './CategorySelect';
 import PlayerData from './PlayerData';
 import ImageUpload from './ImageUpload';
-import useStyles from './styles';
+//import useStyles from './styles';
 
 function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) {
   const [playerData, setPlayerData] = useState({ name: '', club: '', infoEnglish: '', infoNorwegian: '', category: [] });

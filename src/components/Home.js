@@ -1,9 +1,9 @@
 // Home.js
 
-import React, { useState } from 'react';
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import useStyles from './Layout/styles';
-import { useTranslation } from 'react-i18next';
+// import { useTranslation } from 'react-i18next';
 import LandingImage from '../images/UllevaalStadion.png';
 import Welcome from './Layout/Home/Welcome'
 import About from './Layout/Home/About'
@@ -12,8 +12,8 @@ import Footer from './Layout/Footer';
 
 const Home = () => {
   const classes = useStyles();
-  const { i18n } = useTranslation();
- /* const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
+/*  const { i18n } = useTranslation();
+  const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
 
   // Update the selected language when it changes
   i18n.on('languageChanged', (lng) => {

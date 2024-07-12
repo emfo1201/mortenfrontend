@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Drawer from '@material-ui/core/Drawer';
@@ -58,6 +58,21 @@ const DrawerMenu = ({ categories, isAuthenticated }) => {
   const history = useNavigate();
   const players = useSelector((state) => state.players.players);
 
+  const filterCategories = useCallback((categories) => {
+    const filteredCategories = categories.map(category => {
+      const subMenusWithPlayers = category.subMenu.filter(subMenu => {
+        return players.some(player => {
+          const matchCategory = player.category.includes(category.mainMenu);
+          const matchSubCategory = player.subCategory.includes(subMenu);
+          return matchCategory && matchSubCategory;
+        });
+      });
+      return { ...category, subMenu: subMenusWithPlayers };
+    }).filter(category => category.subMenu.length > 0 || category.subMenu === null);
+
+    return filteredCategories;
+  }, [players]);
+
   useEffect(() => {
     setMenu(isAuthenticated ? categories : filterCategories(categories));
   }, [categories, filterCategories, isAuthenticated]);
@@ -93,21 +108,6 @@ const DrawerMenu = ({ categories, isAuthenticated }) => {
 
     history(`/players/search?searchQuery=${categories.join(',')}`, { redirect: true });
     handleDrawerClose();
-  };
-
-  const filterCategories = (categories) => {
-    const filteredCategories = categories.map(category => {
-      const subMenusWithPlayers = category.subMenu.filter(subMenu => {
-        return players.some(player => {
-          const matchCategory = player.category.includes(category.mainMenu);
-          const matchSubCategory = player.subCategory.includes(subMenu);
-          return matchCategory && matchSubCategory;
-        });
-      });
-      return { ...category, subMenu: subMenusWithPlayers };
-    }).filter(category => category.subMenu.length > 0 || category.subMenu === null);
-
-    return filteredCategories;
   };
 
   return (
