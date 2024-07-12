@@ -37,7 +37,12 @@ export const getPlayerById = (id) => async (dispatch) => {
 
 // Redux thunk-action
 export const addPlayer = (player) => async (dispatch) => {
-    console.log("player in addPlayer: ", player)
+    console.log("player in addPlayer:");
+
+    // Iterera över FormData och logga nyckel-värde-paren
+    for (var pair of player.entries()) {
+      console.log(pair[0] + ": " + pair[1]);
+    }
     try {
       dispatch({ type: START_LOADING });
       const { data } = await api.addPlayer(player);
