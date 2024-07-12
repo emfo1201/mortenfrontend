@@ -21,22 +21,17 @@ const AddNewPlayer = ({ handleOpenDialog, handleCloseDialog, openDialog }) => {
     data.append('infoNorwegian', updatedPlayerData.infoNorwegian);
 
     // Handle categories
-    let categoriesToSend = [];
-
-    if (updatedPlayerData.category) {
-      if (Array.isArray(updatedPlayerData.category)) {
-        categoriesToSend = updatedPlayerData.category;
-      } else {
-        categoriesToSend.push(updatedPlayerData.category);
-      }
-    }
-
+    const categoriesToSend = [];
+    
     const selectedCategoriesToSend = categoriesToSend.map((subCategory) => ({
       main: subCategory.main,
       sub: subCategory.sub,
     }));
-
+    
+    console.log("selectedCategoriesToSend:", selectedCategoriesToSend);
+    
     data.append('categories', JSON.stringify(selectedCategoriesToSend));
+    
 
     // Add images
     updatedPlayerData.images.forEach((image, index) => {
