@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Grid, CircularProgress } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-import { useLocation, Navigate, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import AddNewPlayer from '../Players/Player/AddNewPlayer';
 import Player from './Player/Player';
 import useStyles from './styles';
@@ -35,7 +35,7 @@ const Players = () => {
       // Om sökfrågan inte finns, visa alla spelare
       setFilteredPlayers(players);
     }
-  }, [search, players, navigate, redirected]);
+  }, [isAuthenticated, search, players, navigate, redirected]);
 
   if (isLoading) {
     return <CircularProgress />;

@@ -1,5 +1,4 @@
 import { AUTH, LOGOUT } from '../constants/actionTypes'
-import Cookies from 'js-cookie'
 
 export default (state = { authData: null }, action) => {
     switch (action.type) {

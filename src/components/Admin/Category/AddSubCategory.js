@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { addSubCategory } from '../../../actions/menu'; // Ersätt 'actions/menu' med sökvägen till din Redux-action för att lägga till subkategorier
 
 function AddSubCategory({ mainCategory, handleCloseDialog }) {

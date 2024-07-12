@@ -13,12 +13,12 @@ import Footer from './Layout/Footer';
 const Home = () => {
   const classes = useStyles();
   const { i18n } = useTranslation();
-  const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
+ /* const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
 
   // Update the selected language when it changes
   i18n.on('languageChanged', (lng) => {
     setSelectedLanguage(lng);
-  });
+  }); */
 
   return (
     <div className={classes.homeContainer}>

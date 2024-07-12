@@ -6,7 +6,7 @@ function ImageUpload({ imagePreviews, handleImageChange, handleRemoveImage, exis
 
   useEffect(() => {
     console.log("exist: ", existingImages)
-  }, [])
+  }, [existingImages])
   return (
     <div>
       <input
@@ -20,7 +20,7 @@ function ImageUpload({ imagePreviews, handleImageChange, handleRemoveImage, exis
         <div key={index}>
           <img
             src={`https://nice-special-meadow.glitch.me/images/${image}`}
-            alt={`Existing Image ${index}`}
+            alt={`Image ${index + 1}`}
             style={{ maxWidth: '100px', maxHeight: '100px' }}
           />
           <IconButton onClick={() => handleRemoveImage(index)}>
@@ -28,6 +28,7 @@ function ImageUpload({ imagePreviews, handleImageChange, handleRemoveImage, exis
           </IconButton>
         </div>
       ))}
+
 
       {imagePreviews.map((preview, index) => (
         <div key={index}>

@@ -14,10 +14,6 @@ export default makeStyles((theme) => ({
         flexWrap: 'wrap',
         justifyContent: 'center',
     },
-    formControl: {
-        margin: theme.spacing(1),
-        minWidth: 120,
-    },
     fileInput: {
         width: '97%',
         margin: '10px 0',

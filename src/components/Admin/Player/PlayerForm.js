@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import CategorySelect from './CategorySelect';
@@ -9,7 +8,6 @@ import ImageUpload from './ImageUpload';
 import useStyles from './styles';
 
 function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) {
-  const classes = useStyles();
   const [playerData, setPlayerData] = useState({ name: '', club: '', infoEnglish: '', infoNorwegian: '', category: [] });
   const [imageFiles, setImageFiles] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
@@ -20,7 +18,6 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
   const [selectedSubCategoriesByCategory, setSelectedSubCategoriesByCategory] = useState({});
   const [selectedSubCategoriesByMainCategory, setSelectedSubCategoriesByMainCategory] = useState({});
   const [existingImages, setExistingImages] = useState([]);
-  const [existingCategories, setExistingCategories] = useState([]);
   const [menuData, setMenuData] = useState({
     categories: [],
     subCategories: {},
@@ -79,7 +76,7 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
         [player.category]: updatedSelectedSubCategories,
       });
     }
-  }, [player]);
+  }, [player, selectedMainCategories, selectedSubCategories, selectedSubCategoriesByMainCategory]);
   
 
   // Handle input change for player data fields

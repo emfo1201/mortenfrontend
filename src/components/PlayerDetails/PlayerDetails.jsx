@@ -14,14 +14,14 @@ import Dialog from "@material-ui/core/Dialog/Dialog";
 const Player = () => {
     const { player, isLoading } = useSelector((state) => state.players)
     const [open, setOpen] = React.useState(false);
-    const [scroll, setScroll] = React.useState('body');
+    const [scroll] = React.useState('body');
     const dispatch = useDispatch()
     const classes = useStyles()
     const { id } = useParams()
 
     useEffect(() => {
         dispatch(getPlayerById(id))
-    }, [id])
+    }, [dispatch, id])
 
     const handleClickOpen = () => {
         setOpen(true);

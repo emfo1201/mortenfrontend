@@ -60,7 +60,7 @@ const DrawerMenu = ({ categories, isAuthenticated }) => {
 
   useEffect(() => {
     setMenu(isAuthenticated ? categories : filterCategories(categories));
-  }, [categories, isAuthenticated]);
+  }, [categories, filterCategories, isAuthenticated]);
 
   useEffect(() => {
   }, [players]);
