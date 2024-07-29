@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -14,23 +14,11 @@ import useStyles from './styles';
 import { useAuth } from '../Auth/AuthContext';
 
 const Header = () => {
-  const [loading, setLoading] = useState(true);
   const category = useSelector((state) => state.menus);
   const classes = useStyles();
   const navigate = useNavigate();
   const location = useLocation();
   const { isAuthenticated, logout } = useAuth(); 
-
-  useEffect(() => {
-    setLoading(false);
-  }, []);
-
-  useEffect(() => {
-    console.log("is auth: ", isAuthenticated);
-    if (isAuthenticated !== null) { // Ensure isAuthenticated is not null
-      setLoading(false);
-    }
-  }, [isAuthenticated]);
 
   useEffect(() => {
     console.log("Categories: ", category);
@@ -41,10 +29,6 @@ const Header = () => {
     logout();
     navigate('/');
   }
-
-  /*if (loading) {
-    return <p>Loading...</p>;
-  } */
 
   const menuItems = isAuthenticated ? category : category.filter((menu) => menu.subMenu.length > 0);
 
