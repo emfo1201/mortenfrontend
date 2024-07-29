@@ -42,9 +42,9 @@ const Header = () => {
     navigate('/');
   }
 
-  if (loading) {
+  /*if (loading) {
     return <p>Loading...</p>;
-  }
+  } */
 
   const menuItems = isAuthenticated ? category : category.filter((menu) => menu.subMenu.length > 0);
 
