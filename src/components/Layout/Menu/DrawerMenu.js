@@ -59,9 +59,18 @@ const DrawerMenu = ({ categories, isAuthenticated }) => {
   const players = useSelector((state) => state.players.players);
 
   const filterCategories = useCallback((categories) => {
+    if (!Array.isArray(players)) {
+      console.error('Players is not an array:', players);
+      return [];
+    }
+  
     const filteredCategories = categories.map(category => {
       const subMenusWithPlayers = category.subMenu.filter(subMenu => {
         return players.some(player => {
+          if (!Array.isArray(player.category) || !Array.isArray(player.subCategory)) {
+            console.error('Player category or subCategory is not an array:', player);
+            return false;
+          }
           const matchCategory = player.category.includes(category.mainMenu);
           const matchSubCategory = player.subCategory.includes(subMenu);
           return matchCategory && matchSubCategory;
@@ -69,9 +78,10 @@ const DrawerMenu = ({ categories, isAuthenticated }) => {
       });
       return { ...category, subMenu: subMenusWithPlayers };
     }).filter(category => category.subMenu.length > 0 || category.subMenu === null);
-
+  
     return filteredCategories;
   }, [players]);
+  
 
   useEffect(() => {
     setMenu(isAuthenticated ? categories : filterCategories(categories));
