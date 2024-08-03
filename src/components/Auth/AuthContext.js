@@ -3,7 +3,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { AUTH } from '../../constants/actionTypes';
-import { validateToken, signIn } from '../../api';
+import { validateToken } from '../../actions/auth.js';
+import { signIn } from '../../api/index.js';
 
 const AuthContext = createContext();
 
