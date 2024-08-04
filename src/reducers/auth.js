@@ -1,14 +1,25 @@
-import { AUTH, LOGOUT } from '../constants/actionTypes'
+// auth reducer
+import { AUTH, LOGOUT } from '../constants/actionTypes';
 
-export default (state = { authData: null }, action) => {
+const initialState = { authData: null, loading: true, errors: null };
+
+export default (state = initialState, action) => {
+    console.log('Reducer action:', action);
+    console.log('Reducer state before:', state);
+
     switch (action.type) {
         case AUTH:
-            // Uppdatera autentiseringstillståndet när inloggning sker
-            return { ...state, authData: action.data, loading: false, errors: null };
+            console.log('Handling AUTH action');
+            const newStateAuth = { ...state, authData: action.data, loading: false, errors: null };
+            console.log('Reducer state after AUTH:', newStateAuth);
+            return newStateAuth;
         case LOGOUT:
-            // Återställ autentiseringstillståndet när utloggning sker
-            return { ...state, authData: null, loading: false, errors: null };
+            console.log('Handling LOGOUT action');
+            const newStateLogout = { ...state, authData: null, loading: false, errors: null };
+            console.log('Reducer state after LOGOUT:', newStateLogout);
+            return newStateLogout;
         default:
+            console.log('Reducer state after default:', state);
             return state;
     }
 };

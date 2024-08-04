@@ -1,50 +1,48 @@
-// actions/auth.js
-
 import Cookies from 'js-cookie';
-import { AUTH } from '../constants/actionTypes';
+import { AUTH, LOGOUT } from '../constants/actionTypes';
 import * as api from '../api';
 
 export const validateToken = async () => {
-  console.log("in validateToken")
+  console.log("In validateToken");
   try {
     const { data } = await api.validateToken();
-    return data.isValid; // Returnera true om cookien är giltig, annars false
+    console.log("validateToken response data:", data);
+    return data.isValid; // Return true om token är giltig, annars false
   } catch (error) {
     console.error('Error validating token:', error);
-    return false; // Vid fel antar vi att cookien inte är giltig
+    return false; // Vid fel, anta att token inte är giltig
   }
 };
 
 export const signin = (formData, router) => async (dispatch) => {
+  console.log("In signin action");
   try {
     const { data } = await api.signIn(formData);
-    console.log("token: ", data.token)
-    // Sätt en cookie när användaren loggar in
-    // Beräkna expiration time för cookien, 1 timme från nu
+    console.log("Signin response data:", data);
+    
     const expirationTime = new Date(Date.now() + 60 * 60 * 1000);
-
-    // Sätt cookien med den nya expiration timen
-    Cookies.set('jwtToken', data.token, { expires: expirationTime }); // 'authToken' är namnet på cookien, och 'data.token' är värdet
+    Cookies.set('jwtToken', data.token, { expires: expirationTime });
 
     dispatch({ type: AUTH, data });
-
-    router('/'); // Du kan nu använda cookien i ditt api-anrop eller andra delar av din applikation
+    router('/'); // Navigera efter inloggning
   } catch (error) {
-    console.log(error);
+    console.error("Error in signin action:", error);
+    throw new Error('Login failed'); // Skicka ett tydligt felmeddelande
   }
 };
 
 export const signup = (formData, router) => async (dispatch) => {
+  console.log("In signup action");
   try {
     const { data } = await api.signUp(formData);
+    console.log("Signup response data:", data);
 
-    // Sätt en cookie när användaren loggar in
-    Cookies.set('jwtToken', data.token, { expires: 7 }); // 'authToken' är namnet på cookien, och 'data.token' är värdet
+    Cookies.set('jwtToken', data.token, { expires: 7 });
 
     dispatch({ type: AUTH, data });
-
-    router('/'); // Du kan nu använda cookien i ditt api-anrop eller andra delar av din applikation
+    router('/'); // Navigera efter registrering
   } catch (error) {
-    console.log(error);
+    console.error("Error in signup action:", error);
+    throw new Error('Signup failed'); // Skicka ett tydligt felmeddelande
   }
 };

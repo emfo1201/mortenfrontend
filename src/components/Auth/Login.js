@@ -42,14 +42,16 @@ function Login() {
     e.preventDefault();
     try {
       setLoading(true); // Sätt laddningstillståndet till true när inloggningen påbörjas
-      await dispatch(login(formData, navigate, dispatch));
+      console.log("Logging in with formData:", formData);
+      await login(formData, navigate, dispatch);
       if (isMounted.current) {
         setLoading(false); // Återställ laddningstillståndet till false när inloggningen är klar
       }
     } catch (error) {
       if (isMounted.current) {
         setLoading(false); // Återställ laddningstillståndet till false om inloggningen misslyckas
-        setSnackbarMessage(error.message);
+        console.error("Login failed:", error);
+        setSnackbarMessage(error.message || 'Login failed');
         setSnackbarOpen(true);
       }
     }
