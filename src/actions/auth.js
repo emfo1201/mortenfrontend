@@ -1,13 +1,13 @@
+// actions/auth.js
+
 import Cookies from 'js-cookie';
 import { AUTH } from '../constants/actionTypes';
 import * as api from '../api';
 
-export const validateToken = async (token) => {
+export const validateToken = async () => {
   console.log("in validateToken")
   try {
-    const { data } = await api.validateToken('/users/validateToken', {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+    const { data } = await api.validateToken();
     return data.isValid; // Returnera true om cookien är giltig, annars false
   } catch (error) {
     console.error('Error validating token:', error);
@@ -39,7 +39,7 @@ export const signup = (formData, router) => async (dispatch) => {
     const { data } = await api.signUp(formData);
 
     // Sätt en cookie när användaren loggar in
-  //  Cookies.set('jwtToken', data.token, { expires: 7 }); // 'authToken' är namnet på cookien, och 'data.token' är värdet
+    Cookies.set('jwtToken', data.token, { expires: 7 }); // 'authToken' är namnet på cookien, och 'data.token' är värdet
 
     dispatch({ type: AUTH, data });
 

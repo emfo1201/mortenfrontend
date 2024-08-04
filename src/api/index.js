@@ -1,3 +1,5 @@
+// api/index.js
+
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
@@ -13,7 +15,7 @@ API.interceptors.request.use((req) => {
   return Promise.reject(error);
 });
 
-export const validateToken = (tok1) => API.get('/users/validateToken', { headers: { Authorization: `Bearer ${tok1}` } });
+export const validateToken = () => API.get('/users/validateToken');
 export const signIn = (formData) => API.post('/users/signin', formData);
 export const signUp = (formData) => API.post('/users/signup', formData);
 export const getCategory = () => API.get('/menus/getCategory');

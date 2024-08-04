@@ -19,13 +19,13 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       const token = Cookies.get('jwtToken');
-      console.log("in auth context")
+      console.log("in auth context");
       if (token) {
-        console.log("is token")
+        console.log("is token");
         try {
-          console.log("before isValid")
-          const isValid = await validateToken(token); // Notera användning av await här
-          console.log("after isValid ", isValid)
+          console.log("before isValid");
+          const isValid = await validateToken(); // Notera användning av await här
+          console.log("after isValid ", isValid);
           setIsAuthenticated(isValid);
         } catch (error) {
           console.error('Error validating token:', error);
@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     // Ta bort JWT-token från cookies
-    console.log("removed cookie")
+    console.log("removed cookie");
     Cookies.remove('jwtToken');
     setIsAuthenticated(false);
   };
