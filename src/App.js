@@ -13,7 +13,7 @@ import { getPlayer } from "./actions/players";
 
 function App() {
     const dispatch = useDispatch();
-    
+
     useEffect(() => {
         dispatch(getPlayer());
         dispatch(getCategory());

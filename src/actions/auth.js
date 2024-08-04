@@ -2,13 +2,15 @@ import Cookies from 'js-cookie';
 import { AUTH } from '../constants/actionTypes';
 import * as api from '../api';
 
-export const validateToken = (token) => async () => {
+export const validateToken = async (token) => {
   console.log("in validateToken")
   try {
-    const { data } = await api.validateToken(token);
+    const { data } = await api.validateToken('/users/validateToken', {
+      headers: { Authorization: `Bearer ${token}` }
+    });
     return data.isValid; // Returnera true om cookien är giltig, annars false
   } catch (error) {
-    console.error(error);
+    console.error('Error validating token:', error);
     return false; // Vid fel antar vi att cookien inte är giltig
   }
 };

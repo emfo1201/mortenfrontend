@@ -19,12 +19,17 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       const token = Cookies.get('jwtToken');
+      console.log("in auth context")
       if (token) {
+        console.log("is token")
         try {
-          const isValid = await validateToken(token);
+          console.log("before isValid")
+          const isValid = await validateToken(token); // Notera användning av await här
+          console.log("after isValid ", isValid)
           setIsAuthenticated(isValid);
         } catch (error) {
           console.error('Error validating token:', error);
+          setIsAuthenticated(false);
         }
       } else {
         setIsAuthenticated(false);
@@ -34,17 +39,18 @@ export const AuthProvider = ({ children }) => {
     checkAuth();
   }, []);  
 
-  const login = (formData, navigate, dispatch) => async () => {
+  const login = async (formData, navigate, dispatch) => {
     try {
       const { data } = await signIn(formData);
+      console.log("Sign in successful, token:", data.token);
       const expirationTime = new Date(Date.now() + 60 * 60 * 1000);
       Cookies.set('jwtToken', data.token, { expires: expirationTime });
-    
+  
       dispatch({ type: AUTH, data });
-    
       navigate('/'); // Navigera till önskad sida efter inloggning
+      setIsAuthenticated(true);
     } catch (error) {
-      console.log(error);
+      console.error("Login error:", error);
     }
   };
 
