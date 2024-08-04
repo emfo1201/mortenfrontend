@@ -6,12 +6,12 @@ import * as api from '../api';
 export const validateToken = async () => {
   console.log("In validateToken action");
   try {
-    const { data } = await api.validateToken();
-    console.log("validateToken response:", data);
-    return data.isValid; // Return true om token är giltig, annars false
+    const response = await api.validateToken();
+    console.log("validateToken response:", response.data);
+    return response.data; // Return the whole response data object
   } catch (error) {
     console.error('Error validating token:', error);
-    return false; // Vid fel, anta att token inte är giltig
+    return null; // Return null or an appropriate value if there's an error
   }
 };
 

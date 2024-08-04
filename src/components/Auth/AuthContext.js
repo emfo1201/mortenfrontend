@@ -21,10 +21,13 @@ export const AuthProvider = ({ children }) => {
       if (token) {
         console.log("is token");
         try {
-          console.log("before isValid");
-          const isValid = await validateToken(); // Notera användning av await här
-          console.log("after isValid ", isValid);
-          setIsAuthenticated(isValid);
+          const userData = await validateToken();
+          console.log("after isValid ", userData);
+          if (userData) {
+            setIsAuthenticated(true);
+          } else {
+            setIsAuthenticated(false);
+          }
         } catch (error) {
           console.error('Error validating token:', error);
           setIsAuthenticated(false);
@@ -35,7 +38,7 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
     };
     checkAuth();
-  }, []);  
+  }, []);
 
   const login = async (formData, navigate, dispatch) => {
     try {
