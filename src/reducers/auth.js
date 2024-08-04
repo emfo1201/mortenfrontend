@@ -1,25 +1,18 @@
-// auth reducer
-import { AUTH, LOGOUT } from '../constants/actionTypes';
+import { AUTH, LOGOUT, START_LOADING, END_LOADING, AUTH_ERROR } from '../constants/actionTypes';
 
-const initialState = { authData: null, loading: true, errors: null };
-
-export default (state = initialState, action) => {
-    console.log('Reducer action:', action);
-    console.log('Reducer state before:', state);
-
+export default (state = { authData: null, loading: false, errors: null }, action) => {
     switch (action.type) {
         case AUTH:
-            console.log('Handling AUTH action');
-            const newStateAuth = { ...state, authData: action.data, loading: false, errors: null };
-            console.log('Reducer state after AUTH:', newStateAuth);
-            return newStateAuth;
+            return { ...state, authData: action.data, loading: false, errors: null };
         case LOGOUT:
-            console.log('Handling LOGOUT action');
-            const newStateLogout = { ...state, authData: null, loading: false, errors: null };
-            console.log('Reducer state after LOGOUT:', newStateLogout);
-            return newStateLogout;
+            return { ...state, authData: null, loading: false, errors: null };
+        case START_LOADING:
+            return { ...state, loading: true };
+        case END_LOADING:
+            return { ...state, loading: false };
+        case AUTH_ERROR:
+            return { ...state, loading: false, errors: action.payload };
         default:
-            console.log('Reducer state after default:', state);
             return state;
     }
 };
