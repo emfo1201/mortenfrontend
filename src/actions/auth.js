@@ -1,6 +1,6 @@
 // auth.js (actions)
 import Cookies from 'js-cookie';
-import { AUTH, LOGOUT, START_LOADING, END_LOADING, AUTH_ERROR } from '../constants/actionTypes';
+import { AUTH, START_LOADING, END_LOADING, AUTH_ERROR } from '../constants/actionTypes';
 import * as api from '../api';
 
 export const validateToken = async () => {
