@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie';
-import { AUTH, LOGOUT } from '../constants/actionTypes';
+import { AUTH } from '../constants/actionTypes';
 import * as api from '../api';
 
 export const validateToken = async () => {
