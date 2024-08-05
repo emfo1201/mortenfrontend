@@ -42,6 +42,7 @@ const Player = ({ player }) => {
     };
 
     const openPlayer = () => {
+        console.log("player: ", player)
         history(`/players/${player._id}`, { redirect: true })
     }
 
