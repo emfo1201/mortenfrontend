@@ -79,7 +79,7 @@ const Player = ({ player }) => {
                 className={classes.cardAction}
                 onClick={openPlayer}
             >
-                <CardMedia className={classes.media} image={`https://norskfotballdraktmuseum.s3.eu-north-1.amazonaws.com/${player.images[0]}`} title={player.name} />
+                <CardMedia className={classes.media} image={player.images[0]} title={player.name} />
 
                 <div className={classes.overlay}>
                     <Typography variant="h6">{player.club}</Typography>
