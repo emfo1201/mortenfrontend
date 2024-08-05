@@ -63,13 +63,13 @@ const Player = () => {
                     <ImageList rowHeight={160} className={classes.imageList1} cols={1}>
                         {player.images.map((item) => (
                             <ImageListItem key={item} cols={1}>
-                                <img src={`https://nice-special-meadow.glitch.me/images/${item}`} alt={item._id} />
+                                <img src={item} alt={item._id} />
                             </ImageListItem>
                         ))}
                     </ImageList>
                 </div>
                 <div className={classes.imageSection}>
-                    <img className={classes.media} src={`https://nice-special-meadow.glitch.me/images/${player.images[0]}` || "http://localhost:5000/images/1627834412100--brad.jpg"} alt={player.name}
+                    <img className={classes.media} src={player.images[0] || "http://localhost:5000/images/1627834412100--brad.jpg"} alt={player.name}
                     onClick={handleClickOpen}/>
                     <Dialog
                         open={open}
