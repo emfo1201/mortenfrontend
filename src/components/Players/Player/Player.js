@@ -78,7 +78,7 @@ const Player = ({ player }) => {
                 className={classes.cardAction}
                 onClick={openPlayer}
             >
-                <CardMedia className={classes.media} image={`https://nice-special-meadow.glitch.me/images/${player.images[0]}`} title={player.name} />
+                <CardMedia className={classes.media} image={`https://s3.amazonaws.com/norskfotballdraktmuseum/${player.images[0]}`} title={player.name} />
 
                 <div className={classes.overlay}>
                     <Typography variant="h6">{player.club}</Typography>
