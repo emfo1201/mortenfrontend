@@ -15,6 +15,7 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
   const [selectedSubCategories, setSelectedSubCategories] = useState([]);
   const [selectedSubCategoriesByCategory, setSelectedSubCategoriesByCategory] = useState({});
   const [existingImages, setExistingImages] = useState([]);
+  const [imagesToDelete, setImagesToDelete] = useState([]);
   const [menuData, setMenuData] = useState({
     categories: [],
     subCategories: {},
@@ -102,8 +103,9 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
   const handleRemoveImage = (index) => {
     if (index < existingImages.length) {
       const updatedExistingImages = [...existingImages];
-      updatedExistingImages.splice(index, 1);
+      const [removedImage] = updatedExistingImages.splice(index, 1);
       setExistingImages(updatedExistingImages);
+      setImagesToDelete([...imagesToDelete, removedImage]);
     } else {
       const updatedFiles = [...imageFiles];
       const updatedPreviews = [...imagePreviews];
@@ -141,6 +143,7 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
     setPlayerData({ name: '', club: '', infoEnglish: '', infoNorwegian: '', category: '' });
     setImageFiles([]);
     setImagePreviews([]);
+    setImagesToDelete([]);
   };
 
   // Handle form submission
@@ -154,6 +157,7 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
       ...playerData,
       category: Object.values(selectedSubCategoriesByCategory).flat(), // Flatten nested arrays to a single array
       images: existingImages.concat(imageFiles),
+      imagesToDelete,
     };
 
     console.log("updatedPlayerData: ", updatedPlayerData);
