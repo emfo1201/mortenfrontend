@@ -26,5 +26,5 @@ export const deleteCategory = (id) => API.delete(`/menus/${id}`);
 export const addSubCategory = (newSubCategory) => API.post('/menus/addSubCategory', newSubCategory);
 export const deleteSubCategory = (subCategory) => API.delete('/menus/deleteSubCategory', subCategory);
 export const addPlayer = (formData) => API.post('/players', formData);
-export const updatePlayer = (id, formData) => API.patch(`/players/${id}`, formData);
+export const updatePlayer = (id, formData) => API.post(`/players/update/${id}`, formData);
 export const deletePlayer = (formData) => API.delete(`players/${formData}`);

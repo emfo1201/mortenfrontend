@@ -79,7 +79,7 @@ const Player = () => {
                         aria-describedby="scroll-dialog-description"
                     >
                         <DialogContent dividers={scroll === 'paper'}>
-                            <img src={`https://nice-special-meadow.glitch.me/images/${player.images[0]}` || "http://localhost:5000/images/1627834412100--brad.jpg"} alt={player.name}/>
+                            <img src={player.images[0] || "http://localhost:5000/images/1627834412100--brad.jpg"} alt={player.name}/>
                         </DialogContent>
                     </Dialog>
                 </div>
@@ -95,7 +95,7 @@ const Player = () => {
                 <ImageList className={classes.imageList} cols={2.5}>
                     { player.images.map((item) => (
                         <ImageListItem key={item}>
-                            <img src={`https://nice-special-meadow.glitch.me/images/${item}`} alt={item._id} />
+                            <img src={item} alt={item._id} />
                         </ImageListItem>
                     ))}
                 </ImageList>

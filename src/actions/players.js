@@ -10,7 +10,7 @@ export const getPlayer = () => async (dispatch) => {
     } catch(error) {
         console.log(error.message)
     }
-}
+};
 
 export const getPlayers = (searchQuery) => async (dispatch) => {
     try {
@@ -22,7 +22,7 @@ export const getPlayers = (searchQuery) => async (dispatch) => {
     } catch (error) {
         console.log(error);
     }
-}
+};
 
 export const getPlayerById = (id) => async (dispatch) => {
     try {
@@ -33,7 +33,7 @@ export const getPlayerById = (id) => async (dispatch) => {
     } catch (error) {
         console.log(error);
     }
-}
+};
 
 // Redux thunk-action
 export const addPlayer = (player) => async (dispatch) => {
@@ -52,15 +52,15 @@ export const addPlayer = (player) => async (dispatch) => {
     }
   };
 
-export const updatePlayer = (id, player) => async (dispatch) => {
+  export const updatePlayer = (id, player) => async (dispatch) => {
     console.log("cat: ", id)
     try {
-        const { data } = await api.updatePlayer(id, player)
-        dispatch({ type: UPDATE_PLAYER, payload: data })
-    } catch(error) {
-        console.log(error.message)
+        const { data } = await api.updatePlayer(id, player);
+        dispatch({ type: UPDATE_PLAYER, payload: data });
+    } catch (error) {
+        console.log(error.message);
     }
-}
+};
 
 export const deletePlayer = (id) => async (dispatch) => {
     try {
@@ -70,4 +70,4 @@ export const deletePlayer = (id) => async (dispatch) => {
     } catch (error) {
         console.log(error);
     }
-}
+};
