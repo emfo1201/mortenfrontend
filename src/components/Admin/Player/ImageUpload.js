@@ -20,7 +20,7 @@ function ImageUpload({ imagePreviews, handleImageChange, handleRemoveImage, exis
       {existingImages && existingImages.map((image, index) => (
         <div key={index}>
           <img
-            src={`https://nice-special-meadow.glitch.me/images/${image}`}
+            src={image}
             alt={`Existing ${index + 1}`}
             style={{ maxWidth: '100px', maxHeight: '100px' }}
           />
