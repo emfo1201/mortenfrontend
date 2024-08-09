@@ -163,14 +163,22 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
-    console.log("selectedSubCategoriesByCategory: ", selectedSubCategoriesByCategory)
+    // Omvandla selectedSubCategoriesByCategory till rätt format
+    const formattedCategories = Object.entries(selectedSubCategoriesByCategory).flatMap(
+      ([mainCategory, subCategories]) => {
+        return subCategories.map(subCategory => ({
+          main: mainCategory,
+          sub: subCategory
+        }));
+      }
+    );
+
     // Förbered data för uppdatering
     const updatedPlayerData = {
       ...playerData,
-      category: [...playerData.category, ...Object.values(selectedSubCategoriesByCategory).flat()],
+      category: [...playerData.category, ...formattedCategories],
       images: existingImages.concat(imageFiles),
-  };
-  
+    };
 
     console.log("updatedPlayerData: ", updatedPlayerData);
 
