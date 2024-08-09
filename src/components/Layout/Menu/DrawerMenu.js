@@ -120,91 +120,89 @@ const DrawerMenu = ({ categories, isAuthenticated }) => {
 
   return (
     <div>
-      <IconButton
-        edge="start"
-        color="inherit"
-        aria-label="menu"
-        onClick={handleDrawerOpen}
-      >
-        <MenuIcon />
-      </IconButton>
-      <Drawer anchor="top" open={isDrawerOpen} onClose={handleDrawerClose}>
-        {/* Knapp för att stänga menyn */}
-        <IconButton className={classes.closeMenuButton} onClick={handleDrawerClose}>
-          <CloseIcon />
+        <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            onClick={handleDrawerOpen}
+        >
+            <MenuIcon />
         </IconButton>
-        {/* Knapp för att lägga till en ny kategori */}
-        {isAuthenticated && (
-            <ListItem className={classes.addCategoryButton}>
-            <Button
-              variant="outlined"
-              size="small"
-              color="primary"
-              onClick={() => handleOpenDialog(<AddCategory handleCloseDialog={handleCloseDialog} />)}
-            >
-              Add new category
-            </Button>
-          </ListItem>
-          )}
-        <div className={classes.mainMenuContainer}>
-          {menu.map((category) => {
-            const { _id, mainMenu, subMenu } = category;
-
-            if (!_id || !mainMenu || !subMenu) {
-              return null;
-            }
-
-            return (
-              <div key={_id}>
-                <ListItem className={classes.mainMenuItem}>
-                  <ListItemText primary={mainMenu} />
-                  {isAuthenticated && (
-                    <div>
-                      <IconButton className={classes.iconButton} onClick={() => handleOpenDialog(<AddSubCategory mainCategory={mainMenu} handleCloseDialog={handleCloseDialog} />)}>
-                        <AddIcon />
-                      </IconButton>
-                      <IconButton className={classes.iconButton} onClick={() => handleOpenDialog(<DeleteCategory category={mainMenu} id={_id} handleCloseDialog={handleCloseDialog} />)}>
-                        <DeleteIcon />
-                      </IconButton>
-                    </div>
-                  )}
+        <Drawer anchor="top" open={isDrawerOpen} onClose={handleDrawerClose}>
+            {/* Knapp för att stänga menyn */}
+            <IconButton className={classes.closeMenuButton} onClick={handleDrawerClose}>
+                <CloseIcon />
+            </IconButton>
+            {/* Knapp för att lägga till en ny kategori */}
+            {isAuthenticated && (
+                <ListItem className={classes.addCategoryButton}>
+                    <Button
+                        variant="outlined"
+                        size="small"
+                        color="primary"
+                        onClick={() => handleOpenDialog(<AddCategory handleCloseDialog={handleCloseDialog} />)}
+                    >
+                        Add new category
+                    </Button>
                 </ListItem>
-                <List component="div" disablePadding>
-                  {subMenu.map((subItem, index) => {
-                    const subItemId = subItem ? subItem._id : '';
-                    const subItemText = subItem || '';
+            )}
+            <div className={classes.mainMenuContainer}>
+                {menu.map((category) => {
+                    const { _id, mainMenu, subMenu } = category;
+
+                    if (!_id || !mainMenu || !subMenu) {
+                        return null;
+                    }
 
                     return (
-                      <ListItem
-                        key={`${subItemId}-${index}`}
-                        button
-                        onClick={(e) => {
-                          listPlayer(e, mainMenu, subItem);
-                        }}
-                        className={classes.subMenuItem}
-                      >
-                        <ListItemText primary={subItemText} />
-                        {isAuthenticated && (
-                          <div>
-                            <IconButton className={classes.iconButton} onClick={() => handleOpenDialog(<DeleteSubCategory mainCategory={_id} subCategory={subItem} handleCloseDialog={handleCloseDialog} />)}>
-                              <DeleteIcon />
-                            </IconButton>
-                          </div>
-                        )}
-                      </ListItem>
+                        <div key={_id}>
+                            <ListItem className={classes.mainMenuItem}>
+                                <ListItemText primary={mainMenu} />
+                                {isAuthenticated && (
+                                    <div>
+                                        <IconButton className={classes.iconButton} onClick={() => handleOpenDialog(<AddSubCategory mainCategory={mainMenu} handleCloseDialog={handleCloseDialog} />)}>
+                                            <AddIcon />
+                                        </IconButton>
+                                        <IconButton className={classes.iconButton} onClick={() => handleOpenDialog(<DeleteCategory category={mainMenu} id={_id} handleCloseDialog={handleCloseDialog} />)}>
+                                            <DeleteIcon />
+                                        </IconButton>
+                                    </div>
+                                )}
+                            </ListItem>
+                            <List component="div" disablePadding>
+                                {subMenu.map((subItem, index) => {
+                                    const subItemId = subItem ? subItem._id : '';
+                                    const subItemText = subItem || '';
+
+                                    return (
+                                        <ListItem
+                                            key={`${subItemId}-${index}`}
+                                            button
+                                            onClick={(e) => listPlayer(e, mainMenu, subItem)}
+                                            className={classes.subMenuItem}
+                                        >
+                                            <ListItemText primary={subItemText} />
+                                            {isAuthenticated && (
+                                                <div>
+                                                    <IconButton className={classes.iconButton} onClick={() => handleOpenDialog(<DeleteSubCategory mainCategory={mainMenu} subCategory={subItem} handleCloseDialog={handleCloseDialog} />)}>
+                                                        <DeleteIcon />
+                                                    </IconButton>
+                                                </div>
+                                            )}
+                                        </ListItem>
+                                    );
+                                })}
+                            </List>
+                        </div>
                     );
-                  })}
-                </List>
-              </div>
-            );
-          })}
-        </div>
-      </Drawer>
-      <ScrollDialog open={openDialog} onClose={handleCloseDialog}>
-        {dialogContent}
-      </ScrollDialog>
+                })}
+            </div>
+        </Drawer>
+        <ScrollDialog open={openDialog} onClose={handleCloseDialog}>
+            {dialogContent}
+        </ScrollDialog>
     </div>
-  );
+ );
 };
 
 export default DrawerMenu;
