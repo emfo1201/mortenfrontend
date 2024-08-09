@@ -53,7 +53,11 @@ export const addPlayer = (player) => async (dispatch) => {
   };
 
   export const updatePlayer = (id, player) => async (dispatch) => {
-    console.log("cat: ", id)
+
+    for (let pair of player.entries()) {
+        console.log(`${pair[0]}: ${pair[1]}`);
+    }
+
     try {
         const { data } = await api.updatePlayer(id, player);
         dispatch({ type: UPDATE_PLAYER, payload: data });
