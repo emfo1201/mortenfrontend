@@ -56,6 +56,7 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
         // Hantera huvudkategorier
         const selectedMainCategories = player.category.map(cat => cat.main);
         setSelectedCategory(selectedMainCategories);
+        console.log("selectedMainCategories: ", selectedMainCategories)
         
         // Hantera underkategorier
         const updatedSelectedSubCategories = {};
@@ -68,6 +69,7 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
 
         setSelectedSubCategoriesByCategory(updatedSelectedSubCategories);
         setSelectedSubCategories(Object.values(updatedSelectedSubCategories).flat());
+        console.log("setSelectedSubCategoriesByCategory: ", updatedSelectedSubCategories);
     }
 }, [player]);
 
