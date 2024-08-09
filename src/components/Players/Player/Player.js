@@ -56,7 +56,7 @@ const Player = ({ player }) => {
         data.append('club', updatedPlayerData.club);
         data.append('infoEnglish', updatedPlayerData.infoEnglish);
         data.append('infoNorwegian', updatedPlayerData.infoNorwegian);
-        data.append('categories', JSON.stringify(updatedPlayerData.categories));
+        data.append('categories', JSON.stringify(updatedPlayerData.category));
 
         // Lägg till bilder i FormData
         updatedPlayerData.images.forEach((image, index) => {
