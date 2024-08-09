@@ -132,19 +132,19 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
   };
 
   const handleSubCategoryChange = (event) => {
-    const selectedSubCategoryValues = event.target.value;
+    const { value } = event.target;
+    const selectedSubCategoryValues = Array.isArray(value) ? value : [];
 
-    // Omvandla selectedSubCategoryValues till rätt format
     const formattedSubCategories = selectedSubCategoryValues.map(sub => ({
-        main: selectedCategory,  // `selectedCategory` ska vara den valda huvudkategorin
+        main: selectedCategory,
         sub: sub
     }));
 
-    // Uppdatera selectedSubCategoriesByCategory med en array av underkategorier
-    setSelectedSubCategoriesByCategory(prevState => ([
-        ...prevState, // Om du vill behålla tidigare underkategorier
-        ...formattedSubCategories
-    ]));
+    // Uppdatera selectedSubCategoriesByCategory med korrekt format
+    setSelectedSubCategoriesByCategory(prevState => ({
+        ...prevState,
+        [selectedCategory]: formattedSubCategories
+    }));
 
     // Uppdatera selectedSubCategories
     setSelectedSubCategories(selectedSubCategoryValues);
@@ -161,24 +161,22 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
-    console.log("selectedSubCategories: ", selectedSubCategories)
-    console.log("selectedSubCategoriesByCategory: ", selectedSubCategoriesByCategory)
-
-    // Förbered data för uppdatering
+    // Kontrollera att selectedSubCategoriesByCategory är en array
+    const categories = Object.values(selectedSubCategoriesByCategory).flat();
+    
     const updatedPlayerData = {
         ...playerData,
-        categories: selectedSubCategoriesByCategory, // Skicka som array av objekt
+        category: categories,  // Skicka som en array av kategorier
         images: existingImages.concat(imageFiles),
     };
 
-    console.log("updatedPlayerData: ", updatedPlayerData); // Verifiera datan som skickas
+    console.log("updatedPlayerData: ", updatedPlayerData);
 
     // Hantera formulärinlämning
     handleSubmit(updatedPlayerData);
-    handleCloseUpdatePlayer(false); // Stäng formuläret
+    handleCloseUpdatePlayer(false); // Stäng uppdateringsformulär
     clear(); // Rensa formulärdata
 };
-
 
   return (
     <form onSubmit={handleFormSubmit} encType="multipart/form-data">
