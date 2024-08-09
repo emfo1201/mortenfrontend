@@ -43,7 +43,8 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
 
   useEffect(() => {
     if (player) {
-        console.log("player: ", player.category);
+        console.log("main: ", player.category.main);
+        console.log("sub: ", player.category.sub);
         setPlayerData({
             name: player.name || '',
             club: player.club || '',
