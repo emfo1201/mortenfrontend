@@ -20,6 +20,8 @@ const AddNewPlayer = ({ handleOpenDialog, handleCloseDialog, openDialog }) => {
     data.append('infoEnglish', updatedPlayerData.infoEnglish);
     data.append('infoNorwegian', updatedPlayerData.infoNorwegian);
 
+    console.log("cat: ", updatedPlayerData.category)
+
     // Handle categories
     let categoriesToSend = [];
 

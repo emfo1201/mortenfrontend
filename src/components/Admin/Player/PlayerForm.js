@@ -61,10 +61,10 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
   
       // Hantera subkategorier
       const updatedSelectedSubCategories = [];
-      player.category.forEach((main, index) => {
+      player.category.forEach((main) => {
         updatedSelectedSubCategories.push({
           main: main,
-          sub: player.subCategory[index] || ''
+          sub: player.subCategory || ''
         });
       });
   
