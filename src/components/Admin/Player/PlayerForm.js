@@ -134,14 +134,18 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
   const handleSubCategoryChange = (event) => {
     const selectedSubCategoryValues = event.target.value;
   
-    // Update the selectedSubCategoriesByCategory object
+    // Uppdatera selectedSubCategoriesByCategory med rätt format
     setSelectedSubCategoriesByCategory({
       ...selectedSubCategoriesByCategory,
-      [selectedCategory]: selectedSubCategoryValues.map(sub => ({ main: selectedCategory, sub })),
+      [selectedCategory]: selectedSubCategoryValues.map(sub => ({
+        main: selectedCategory,
+        sub: sub
+      })),
     });
     
+    // Uppdatera selectedSubCategories med de valda underkategorierna
     setSelectedSubCategories(selectedSubCategoryValues);
-  };
+};
 
   // Function to clear form data
   const clear = () => {
