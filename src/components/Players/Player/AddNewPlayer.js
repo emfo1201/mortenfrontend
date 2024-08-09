@@ -45,7 +45,7 @@ const AddNewPlayer = ({ handleOpenDialog, handleCloseDialog, openDialog }) => {
     
     console.log("selectedCategoriesToSend:", selectedCategoriesToSend);
     
-    data.append('categories', categoriesToSend);
+    data.append('categories', JSON.stringify(categoriesToSend));
     
 
     // Add images
