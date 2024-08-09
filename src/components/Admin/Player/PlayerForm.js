@@ -192,13 +192,13 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
         {/* Grid item for category selection */}
         <Grid item xs={12} sm={6}>
         <CategorySelect
-          selectedCategory={selectedCategory}
-          showExistingCategories={!!player}
-          handleSelectChange={handleSelectChange}
-          menuData={menuData}
-          handleSubCategoryChange={handleSubCategoryChange} // Kolla så denna är rätt kopplad
-          selectedSubCategoryValues={selectedSubCategoriesByCategory[selectedCategory] || []}
-        />
+            selectedCategory={selectedCategory}
+            showExistingCategories={!!player}
+            handleSelectChange={handleSelectChange}
+            menuData={menuData}
+            handleSubCategoryChange={handleSubCategoryChange}
+            selectedSubCategoryValues={selectedSubCategories} // Kontrollera att den används här
+          />
         </Grid>
         {/* Grid item for image upload */}
         <Grid item xs={12} sm={6}>
