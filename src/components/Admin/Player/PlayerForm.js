@@ -43,7 +43,7 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
 
   useEffect(() => {
     if (player) {
-      console.log("player: ", player);
+      console.log("player: ", player.category);
       setPlayerData({
         name: player.name || '',
         club: player.club || '',
@@ -61,10 +61,10 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
   
       // Hantera subkategorier
       const updatedSelectedSubCategories = [];
-      player.category.forEach((main) => {
+      player.category.forEach((main, index) => {
         updatedSelectedSubCategories.push({
           main: main,
-          sub: player.subCategory || ''
+          sub: player.subCategory[index] || ''
         });
       });
   
@@ -163,21 +163,14 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
-    // Omvandla selectedSubCategoriesByCategory till rätt format
-    const formattedCategories = Object.entries(selectedSubCategoriesByCategory).flatMap(
-      ([mainCategory, subCategories]) => {
-        return subCategories.map(subCategory => ({
-          main: mainCategory,
-          sub: subCategory
-        }));
-      }
-    );
+    // Omvandla selectedSubCategoriesByCategory till en array
+    const flattenedCategories = Object.values(selectedSubCategoriesByCategory).flat();
 
     // Förbered data för uppdatering
     const updatedPlayerData = {
-      ...playerData,
-      category: [...playerData.category, ...formattedCategories],
-      images: existingImages.concat(imageFiles),
+        ...playerData,
+        categories: flattenedCategories, // Skicka som array
+        images: existingImages.concat(imageFiles),
     };
 
     console.log("updatedPlayerData: ", updatedPlayerData);

@@ -22,20 +22,23 @@ const Players = () => {
     const searchQuery = params.get('searchQuery');
 
     if (searchQuery) {
-      const [category, subCategory] = searchQuery.split(',');
-      const filtered = players.filter(player => player.category.includes(category) && player.subCategory.includes(subCategory));
-      setFilteredPlayers(filtered);
+        const [mainCategory, subCategory] = searchQuery.split(',');
+        const filtered = players.filter(player =>
+            player.category.some(cat => cat.main === mainCategory && cat.sub === subCategory)
+        );
+        setFilteredPlayers(filtered);
 
-      // Om inga matchande spelare hittades, gör en omdirigering till 404-sidan
-      if (filtered.length === 0 && !redirected && !isAuthenticated) {
-        setRedirected(true); // Ställ in redirected till true för att undvika ytterligare omdirigeringar
-        navigate('/404');
-      }
+        // Om inga matchande spelare hittades, gör en omdirigering till 404-sidan
+        if (filtered.length === 0 && !redirected && !isAuthenticated) {
+            setRedirected(true); // Ställ in redirected till true för att undvika ytterligare omdirigeringar
+            navigate('/404');
+        }
     } else {
-      // Om sökfrågan inte finns, visa alla spelare
-      setFilteredPlayers(players);
+        // Om sökfrågan inte finns, visa alla spelare
+        setFilteredPlayers(players);
     }
-  }, [isAuthenticated, search, players, navigate, redirected]);
+}, [isAuthenticated, search, players, navigate, redirected]);
+
 
   if (isLoading) {
     return <CircularProgress />;
