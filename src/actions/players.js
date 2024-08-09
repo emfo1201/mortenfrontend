@@ -55,7 +55,7 @@ export const addPlayer = (player) => async (dispatch) => {
   export const updatePlayer = (id, player) => async (dispatch) => {
 
     for (let pair of player.entries()) {
-        console.log(`${pair[0]}: ${pair[1]}`);
+        console.log("updatePlayer function: " + `${pair[0]}: ${pair[1]}`);
     }
 
     try {
