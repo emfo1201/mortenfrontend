@@ -163,18 +163,13 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
-    // Omvandla selectedSubCategoriesByCategory till en array
-    const flattenedCategories = Object.values(selectedSubCategoriesByCategory).flat();
-
-    console.log("selectedSubCategoriesByCategory: ", selectedSubCategoriesByCategory)
-    console.log("flatten: ", flattenedCategories)
-
     // Förbered data för uppdatering
     const updatedPlayerData = {
-        ...playerData,
-        categories: selectedSubCategoriesByCategory, // Skicka som array
-        images: existingImages.concat(imageFiles),
-    };
+      ...playerData,
+      category: [...playerData.category, ...Object.values(selectedSubCategoriesByCategory).flat()],
+      images: existingImages.concat(imageFiles),
+  };
+  
 
     console.log("updatedPlayerData: ", updatedPlayerData);
 
