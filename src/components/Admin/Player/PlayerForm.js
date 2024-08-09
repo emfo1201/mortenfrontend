@@ -43,41 +43,38 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
 
   useEffect(() => {
     if (player) {
-      console.log("player: ", player.category);
-      setPlayerData({
-        name: player.name || '',
-        club: player.club || '',
-        infoEnglish: player.infoEnglish || '',
-        infoNorwegian: player.infoNorwegian || '',
-        category: player.category || [],
-      });
-  
-      // Sätt selectedCategory som en ny array om det är en array
-      const newMainCategories = Array.from(new Set(player.category));
-      setSelectedCategory(newMainCategories);
-  
-      // Hantera bilder
-      setExistingImages(player.images);
-  
-      // Hantera subkategorier
-      const updatedSelectedSubCategories = [];
-      player.category.forEach((main, index) => {
-        updatedSelectedSubCategories.push({
-          main: main,
-          sub: player.subCategory[index] || ''
+        console.log("player: ", player.category);
+        setPlayerData({
+            name: player.name || '',
+            club: player.club || '',
+            infoEnglish: player.infoEnglish || '',
+            infoNorwegian: player.infoNorwegian || '',
+            category: player.category || [],
         });
-      });
-  
-      setSelectedSubCategoriesByCategory(prev => ({
-        ...prev,
-        ...updatedSelectedSubCategories.reduce((acc, { main, sub }) => {
-          if (!acc[main]) acc[main] = [];
-          acc[main].push(sub);
-          return acc;
-        }, {})
-      }));
+
+        // Hantera bilder
+        setExistingImages(player.images || []);
+
+        // Hantera subkategorier
+        const updatedSelectedSubCategories = [];
+        player.category.forEach(({ main, sub }) => {
+            updatedSelectedSubCategories.push({
+                main: main,
+                sub: sub || ''  // Hantera fall där sub kan vara undefined eller null
+            });
+        });
+
+        // Omvandla till en struktur där varje huvudkategori har en array av subkategorier
+        const updatedSelectedSubCategoriesByCategory = updatedSelectedSubCategories.reduce((acc, { main, sub }) => {
+            if (!acc[main]) acc[main] = [];
+            acc[main].push(sub);
+            return acc;
+        }, {});
+
+        setSelectedSubCategoriesByCategory(updatedSelectedSubCategoriesByCategory);
+        setSelectedSubCategories(Object.values(updatedSelectedSubCategoriesByCategory).flat());
     }
-  }, [player]);
+}, [player]);
 
   // Handle input change for player data fields
   const handleInputChange = (e) => {
