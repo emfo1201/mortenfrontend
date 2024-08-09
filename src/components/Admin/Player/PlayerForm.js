@@ -167,7 +167,7 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
     // Förbered data för uppdatering
     const updatedPlayerData = {
         ...playerData,
-        categories: flattenedCategories, // Skicka som array av objekt
+        categories: selectedSubCategoriesByCategory, // Skicka som array av objekt
         images: existingImages.concat(imageFiles),
     };
 
