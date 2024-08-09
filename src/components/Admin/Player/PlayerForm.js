@@ -137,19 +137,20 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
   };
   
   const handleSubCategoryChange = (event) => {
-    const selectedSubCategoryValues = event.target.value;
+    const { value } = event.target;
+    const newSubCategories = value;
   
-    // Se till att selectedCategory är en sträng när den används som nyckel
+    // Uppdatera subkategorier baserat på vald huvudkategori
     if (typeof selectedCategory === 'string') {
       setSelectedSubCategoriesByCategory(prev => ({
         ...prev,
-        [selectedCategory]: selectedSubCategoryValues
+        [selectedCategory]: newSubCategories,
       }));
     }
   
-    setSelectedSubCategories(selectedSubCategoryValues);
-  };
-  
+    // Uppdatera vald subkategori
+    setSelectedSubCategories(newSubCategories);
+  };  
   
   // Function to clear form data
   const clear = () => {
@@ -190,14 +191,14 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
         </Grid>
         {/* Grid item for category selection */}
         <Grid item xs={12} sm={6}>
-          <CategorySelect
-            selectedCategory={selectedCategory}
-            showExistingCategories={player ? true : false}
-            handleSelectChange={handleSelectChange}
-            menuData={menuData}
-            handleSubCategoryChange={(e) => handleSubCategoryChange(e, selectedCategory)}
-            selectedSubCategoryValues={selectedSubCategories}
-          />
+        <CategorySelect
+          selectedCategory={selectedCategory}
+          showExistingCategories={!!player}
+          handleSelectChange={handleSelectChange}
+          menuData={menuData}
+          handleSubCategoryChange={handleSubCategoryChange} // Kolla så denna är rätt kopplad
+          selectedSubCategoryValues={selectedSubCategoriesByCategory[selectedCategory] || []}
+        />
         </Grid>
         {/* Grid item for image upload */}
         <Grid item xs={12} sm={6}>
