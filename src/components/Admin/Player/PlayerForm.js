@@ -44,29 +44,32 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
 
   useEffect(() => {
     if (player) {
-      console.log("player: ", player);
-      setPlayerData({
-        name: player.name || '',
-        club: player.club || '',
-        infoEnglish: player.infoEnglish || '',
-        infoNorwegian: player.infoNorwegian || '',
-        category: player.category || [],
-      });
-  
-      setSelectedCategory(player.category.map(cat => cat.main));
-      setExistingImages(player.images);
-  
-      const updatedSelectedSubCategories = {};
-      player.category.forEach((cat, index) => {
-        if (!updatedSelectedSubCategories[cat.main]) {
-          updatedSelectedSubCategories[cat.main] = [];
-        }
-        updatedSelectedSubCategories[cat.main].push({ main: cat.main, sub: cat.sub });
-      });
-  
-      setSelectedSubCategoriesByCategory(updatedSelectedSubCategories);
+        console.log("player: ", player);
+        setPlayerData({
+            name: player.name || '',
+            club: player.club || '',
+            infoEnglish: player.infoEnglish || '',
+            infoNorwegian: player.infoNorwegian || '',
+            category: player.category || [],
+        });
+        
+        // Hantera huvudkategorier
+        const selectedMainCategories = player.category.map(cat => cat.main);
+        setSelectedCategory(selectedMainCategories);
+        
+        // Hantera underkategorier
+        const updatedSelectedSubCategories = {};
+        player.category.forEach((cat) => {
+            if (!updatedSelectedSubCategories[cat.main]) {
+                updatedSelectedSubCategories[cat.main] = [];
+            }
+            updatedSelectedSubCategories[cat.main].push(cat.sub);
+        });
+
+        setSelectedSubCategoriesByCategory(updatedSelectedSubCategories);
+        setSelectedSubCategories(Object.values(updatedSelectedSubCategories).flat());
     }
-  }, [player]);
+}, [player]);
 
   // Handle input change for player data fields
   const handleInputChange = (e) => {
@@ -177,14 +180,14 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
         </Grid>
         {/* Grid item for category selection */}
         <Grid item xs={12} sm={6}>
-          <CategorySelect
+        <CategorySelect
             selectedCategory={selectedCategory}
-            showExistingCategories={player ? true :false}
+            showExistingCategories={player ? true : false}
             handleSelectChange={handleSelectChange}
             menuData={menuData}
-            handleSubCategoryChange={(e) => handleSubCategoryChange(e, selectedCategory)}
+            handleSubCategoryChange={handleSubCategoryChange}
             selectedSubCategoryValues={selectedSubCategories}
-          />
+        />
         </Grid>
         {/* Grid item for image upload */}
         <Grid item xs={12} sm={6}>
