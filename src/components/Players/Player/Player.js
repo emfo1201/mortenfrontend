@@ -48,32 +48,24 @@ const Player = ({ player }) => {
 
     const handleSubmit = (updatedPlayerData) => {
         const data = new FormData();
-    
-        console.log("updatedPlayerData: ", updatedPlayerData);
-    
+
+        console.log("updatedPlayerData: ", updatedPlayerData)
+  
         // Lägg till spelarinformation i FormData
         data.append('name', updatedPlayerData.name);
         data.append('club', updatedPlayerData.club);
         data.append('infoEnglish', updatedPlayerData.infoEnglish);
         data.append('infoNorwegian', updatedPlayerData.infoNorwegian);
-    
-        // Lägg till kategorier i FormData som en JSON-sträng
         data.append('categories', JSON.stringify(updatedPlayerData.categories));
-    
+
         // Lägg till bilder i FormData
         updatedPlayerData.images.forEach((image, index) => {
-            // Om image är en fil, lägg till den i FormData
-            if (image instanceof File) {
-                data.append('images', image);
-            } else {
-                // Om image är en URL eller annan sträng, överväg att inte lägga till den till FormData
-                console.warn(`Skipping image ${image} as it is not a File object`);
-            }
+            data.append(`images`, image);
         });
-    
+  
         // Skicka FormData till servern med hjälp av Redux dispatch
         dispatch(updatePlayer(player._id, data));
-    };    
+    }; 
 
     return (
         <Card className={classes.card} raised elevation={6}>
