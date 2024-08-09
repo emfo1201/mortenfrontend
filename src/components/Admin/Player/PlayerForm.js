@@ -154,6 +154,9 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
+    console.log("selectedSubCategories: ", selectedSubCategories)
+    console.log("selectedSubCategoriesByCategory: ", selectedSubCategoriesByCategory)
+
     // Omvandla selectedSubCategoriesByCategory till en array av objekt
     const flattenedCategories = Object.values(selectedSubCategoriesByCategory).flat();
 
