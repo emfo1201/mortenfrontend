@@ -133,17 +133,20 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
 
   const handleSubCategoryChange = (event) => {
     const selectedSubCategoryValues = event.target.value;
-  
-    // Uppdatera selectedSubCategoriesByCategory med rätt format
-    setSelectedSubCategoriesByCategory({
-      ...selectedSubCategoriesByCategory,
-      [selectedCategory]: selectedSubCategoryValues.map(sub => ({
-        main: selectedCategory,
+
+    // Omvandla selectedSubCategoryValues till rätt format
+    const formattedSubCategories = selectedSubCategoryValues.map(sub => ({
+        main: selectedCategory,  // `selectedCategory` ska vara den valda huvudkategorin
         sub: sub
-      })),
-    });
-    
-    // Uppdatera selectedSubCategories med de valda underkategorierna
+    }));
+
+    // Uppdatera selectedSubCategoriesByCategory med en array av underkategorier
+    setSelectedSubCategoriesByCategory(prevState => ([
+        ...prevState, // Om du vill behålla tidigare underkategorier
+        ...formattedSubCategories
+    ]));
+
+    // Uppdatera selectedSubCategories
     setSelectedSubCategories(selectedSubCategoryValues);
 };
 
