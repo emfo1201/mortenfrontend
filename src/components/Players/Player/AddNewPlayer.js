@@ -34,8 +34,8 @@ const AddNewPlayer = ({ handleOpenDialog, handleCloseDialog, openDialog }) => {
     }
   }
 
-  console.log("main :", updatedPlayerData.category.main[0])
-  console.log("sub: ", updatedPlayerData.category.sub[0])
+  console.log("updatedPlayerData in addnewplayer: ", updatedPlayerData)
+  console.log("main :", updatedPlayerData.category)
 
   // Omvandla kategorier till det format du behöver och lägg till i FormData
   const selectedCategoriesToSend = categoriesToSend.map((subCategory) => ({
