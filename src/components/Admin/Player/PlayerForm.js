@@ -163,6 +163,7 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
+    console.log("selectedSubCategoriesByCategory: ", selectedSubCategoriesByCategory)
     // Förbered data för uppdatering
     const updatedPlayerData = {
       ...playerData,
