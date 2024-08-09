@@ -60,22 +60,26 @@ const DrawerMenu = ({ categories, isAuthenticated }) => {
 
   const filterCategories = useCallback((categories) => {
     const filteredCategories = categories.map(category => {
-      const subMenusWithPlayers = category.subMenu.filter(subMenu => {
-        return players.some(player => {
-          const matchCategory = player.category.includes(category.mainMenu);
-          const matchSubCategory = player.subCategory.includes(subMenu);
-          return matchCategory && matchSubCategory;
+        // Filtrera subkategori baserat på matchande spelare
+        const subMenusWithPlayers = category.subMenu.filter(subMenu => {
+            return players.some(player => {
+                // Kontrollera om spelaren har huvudkategori och subkategori som matchar
+                return player.category.some(cat => cat.main === category.mainMenu && cat.sub === subMenu);
+            });
         });
-      });
-      return { ...category, subMenu: subMenusWithPlayers };
-    }).filter(category => category.subMenu.length > 0 || category.subMenu === null);
 
-    return filteredCategories;
-  }, [players]);
+        return {
+            ...category,
+            subMenu: subMenusWithPlayers
+        };
+      }).filter(category => category.subMenu.length > 0);
 
-  useEffect(() => {
-    setMenu(isAuthenticated ? categories : filterCategories(categories));
-  }, [categories, filterCategories, isAuthenticated]);
+      return filteredCategories;
+    }, [players]);
+
+    useEffect(() => {
+      setMenu(isAuthenticated ? categories : filterCategories(categories));
+    }, [categories, filterCategories, isAuthenticated]);
 
   useEffect(() => {
   }, [players]);
@@ -100,10 +104,14 @@ const DrawerMenu = ({ categories, isAuthenticated }) => {
   const listPlayer = (e, mainMenu, sub) => {
     e.preventDefault();
     const categories = [mainMenu, sub];
-    const selectedPlayer = players.find(player => player.category.includes(mainMenu) && player.subCategory.includes(sub));
+
+    // Hitta spelare som matchar huvudkategori och subkategori
+    const selectedPlayer = players.find(player =>
+        player.category.some(cat => cat.main === mainMenu && cat.sub === sub)
+    );
 
     if (!selectedPlayer) {
-      dispatch(getPlayers({ name: categories.join(',') }));
+        dispatch(getPlayers({ name: categories.join(',') }));
     }
 
     history(`/players/search?searchQuery=${categories.join(',')}`, { redirect: true });
