@@ -151,27 +151,27 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
     setImagesToDelete([]);
   };
 
-  // Handle form submission
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
-    // Omvandla selectedSubCategoriesByCategory till en array
+    // Omvandla selectedSubCategoriesByCategory till en array av objekt
     const flattenedCategories = Object.values(selectedSubCategoriesByCategory).flat();
 
     // Förbered data för uppdatering
     const updatedPlayerData = {
         ...playerData,
-        categories: flattenedCategories, // Skicka som array
+        categories: flattenedCategories, // Skicka som array av objekt
         images: existingImages.concat(imageFiles),
     };
 
-    console.log("updatedPlayerData: ", updatedPlayerData);
+    console.log("updatedPlayerData: ", updatedPlayerData); // Verifiera datan som skickas
 
     // Hantera formulärinlämning
     handleSubmit(updatedPlayerData);
     handleCloseUpdatePlayer(false); // Stäng formuläret
     clear(); // Rensa formulärdata
 };
+
 
   return (
     <form onSubmit={handleFormSubmit} encType="multipart/form-data">
