@@ -166,6 +166,9 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
     // Omvandla selectedSubCategoriesByCategory till en array
     const flattenedCategories = Object.values(selectedSubCategoriesByCategory).flat();
 
+    console.log("selectedSubCategoriesByCategory: ", selectedSubCategoriesByCategory)
+    console.log("flatten: ", flattenedCategories)
+
     // Förbered data för uppdatering
     const updatedPlayerData = {
         ...playerData,
