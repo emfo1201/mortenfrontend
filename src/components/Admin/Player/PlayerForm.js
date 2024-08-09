@@ -15,7 +15,6 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
   const [selectedSubCategories, setSelectedSubCategories] = useState([]);
   const [selectedSubCategoriesByCategory, setSelectedSubCategoriesByCategory] = useState({});
   const [existingImages, setExistingImages] = useState([]);
-  const [imagesToDelete, setImagesToDelete] = useState([]);
   const [menuData, setMenuData] = useState({
     categories: [],
     subCategories: {},
@@ -44,34 +43,41 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
 
   useEffect(() => {
     if (player) {
-        console.log("player: ", player);
-        setPlayerData({
-            name: player.name || '',
-            club: player.club || '',
-            infoEnglish: player.infoEnglish || '',
-            infoNorwegian: player.infoNorwegian || '',
-            category: player.category || [],
+      console.log("player: ", player.category);
+      setPlayerData({
+        name: player.name || '',
+        club: player.club || '',
+        infoEnglish: player.infoEnglish || '',
+        infoNorwegian: player.infoNorwegian || '',
+        category: player.category || [],
+      });
+  
+      // Sätt selectedCategory som en ny array om det är en array
+      const newMainCategories = Array.from(new Set(player.category));
+      setSelectedCategory(newMainCategories);
+  
+      // Hantera bilder
+      setExistingImages(player.images);
+  
+      // Hantera subkategorier
+      const updatedSelectedSubCategories = [];
+      player.category.forEach((main, index) => {
+        updatedSelectedSubCategories.push({
+          main: main,
+          sub: player.subCategory[index] || ''
         });
-        
-        // Hantera huvudkategorier
-        const selectedMainCategories = player.category.map(cat => cat.main);
-        setSelectedCategory(selectedMainCategories);
-        console.log("selectedMainCategories: ", player.category)
-        
-        // Hantera underkategorier
-        const updatedSelectedSubCategories = {};
-        player.category.forEach((cat) => {
-            if (!updatedSelectedSubCategories[cat.main]) {
-                updatedSelectedSubCategories[cat.main] = [];
-            }
-            updatedSelectedSubCategories[cat.main].push(cat.sub);
-        });
-
-        setSelectedSubCategoriesByCategory(updatedSelectedSubCategories);
-        setSelectedSubCategories(Object.values(updatedSelectedSubCategories).flat());
-        console.log("setSelectedSubCategoriesByCategory: ", player.subCategory);
+      });
+  
+      setSelectedSubCategoriesByCategory(prev => ({
+        ...prev,
+        ...updatedSelectedSubCategories.reduce((acc, { main, sub }) => {
+          if (!acc[main]) acc[main] = [];
+          acc[main].push(sub);
+          return acc;
+        }, {})
+      }));
     }
-}, [player]);
+  }, [player]);
 
   // Handle input change for player data fields
   const handleInputChange = (e) => {
@@ -108,9 +114,8 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
   const handleRemoveImage = (index) => {
     if (index < existingImages.length) {
       const updatedExistingImages = [...existingImages];
-      const [removedImage] = updatedExistingImages.splice(index, 1);
+      updatedExistingImages.splice(index, 1);
       setExistingImages(updatedExistingImages);
-      setImagesToDelete([...imagesToDelete, removedImage]);
     } else {
       const updatedFiles = [...imageFiles];
       const updatedPreviews = [...imagePreviews];
@@ -130,43 +135,40 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
       fileInput.value = '';
     }
   };
-
+  
   const handleSubCategoryChange = (event) => {
-    const { value } = event.target;
-    const selectedSubCategoryValues = Array.isArray(value) ? value : [];
-
-    const formattedSubCategories = selectedSubCategoryValues.map(sub => ({
-        main: selectedCategory,
-        sub: sub
-    }));
-
-    // Uppdatera selectedSubCategoriesByCategory med korrekt format
-    setSelectedSubCategoriesByCategory(prevState => ({
-        ...prevState,
-        [selectedCategory]: formattedSubCategories
-    }));
-
-    // Uppdatera selectedSubCategories
+    const selectedSubCategoryValues = event.target.value;
+  
+    // Se till att selectedCategory är en sträng när den används som nyckel
+    if (typeof selectedCategory === 'string') {
+      setSelectedSubCategoriesByCategory(prev => ({
+        ...prev,
+        [selectedCategory]: selectedSubCategoryValues
+      }));
+    }
+  
     setSelectedSubCategories(selectedSubCategoryValues);
-};
-
+  };
+  
+  
   // Function to clear form data
   const clear = () => {
     setPlayerData({ name: '', club: '', infoEnglish: '', infoNorwegian: '', category: '' });
     setImageFiles([]);
     setImagePreviews([]);
-    setImagesToDelete([]);
   };
 
+  // Handle form submission
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
-    // Kontrollera att selectedSubCategoriesByCategory är en array
-    const categories = Object.values(selectedSubCategoriesByCategory).flat();
-    
+    // Omvandla selectedSubCategoriesByCategory till en array
+    const flattenedCategories = Object.values(selectedSubCategoriesByCategory).flat();
+
+    // Förbered data för uppdatering
     const updatedPlayerData = {
         ...playerData,
-        category: categories,  // Skicka som en array av kategorier
+        categories: flattenedCategories, // Skicka som array
         images: existingImages.concat(imageFiles),
     };
 
@@ -174,7 +176,7 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
 
     // Hantera formulärinlämning
     handleSubmit(updatedPlayerData);
-    handleCloseUpdatePlayer(false); // Stäng uppdateringsformulär
+    handleCloseUpdatePlayer(false); // Stäng formuläret
     clear(); // Rensa formulärdata
 };
 
@@ -188,14 +190,14 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
         </Grid>
         {/* Grid item for category selection */}
         <Grid item xs={12} sm={6}>
-        <CategorySelect
+          <CategorySelect
             selectedCategory={selectedCategory}
             showExistingCategories={player ? true : false}
             handleSelectChange={handleSelectChange}
             menuData={menuData}
-            handleSubCategoryChange={handleSubCategoryChange}
+            handleSubCategoryChange={(e) => handleSubCategoryChange(e, selectedCategory)}
             selectedSubCategoryValues={selectedSubCategories}
-        />
+          />
         </Grid>
         {/* Grid item for image upload */}
         <Grid item xs={12} sm={6}>
