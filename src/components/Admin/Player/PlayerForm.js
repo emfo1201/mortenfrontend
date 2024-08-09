@@ -155,22 +155,23 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
-    console.log("selected category: ", selectedSubCategoriesByCategory);
+    // Omvandla selectedSubCategoriesByCategory till en array
+    const flattenedCategories = Object.values(selectedSubCategoriesByCategory).flat();
 
-    // Prepare updated player data
+    // Förbered data för uppdatering
     const updatedPlayerData = {
-      ...playerData,
-      category: Object.values(selectedSubCategoriesByCategory).flat(), // Flatten nested arrays to a single array
-      images: existingImages.concat(imageFiles),
-      imagesToDelete,
+        ...playerData,
+        categories: flattenedCategories, // Skicka som array
+        images: existingImages.concat(imageFiles),
     };
 
     console.log("updatedPlayerData: ", updatedPlayerData);
-    // Handle form submission
+
+    // Hantera formulärinlämning
     handleSubmit(updatedPlayerData);
-    handleCloseUpdatePlayer(false); // Close player update form
-    clear(); // Clear form data
-  };
+    handleCloseUpdatePlayer(false); // Stäng formuläret
+    clear(); // Rensa formulärdata
+};
 
   return (
     <form onSubmit={handleFormSubmit} encType="multipart/form-data">
