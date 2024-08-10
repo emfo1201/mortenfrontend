@@ -48,24 +48,28 @@ const Player = ({ player }) => {
 
     const handleSubmit = (updatedPlayerData) => {
         const data = new FormData();
-
-        console.log("updatedPlayerData: ", updatedPlayerData)
-  
-        // Lägg till spelarinformation i FormData
+    
+        console.log("updatedPlayerData: ", updatedPlayerData);
+    
         data.append('name', updatedPlayerData.name);
         data.append('club', updatedPlayerData.club);
         data.append('infoEnglish', updatedPlayerData.infoEnglish);
         data.append('infoNorwegian', updatedPlayerData.infoNorwegian);
-        data.append('categories', JSON.stringify(updatedPlayerData.category));
-
-        // Lägg till bilder i FormData
+        
+        updatedPlayerData.categories.forEach((category, index) => {
+            if (category._id) {
+                data.append(`categories[${index}][_id]`, category._id);
+            }
+            data.append(`categories[${index}][main]`, category.main);
+            data.append(`categories[${index}][sub]`, category.sub);
+        });
+    
         updatedPlayerData.images.forEach((image, index) => {
             data.append(`images`, image);
         });
-  
-        // Skicka FormData till servern med hjälp av Redux dispatch
+    
         dispatch(updatePlayer(player._id, data));
-    }; 
+    };    
 
     return (
         <Card className={classes.card} raised elevation={6}>
