@@ -56,12 +56,12 @@ const Player = ({ player }) => {
         data.append('infoEnglish', updatedPlayerData.infoEnglish);
         data.append('infoNorwegian', updatedPlayerData.infoNorwegian);
         
-        updatedPlayerData.categories.forEach((category, index) => {
-            if (category._id) {
-                data.append(`categories[${index}][_id]`, category._id);
+        updatedPlayerData.category.forEach((categories, index) => {
+            if (categories._id) {
+                data.append(`categories[${index}][_id]`, categories._id);
             }
-            data.append(`categories[${index}][main]`, category.main);
-            data.append(`categories[${index}][sub]`, category.sub);
+            data.append(`categories[${index}][main]`, categories.main);
+            data.append(`categories[${index}][sub]`, categories.sub);
         });
     
         updatedPlayerData.images.forEach((image, index) => {
