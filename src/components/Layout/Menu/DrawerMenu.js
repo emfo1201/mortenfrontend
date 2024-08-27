@@ -49,37 +49,35 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const DrawerMenu = ({ categories, isAuthenticated }) => {
-  const classes = useStyles();
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [menu, setMenu] = useState([]);
-  const [openDialog, setOpenDialog] = useState(false);
-  const [dialogContent, setDialogContent] = useState(null);
-  const dispatch = useDispatch();
-  const history = useNavigate();
-  const players = useSelector((state) => state.players.players);
-
-  const filterCategories = useCallback((categories) => {
-    const filteredCategories = categories.map(category => {
-        // Filtrera subkategori baserat på matchande spelare
-        const subMenusWithPlayers = category.subMenu.filter(subMenu => {
-            return players.some(player => {
-                // Kontrollera om spelaren har huvudkategori och subkategori som matchar
-                return player.category.some(cat => cat.main === category.mainMenu && cat.sub === subMenu);
-            });
-        });
-
+    const classes = useStyles();
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const [menu, setMenu] = useState([]);
+    const [openDialog, setOpenDialog] = useState(false);
+    const [dialogContent, setDialogContent] = useState(null);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const players = useSelector((state) => state.players.players); // Alla spelare
+  
+    const filterCategories = useCallback((categories) => {
+      const filteredCategories = categories.map(category => {
+        const subMenusWithPlayers = category.subMenu.filter(subMenu => 
+          players.some(player => 
+            player.category.some(cat => cat.main === category.mainMenu && cat.sub === subMenu)
+          )
+        );
+  
         return {
-            ...category,
-            subMenu: subMenusWithPlayers
+          ...category,
+          subMenu: subMenusWithPlayers
         };
       }).filter(category => category.subMenu.length > 0);
-
+  
       return filteredCategories;
     }, [players]);
-
+  
     useEffect(() => {
       setMenu(isAuthenticated ? categories : filterCategories(categories));
-    }, [categories, filterCategories, isAuthenticated]);
+    }, [categories, filterCategories, isAuthenticated, players]);
 
   useEffect(() => {
   }, [players]);
@@ -110,11 +108,7 @@ const DrawerMenu = ({ categories, isAuthenticated }) => {
         player.category.some(cat => cat.main === mainMenu && cat.sub === sub)
     );
 
-    if (!selectedPlayer) {
-        dispatch(getPlayers({ name: categories.join(',') }));
-    }
-
-    history(`/players/search?searchQuery=${categories.join(',')}`, { redirect: true });
+    navigate(`/players/listPlayers?key=${categories.join(',')}&page=1`, { redirect: true });
     handleDrawerClose();
   };
 

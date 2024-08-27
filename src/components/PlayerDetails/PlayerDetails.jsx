@@ -1,29 +1,36 @@
-import React, { useEffect } from 'react'
-import { Paper, Typography, CircularProgress, Divider } from '@material-ui/core/'
-import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
-import { getPlayerById } from "../../actions/players"
-import useStyles from './styles'
+import React, { useState, useEffect, useRef } from 'react';
+import { Paper, Typography, CircularProgress, Divider, useTheme, useMediaQuery, Dialog, IconButton } from '@material-ui/core';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { getPlayerById } from "../../actions/players";
+import useStyles from './styles';
 import ImageList from "@material-ui/core/ImageList";
-import ImageListItem from "@material-ui/core/ImageListItem"
-import ArrowBackIcon from '@material-ui/icons/ArrowBack'
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
-import DialogContent from "@material-ui/core/DialogContent/DialogContent";
-import Dialog from "@material-ui/core/Dialog/Dialog";
+import ImageListItem from "@material-ui/core/ImageListItem";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import CloseIcon from '@material-ui/icons/Close';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
 
 const Player = () => {
-    const { player, isLoading } = useSelector((state) => state.players)
-    const [open, setOpen] = React.useState(false);
-    const [scroll] = React.useState('body');
-    const dispatch = useDispatch()
-    const classes = useStyles()
-    const { id } = useParams()
+    const { player, isLoading } = useSelector((state) => state.players);
+    const [open, setOpen] = useState(false);
+    const [cardImageIndex, setCardImageIndex] = useState(0);
+    const [dialogImageIndex, setDialogImageIndex] = useState(0);
+    const swiperRef = useRef(null); // Referens till Swiper-komponenten
+    const dispatch = useDispatch();
+    const classes = useStyles();
+    const { id } = useParams();
+
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm')); 
 
     useEffect(() => {
-        dispatch(getPlayerById(id))
-    }, [dispatch, id])
+        dispatch(getPlayerById(id));
+    }, [dispatch, id]);
 
-    const handleClickOpen = () => {
+    const handleClickOpen = (index) => {
+        setDialogImageIndex(index);
         setOpen(true);
     };
 
@@ -31,57 +38,57 @@ const Player = () => {
         setOpen(false);
     };
 
-    const descriptionElementRef = React.useRef(null);
-    React.useEffect(() => {
-        if (open) {
-            const { current: descriptionElement } = descriptionElementRef;
-            if (descriptionElement !== null) {
-                descriptionElement.focus();
-            }
+    const handleImageClick = (index) => {
+        setCardImageIndex(index);
+    };
+
+    const handleNextImage = () => {
+        if (swiperRef.current && swiperRef.current.swiper) {
+            swiperRef.current.swiper.slideNext(); // Byter till nästa bild
         }
-    }, [open])
+    };
+
+    const handlePreviousImage = () => {
+        if (swiperRef.current && swiperRef.current.swiper) {
+            swiperRef.current.swiper.slidePrev(); // Byter till föregående bild
+        }
+    };
 
     if (!player) {
-        return null }
+        return null;
+    }
 
     if (isLoading) {
         return (
             <Paper elevation={6} className={classes.loadingPaper}>
                 <CircularProgress size="7em" />
             </Paper>
-        )
+        );
     }
 
     return (
         <Paper className={classes.paper} elevation={6}>
-            <div style={{ display: 'flex', justifyContent: "space-between", width: '100%'}}>
-                <ArrowBackIcon/>
-                <ArrowForwardIcon/>
+            <div style={{ display: 'flex', justifyContent: "space-between", width: '100%' }}>
+                <ArrowBackIcon />
+                <ArrowForwardIcon />
             </div>
             <div className={classes.card}>
                 <div>
                     <ImageList rowHeight={160} className={classes.imageList1} cols={1}>
-                        {player.images.map((item) => (
-                            <ImageListItem key={item} cols={1}>
-                                <img src={item} alt={item._id} />
+                        {player.images.map((item, index) => (
+                            <ImageListItem key={item} cols={1} onClick={() => handleImageClick(index)}>
+                                <img src={item} alt={`image-${index}`} />
                             </ImageListItem>
                         ))}
                     </ImageList>
                 </div>
                 <div className={classes.imageSection}>
-                    <img className={classes.media} src={player.images[0] || "http://localhost:5000/images/1627834412100--brad.jpg"} alt={player.name}
-                    onClick={handleClickOpen}/>
-                    <Dialog
-                        open={open}
-                        onClose={handleClose}
-                        scroll={scroll}
-                        aria-labelledby="scroll-dialog-title"
-                        aria-describedby="scroll-dialog-description"
-                    >
-                        <DialogContent dividers={scroll === 'paper'}>
-                            <img src={player.images[0] || "http://localhost:5000/images/1627834412100--brad.jpg"} alt={player.name}/>
-                        </DialogContent>
-                    </Dialog>
+                    <img
+                        className={classes.media}
+                        src={player.images[cardImageIndex]}
+                        alt={player.name}
+                        onClick={() => handleClickOpen(cardImageIndex)}
+                    />
                 </div>
                 <div className={classes.section}>
                     <Typography variant="h4" component="h4">{player.name}</Typography>
@@ -93,17 +100,70 @@ const Player = () => {
             <Divider style={{ margin: '20px 0' }} />
             <div>
                 <ImageList className={classes.imageList} cols={2.5}>
-                    { player.images.map((item) => (
+                    {player.images.map((item, index) => (
                         <ImageListItem key={item}>
-                            <img src={item} alt={item._id} />
+                            <img src={item} alt={`image-${index}`} onClick={() => handleClickOpen(index)} />
                         </ImageListItem>
                     ))}
                 </ImageList>
-
-
             </div>
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                PaperProps={{
+                    style: {
+                        width: isMobile ? '90%' : '40%',
+                        maxWidth: 'none',
+                        height: '80%',
+                        maxHeight: '80%',
+                        margin: 0,
+                        padding: 0,
+                        border: 'none',
+                    },
+                }}
+            >
+                <div className={classes.swiperContainer}>
+                    <IconButton
+                        className={`${classes.iconButton} ${classes.closeIconButton}`}
+                        onClick={handleClose}
+                    >
+                        <CloseIcon />
+                    </IconButton>
+                    <Swiper
+                        ref={swiperRef}
+                        spaceBetween={0}
+                        slidesPerView={1}
+                        initialSlide={dialogImageIndex}
+                        loop={true}
+                        style={{ width: '100%', height: '100%' }}
+                        onSlideChange={(swiper) => setDialogImageIndex(swiper.activeIndex)}
+                    >
+                        {player.images.map((item, index) => (
+                            <SwiperSlide key={item} className={classes.swiperSlide}>
+                                <img
+                                    src={item}
+                                    alt={`image-${index}`}
+                                    className={classes.swiperImage}
+                                />
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
+                    <IconButton
+                        className={`${classes.iconButton} ${classes.prevIconButton}`}
+                        onClick={handlePreviousImage}
+                    >
+                        <ArrowBackIcon fontSize="large" />
+                    </IconButton>
+                    <IconButton
+                        className={`${classes.iconButton} ${classes.nextIconButton}`}
+                        onClick={handleNextImage}
+                    >
+                        <ArrowForwardIcon fontSize="large" />
+                    </IconButton>
+                </div>
+            </Dialog>
         </Paper>
-    )
+    );
 };
 
-export default Player
+export default Player;

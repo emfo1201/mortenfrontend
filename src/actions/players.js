@@ -1,24 +1,26 @@
 import * as api from '../api'
-import { START_LOADING, END_LOADING, FETCH_PLAYERS, FETCH_PLAYER, FETCH_PLAYER_DETAILS, DELETE_PLAYER, ADD_PLAYER, UPDATE_PLAYER } from "../constants/actionTypes";
+import { START_LOADING, END_LOADING, FETCH_PLAYERS, FETCH_PLAYERS_BY_SEARCH, FETCH_PLAYER_DETAILS, DELETE_PLAYER, ADD_PLAYER, UPDATE_PLAYER } from "../constants/actionTypes";
 
 export const getPlayer = () => async (dispatch) => {
     try {
         dispatch({ type: START_LOADING })
         const { data } = await api.getPlayer()
-        dispatch({ type: FETCH_PLAYER, payload: data })
+        dispatch({ type: FETCH_PLAYERS, payload: data })
         dispatch({ type: END_LOADING })
     } catch(error) {
         console.log(error.message)
     }
 };
 
-export const getPlayers = (searchQuery) => async (dispatch) => {
+export const getPlayers = (key, page) => async (dispatch) => {
+    console.log("key: ", key, " page: ", page)
     try {
-        dispatch({ type: START_LOADING })
-        const { data: { data } } = await api.getPlayers(searchQuery)
+        dispatch({ type: START_LOADING });
+        const { data } = await api.getPlayers({ key, page });
+        console.log("data: ", data)
 
-        dispatch({ type: FETCH_PLAYERS, payload: data })
-        dispatch({ type: END_LOADING })
+        dispatch({ type: FETCH_PLAYERS_BY_SEARCH, payload: data });
+        dispatch({ type: END_LOADING });
     } catch (error) {
         console.log(error);
     }
@@ -30,6 +32,18 @@ export const getPlayerById = (id) => async (dispatch) => {
         const { data } = await api.getPlayerById(id)
         dispatch({ type: FETCH_PLAYER_DETAILS, payload: data })
         dispatch({ type: END_LOADING })
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const getPlayersBySearch = (searchQuery, page) => async (dispatch) => {
+    try {
+        dispatch({ type: START_LOADING });
+        const { data: { data } } = await api.getPlayersBySearch({ searchQuery, page });
+
+        dispatch({ type: FETCH_PLAYERS_BY_SEARCH, payload: data });
+        dispatch({ type: END_LOADING });
     } catch (error) {
         console.log(error);
     }
@@ -53,11 +67,7 @@ export const addPlayer = (player) => async (dispatch) => {
   };
 
   export const updatePlayer = (id, player) => async (dispatch) => {
-
-    for (let pair of player.entries()) {
-        console.log(`${pair[0]}: ${pair[1]}`);
-    }
-
+    console.log("cat: ", id)
     try {
         const { data } = await api.updatePlayer(id, player);
         dispatch({ type: UPDATE_PLAYER, payload: data });

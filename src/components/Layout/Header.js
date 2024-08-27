@@ -15,11 +15,12 @@ import { useAuth } from '../Auth/AuthContext';
 
 const Header = () => {
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
   const category = useSelector((state) => state.menus);
   const classes = useStyles();
   const navigate = useNavigate();
   const location = useLocation();
-  const { isAuthenticated, logout } = useAuth(); // Använd logout från AuthContext
+  const { isAuthenticated, logout } = useAuth();
 
   useEffect(() => {
     setTimeout(() => {
@@ -28,35 +29,45 @@ const Header = () => {
   }, []);
 
   useEffect(() => {
-    console.log("is auth: ", isAuthenticated)
-    // Uppdatera komponenten när autentiseringstillståndet ändras
-    setLoading(true); // Ställ in loading till true för att visa laddningsindikator
+    setLoading(true);
     setTimeout(() => {
-      setLoading(false); // Ställ tillbaka loading till false efter en kort fördröjning
-    }, 1000); // Justera vid behov
-  }, [isAuthenticated]); // Lyssna på förändringar i isAuthenticated
+      setLoading(false);
+    }, 1000);
+  }, [isAuthenticated]);
 
-  useEffect(() => {
-  }, [category]);
+  const searchPlayer = () => {
+    if (search.trim()) {
+      // Navigate to the players page with searchQuery parameter
+      navigate(`/players/search?searchQuery=${search}&page=1`);
+    } else {
+      navigate('/');
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.keyCode === 13) {
+      searchPlayer();
+    }
+  };
 
   const handleLogout = (e) => {
     e.preventDefault();
     logout();
     navigate('/');
-  }
+  };
 
   if (loading) {
     return <p>Loading...</p>;
   }
 
   const menuItems = isAuthenticated ? category : category.filter((menu) => menu.subMenu.length > 0);
-  
+
   return (
     <div className={classes.root}>
       <AppBar position="static" className={location.pathname === '/' ? classes.transparentBackground : classes.blackBackground}>
         <div className={classes.appBar}>
           <Toolbar component="div">
-          <DrawerMenu categories={menuItems} isAuthenticated={isAuthenticated} />
+            <DrawerMenu categories={menuItems} isAuthenticated={isAuthenticated} />
             <Typography variant="h6" color="inherit" className={classes.title} component={Link} to="./../">
               Norsk Fotballdraktmuseum
             </Typography>
@@ -71,11 +82,14 @@ const Header = () => {
                   input: classes.inputInput,
                 }}
                 inputProps={{ 'aria-label': 'search' }}
+                value={search}
+                onKeyDown={handleKeyPress}
+                onChange={(e) => setSearch(e.target.value)}
               />
             </div>
             <LanguageToggle />
             {isAuthenticated && (
-              <Button onClick={(e) => {handleLogout(e)}} className={classes.logoutButton} color="inherit">
+              <Button onClick={handleLogout} className={classes.logoutButton} color="inherit">
                 Logout
               </Button>
             )}

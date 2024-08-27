@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export default makeStyles((theme) => ({
     paper: {
-        paddingTop: '2rem', 
+        paddingTop: '2rem',
         paddingBottom: '2rem',
         borderRadius: '0px',
     },
@@ -11,8 +11,7 @@ export default makeStyles((theme) => ({
         objectFit: 'cover',
         width: '100%',
         maxWidth: '300px',
-        maxHeight: '500px'
-
+        maxHeight: '500px',
     },
     card: {
         display: 'flex',
@@ -41,7 +40,12 @@ export default makeStyles((theme) => ({
         },
     },
     loadingPaper: {
-        display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px', borderRadius: '15px', height: '39vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '20px',
+        borderRadius: '15px',
+        height: '39vh',
     },
     root: {
         display: 'flex',
@@ -52,19 +56,53 @@ export default makeStyles((theme) => ({
     },
     imageList: {
         flexWrap: 'nowrap',
-        // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
         transform: 'translateZ(0)',
     },
     imageList1: {
         width: 200,
         maxHeight: '500px',
-        paddingRight: 20
+        paddingRight: 20,
     },
     title: {
         color: theme.palette.primary.light,
     },
     titleBar: {
-        background:
-            'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+        background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
     },
-}))
+    swiperContainer: {
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        position: 'relative',
+        overflow: 'hidden',
+    },
+    swiperSlide: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        height: '100%',
+    },
+    swiperImage: {
+        width: '100%',
+        height: '100%',
+        objectFit: 'cover',
+    },    
+    iconButton: {
+        position: 'absolute',
+        top: '50%',
+        transform: 'translateY(-50%)',
+        zIndex: 1000,
+    },
+    closeIconButton: {
+        top: 10,
+        right: 10,
+    },
+    prevIconButton: {
+        left: 10,
+    },
+    nextIconButton: {
+        right: 10,
+    },
+}));

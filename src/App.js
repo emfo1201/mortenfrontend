@@ -7,6 +7,7 @@ import Home from './components/Home';
 import PageNotFound from './components/PageNotFound';
 import Players from './components/Players/Players';
 import PlayerDetails from './components/PlayerDetails/PlayerDetails';
+import './i18n';
 import { useDispatch } from "react-redux";
 import { getCategory } from "./actions/menu";
 import { getPlayer } from "./actions/players";
@@ -26,6 +27,7 @@ function App() {
                     <Route exact path="/" element={<Home />} />
                     <Route exact path="/login" element={<Login />} />
                     <Route exact path="/players/:category,:subCategory" element={<Players />} />
+                    <Route exact path="/players/listPlayers" element={<Players />} />
                     <Route exact path="/players/search" element={<Players />} />
                     <Route exact path="/players/:id" element={<PlayerDetails />} />
                     <Route path="*" element={<PageNotFound />} />
