@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -12,7 +12,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import MenuIcon from '@material-ui/icons/Menu';
 import { makeStyles } from '@material-ui/core/styles';
-import { getPlayers } from '../../../actions/players';
 import AddCategory from '../../Admin/Category/AddCategory';
 import AddSubCategory from '../../Admin/Category/AddSubCategory';
 import DeleteCategory from '../../Admin/Category/DeleteCategory';
@@ -54,7 +53,6 @@ const DrawerMenu = ({ categories, isAuthenticated }) => {
     const [menu, setMenu] = useState([]);
     const [openDialog, setOpenDialog] = useState(false);
     const [dialogContent, setDialogContent] = useState(null);
-    const dispatch = useDispatch();
     const navigate = useNavigate();
     const players = useSelector((state) => state.players.players); // Alla spelare
   
@@ -102,11 +100,6 @@ const DrawerMenu = ({ categories, isAuthenticated }) => {
   const listPlayer = (e, mainMenu, sub) => {
     e.preventDefault();
     const categories = [mainMenu, sub];
-
-    // Hitta spelare som matchar huvudkategori och subkategori
-    const selectedPlayer = players.find(player =>
-        player.category.some(cat => cat.main === mainMenu && cat.sub === sub)
-    );
 
     navigate(`/players/listPlayers?key=${categories.join(',')}&page=1`, { redirect: true });
     handleDrawerClose();

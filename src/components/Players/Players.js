@@ -10,7 +10,6 @@ import { useAuth } from '../Auth/AuthContext';
 
 function useQuery() {
   const location = useLocation();
-  console.log("useQuery")
   
   // Använd useMemo för att bara skapa en ny URLSearchParams när location.search ändras
   return useMemo(() => {
@@ -29,10 +28,8 @@ const Players = () => {
   const navigate = useNavigate();
   const query = useQuery();
   const page = query.get('page') || 1;
-  const searchQuery = query.get('searchQuery');
 
   useEffect(() => {
-    console.log("IN PLAYERS!!!!")
     const params = new URLSearchParams(search);
     const searchQuery = params.get('searchQuery');
     const key = query.get('key'); // Om du har lagt till "key" i din query-string
@@ -67,7 +64,7 @@ const Players = () => {
             navigate('/404');
         }
     }
-}, [search, query, players, isLoading, isAuthenticated, redirected, navigate]);
+}, [search, query, players, filteredPlayers, isLoading, isAuthenticated, redirected, navigate]);
 
   const handleOpenDialog = () => {
     if (isAuthenticated) {
