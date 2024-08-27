@@ -1,6 +1,6 @@
 import { AUTH, LOGOUT, START_LOADING, END_LOADING, AUTH_ERROR } from '../constants/actionTypes';
 
-export default (state = { authData: null, isLoading: false, errors: null }, action) => {
+const authReducer = (state = { authData: null, isLoading: false, errors: null }, action) => {
     switch (action.type) {
         case AUTH:
             return { ...state, authData: action.data, isLoading: false, errors: null };
@@ -16,3 +16,5 @@ export default (state = { authData: null, isLoading: false, errors: null }, acti
             return state;
     }
 };
+
+export default authReducer;

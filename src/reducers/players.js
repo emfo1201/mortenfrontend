@@ -9,7 +9,7 @@ import { START_LOADING, END_LOADING, FETCH_PLAYERS, FETCH_PLAYERS_BY_SEARCH,
         numberOfPages: 1,
       };
       
-      export default (state = initialState, action) => {
+      const playersReducer = (state = initialState, action) => {
         switch (action.type) {
           case START_LOADING:
             return { ...state, loading: true };
@@ -44,3 +44,5 @@ import { START_LOADING, END_LOADING, FETCH_PLAYERS, FETCH_PLAYERS_BY_SEARCH,
             return state;
         }
       };      
+
+      export default playersReducer;

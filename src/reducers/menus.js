@@ -1,4 +1,4 @@
-export default (menus = [], action) => {
+const menusReducer = (menus = [], action) => {
     switch (action.type) {
         case 'FETCH_MENU':
             return action.payload
@@ -12,3 +12,5 @@ export default (menus = [], action) => {
             return menus
     }
 }
+
+export default menusReducer;
