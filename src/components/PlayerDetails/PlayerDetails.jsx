@@ -9,6 +9,7 @@ import ImageListItem from "@material-ui/core/ImageListItem";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import CloseIcon from '@material-ui/icons/Close';
+import { useTranslation } from 'react-i18next';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 
@@ -17,6 +18,8 @@ const Player = () => {
     const [open, setOpen] = useState(false);
     const [cardImageIndex, setCardImageIndex] = useState(0);
     const [dialogImageIndex, setDialogImageIndex] = useState(0);
+    const { i18n } = useTranslation();
+    const playerInfo = i18n.language === 'no' ? player.infoNorwegian : player.infoEnglish;
     const swiperRef = useRef(null); // Referens till Swiper-komponenten
     const dispatch = useDispatch();
     const classes = useStyles();
@@ -94,7 +97,7 @@ const Player = () => {
                     <Typography variant="h4" component="h4">{player.name}</Typography>
                     <Typography variant="h6" component="h4">{player.club}</Typography>
                     <Divider style={{ margin: '20px 0' }} />
-                    <Typography gutterBottom variant="body1" component="p">{player.infoNorwegian}</Typography>
+                    <Typography gutterBottom variant="body1" component="p">{playerInfo}</Typography>
                 </div>
             </div>
             <Divider style={{ margin: '20px 0' }} />

@@ -2,7 +2,7 @@ import { START_LOADING, END_LOADING, FETCH_PLAYERS, FETCH_PLAYERS_BY_SEARCH,
     FETCH_PLAYER_DETAILS, ADD_PLAYER, UPDATE_PLAYER, DELETE_PLAYER } from "../constants/actionTypes";
 
     const initialState = {
-        loading: true,
+        isLoading: true,
         players: [], // Hela listan med spelare
         filteredPlayers: [], // Filtrerade eller sökta spelare
         currentPage: 1,
@@ -12,17 +12,20 @@ import { START_LOADING, END_LOADING, FETCH_PLAYERS, FETCH_PLAYERS_BY_SEARCH,
       const playersReducer = (state = initialState, action) => {
         switch (action.type) {
           case START_LOADING:
-            return { ...state, loading: true };
+            return { ...state, isLoading: true };
           case END_LOADING:
-            return { ...state, loading: false };
+            return { ...state, isLoading: false };
           case FETCH_PLAYERS:
+            console.log("fetch_players: ", action.payload.isLoading)
             return { ...state, players: action.payload };
           case FETCH_PLAYERS_BY_SEARCH:
+            console.log("fetch: ", action.payload)
             return {
               ...state,
               filteredPlayers: action.payload.data,
               currentPage: action.payload.currentPage,
               numberOfPages: action.payload.numberOfPages,
+              isLoading: false,
             };
           case FETCH_PLAYER_DETAILS:
             return { ...state, player: action.payload };

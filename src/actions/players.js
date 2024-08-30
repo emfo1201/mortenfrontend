@@ -13,14 +13,11 @@ export const getPlayer = () => async (dispatch) => {
 };
 
 export const getPlayers = (key, page) => async (dispatch) => {
-    console.log("key: ", key, " page: ", page)
     try {
-        dispatch({ type: START_LOADING });
         const { data } = await api.getPlayers({ key, page });
-        console.log("data: ", data)
 
         dispatch({ type: FETCH_PLAYERS_BY_SEARCH, payload: data });
-        dispatch({ type: END_LOADING });
+        console.log("end loading")
     } catch (error) {
         console.log(error);
     }
@@ -39,11 +36,11 @@ export const getPlayerById = (id) => async (dispatch) => {
 
 export const getPlayersBySearch = (searchQuery, page) => async (dispatch) => {
     try {
-        dispatch({ type: START_LOADING });
-        const { data: { data } } = await api.getPlayersBySearch({ searchQuery, page });
+        const { data } = await api.getPlayersBySearch({ searchQuery, page });
 
+        console.log("data: ", data)
         dispatch({ type: FETCH_PLAYERS_BY_SEARCH, payload: data });
-        dispatch({ type: END_LOADING });
+        console.log("end loading")
     } catch (error) {
         console.log(error);
     }
@@ -51,12 +48,6 @@ export const getPlayersBySearch = (searchQuery, page) => async (dispatch) => {
 
 // Redux thunk-action
 export const addPlayer = (player) => async (dispatch) => {
-    console.log("player in addPlayer:");
-
-    // Iterera över FormData och logga nyckel-värde-paren
-    for (var pair of player.entries()) {
-      console.log(pair[0] + ": " + pair[1]);
-    }
     try {
       dispatch({ type: START_LOADING });
       const { data } = await api.addPlayer(player);
@@ -67,7 +58,6 @@ export const addPlayer = (player) => async (dispatch) => {
   };
 
   export const updatePlayer = (id, player) => async (dispatch) => {
-    console.log("cat: ", id)
     try {
         const { data } = await api.updatePlayer(id, player);
         dispatch({ type: UPDATE_PLAYER, payload: data });

@@ -11,18 +11,16 @@ import { useAuth } from '../Auth/AuthContext';
 function useQuery() {
   const location = useLocation();
   
-  // Använd useMemo för att bara skapa en ny URLSearchParams när location.search ändras
   return useMemo(() => {
-    return new URLSearchParams(location.search);
+    const params = new URLSearchParams(location.search);
+    return params;  // Returnera som det är
   }, [location.search]);
 }
 
 const Players = () => {
-  const { isLoading, players } = useSelector((state) => state.players);
+  const { isLoading, filteredPlayers } = useSelector((state) => state.players);
   const classes = useStyles();
-  const [filteredPlayers, setFilteredPlayers] = useState([]);
   const [redirected, setRedirected] = useState(false);
-  const { search } = useLocation();
   const [openDialog, setOpenDialog] = useState(false);
   const isAuthenticated = useAuth().isAuthenticated;
   const navigate = useNavigate();
@@ -30,41 +28,9 @@ const Players = () => {
   const page = query.get('page') || 1;
 
   useEffect(() => {
-    const params = new URLSearchParams(search);
-    const searchQuery = params.get('searchQuery');
-    const key = query.get('key'); // Om du har lagt till "key" i din query-string
-
-    if (!isLoading && players.length > 0) {
-        let filtered = players;
-
-        // Filtrera baserat på kategori och underkategori
-        if (searchQuery) {
-            const [category, subCategory] = searchQuery.split(',');
-            filtered = players.filter(player => 
-                player.category.includes(category) && 
-                player.subCategory.includes(subCategory)
-            );
-        } else if (key) {
-            const categoryKey = key.split(',');
-            filtered = players.filter(player =>
-                player.category.some(cat =>
-                    cat.main === categoryKey[0] && cat.sub === categoryKey[1]
-                )
-            );
-        }
-
-        // Endast uppdatera om filtreringen faktiskt ger ett nytt resultat
-        if (JSON.stringify(filtered) !== JSON.stringify(filteredPlayers)) {
-            setFilteredPlayers(filtered);
-        }
-
-        // Hantera omdirigering om inga spelare hittas
-        if (filtered.length === 0 && !redirected && !isAuthenticated) {
-            setRedirected(true);
-            navigate('/404');
-        }
-    }
-}, [search, query, players, filteredPlayers, isLoading, isAuthenticated, redirected, navigate]);
+    console.log("isLoading: ", isLoading)
+    console.log("filteredPlayers: ", filteredPlayers)
+  }, [filteredPlayers])
 
   const handleOpenDialog = () => {
     if (isAuthenticated) {
@@ -77,7 +43,7 @@ const Players = () => {
   };
 
   return (
-    isLoading ? <CircularProgress /> : (
+    isLoading || !filteredPlayers ? <CircularProgress /> : (
       <Grid container alignItems="stretch" spacing={3} className={classes.root}>
         {filteredPlayers.map((player) => (
           <Grid key={player._id} item xs={12} sm={6} md={4}>

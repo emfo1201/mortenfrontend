@@ -74,10 +74,12 @@ const DrawerMenu = ({ categories, isAuthenticated }) => {
     }, [players]);
   
     useEffect(() => {
+      console.log("setMenu in DrawerMenu")
       setMenu(isAuthenticated ? categories : filterCategories(categories));
     }, [categories, filterCategories, isAuthenticated, players]);
 
   useEffect(() => {
+    console.log("useEffect in DrawerMenu")
   }, [players]);
 
   const handleDrawerOpen = () => {
@@ -100,7 +102,7 @@ const DrawerMenu = ({ categories, isAuthenticated }) => {
   const listPlayer = (e, mainMenu, sub) => {
     e.preventDefault();
     const categories = [mainMenu, sub];
-
+    console.log("navigate in DrawerMenu")
     navigate(`/players/listPlayers?key=${categories.join(',')}&page=1`, { redirect: true });
     handleDrawerClose();
   };
