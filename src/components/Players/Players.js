@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { Grid, CircularProgress } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import AddNewPlayer from '../Players/Player/AddNewPlayer';
 import Player from './Player/Player';
 import Paginate from '../Pagination/Pagination';
@@ -20,17 +20,17 @@ function useQuery() {
 const Players = () => {
   const { isLoading, filteredPlayers } = useSelector((state) => state.players);
   const classes = useStyles();
-  const [redirected, setRedirected] = useState(false);
+  //const [redirected, setRedirected] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const isAuthenticated = useAuth().isAuthenticated;
-  const navigate = useNavigate();
+ // const navigate = useNavigate();
   const query = useQuery();
   const page = query.get('page') || 1;
 
   useEffect(() => {
     console.log("isLoading: ", isLoading)
     console.log("filteredPlayers: ", filteredPlayers)
-  }, [filteredPlayers])
+  }, [filteredPlayers, isLoading])
 
   const handleOpenDialog = () => {
     if (isAuthenticated) {

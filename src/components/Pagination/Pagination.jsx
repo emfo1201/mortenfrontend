@@ -26,7 +26,7 @@ const Paginate = ({ page, searchParams }) => {
         dispatch(getPlayers(categories, page));
       }
     }
-  }, [page, searchParams, dispatch]);
+  }, [page, key, searchQuery, dispatch]);
 
   return (
     <Pagination
