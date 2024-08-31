@@ -149,6 +149,17 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
     // Uppdatera vald subkategori
     setSelectedSubCategories(newSubCategories);
   };  
+
+  const mergeCategories = (existingCategories, newCategories) => {
+    // Omvandla de befintliga kategorierna till ett set för att undvika dubbletter
+    const existingSet = new Set(existingCategories.map(cat => JSON.stringify(cat)));
+  
+    // Lägg till nya kategorier till setet
+    newCategories.forEach(cat => existingSet.add(JSON.stringify(cat)));
+  
+    // Omvandla tillbaka till en array av objekt
+    return Array.from(existingSet).map(cat => JSON.parse(cat));
+  };  
   
   // Function to clear form data
   const clear = () => {
@@ -160,24 +171,29 @@ function AddUpdatePlayerForm({ player, handleSubmit, handleCloseUpdatePlayer }) 
   // Handle form submission
   const handleFormSubmit = (e) => {
     e.preventDefault();
-
-    // Omvandla selectedSubCategoriesByCategory till en array
-    const flattenedCategories = Object.values(selectedSubCategoriesByCategory).flat();
-
+  
+    const flattenedCategories = Object.entries(selectedSubCategoriesByCategory).flatMap(
+      ([main, subCategories]) => subCategories.map(sub => ({ main, sub }))
+    );
+  
+    // Slå ihop befintliga kategorier med nya kategorier
+    const mergedCategories = mergeCategories(playerData.category, flattenedCategories);
+  
     // Förbered data för uppdatering
     const updatedPlayerData = {
-        ...playerData,
-        categories: flattenedCategories, // Skicka som array
-        images: existingImages.concat(imageFiles),
+      ...playerData,
+      category: mergedCategories, // Uppdatera enbart category
+      images: existingImages.concat(imageFiles),
     };
-
+  
     console.log("updatedPlayerData: ", updatedPlayerData);
-
+  
     // Hantera formulärinlämning
     handleSubmit(updatedPlayerData);
     handleCloseUpdatePlayer(false); // Stäng formuläret
     clear(); // Rensa formulärdata
-};
+  };
+  
 
   return (
     <form onSubmit={handleFormSubmit} encType="multipart/form-data">

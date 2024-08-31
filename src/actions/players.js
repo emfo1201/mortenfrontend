@@ -52,6 +52,7 @@ export const addPlayer = (player) => async (dispatch) => {
       dispatch({ type: START_LOADING });
       const { data } = await api.addPlayer(player);
       dispatch({ type: ADD_PLAYER, payload: data });
+      dispatch({ type: END_LOADING });
     } catch (error) {
       console.log(error.message);
     }

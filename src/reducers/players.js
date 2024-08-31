@@ -29,20 +29,34 @@ import { START_LOADING, END_LOADING, FETCH_PLAYERS, FETCH_PLAYERS_BY_SEARCH,
             };
           case FETCH_PLAYER_DETAILS:
             return { ...state, player: action.payload };
-          case ADD_PLAYER:
-            return { ...state, players: [...state.players, action.payload] };
-          case UPDATE_PLAYER:
-            return {
-              ...state,
-              players: state.players.map((player) => 
-                player._id === action.payload._id ? action.payload : player
-              ),
-            };
-          case DELETE_PLAYER:
-            return {
-              ...state,
-              players: state.players.filter((player) => player._id !== action.payload),
-            };
+            case ADD_PLAYER:
+              const addedPlayers = [...state.players, action.payload];
+              console.log("ADD_PLAYER: ", action.payload)
+              return { 
+                ...state, 
+                players: addedPlayers,
+                filteredPlayers: addedPlayers // Uppdatera även filteredPlayers
+              };
+              case UPDATE_PLAYER:
+                const updatedPlayers = state.players.map((player) => 
+                    player._id === action.payload._id ? action.payload : player
+                );
+                const updatedFilteredPlayers = state.filteredPlayers.map((player) =>
+                    player._id === action.payload._id ? action.payload : player
+                );
+                return {
+                    ...state,
+                    players: updatedPlayers,
+                    filteredPlayers: updatedFilteredPlayers,
+                };            
+                case DELETE_PLAYER:
+                  const remainingPlayers = state.players.filter((player) => player._id !== action.payload);
+                  const remainingFilteredPlayers = state.filteredPlayers.filter((player) => player._id !== action.payload);
+                  return {
+                      ...state,
+                      players: remainingPlayers,
+                      filteredPlayers: remainingFilteredPlayers,
+                  };              
           default:
             return state;
         }

@@ -14,6 +14,8 @@ const AddNewPlayer = ({ handleOpenDialog, handleCloseDialog, openDialog }) => {
   const handleSubmit = (updatedPlayerData) => {
     const data = new FormData();
 
+    console.log("playerData: ", updatedPlayerData)
+
     // Add player information to FormData
     data.append('name', updatedPlayerData.name);
     data.append('club', updatedPlayerData.club);
@@ -33,9 +35,6 @@ const AddNewPlayer = ({ handleOpenDialog, handleCloseDialog, openDialog }) => {
       categoriesToSend = [updatedPlayerData.category];
     }
   }
-
-  console.log("main :", updatedPlayerData.category.main)
-  console.log("sub: ", updatedPlayerData.category.main)
 
   // Omvandla kategorier till det format du behöver och lägg till i FormData
   const selectedCategoriesToSend = categoriesToSend.map((subCategory) => ({

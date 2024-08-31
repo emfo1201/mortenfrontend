@@ -15,11 +15,11 @@ import 'swiper/css';
 
 const Player = () => {
     const { player, isLoading } = useSelector((state) => state.players);
+    console.log("player i details: ", player)
     const [open, setOpen] = useState(false);
     const [cardImageIndex, setCardImageIndex] = useState(0);
     const [dialogImageIndex, setDialogImageIndex] = useState(0);
     const { i18n } = useTranslation();
-    const playerInfo = i18n.language === 'no' ? player.infoNorwegian : player.infoEnglish;
     const swiperRef = useRef(null); // Referens till Swiper-komponenten
     const dispatch = useDispatch();
     const classes = useStyles();
@@ -68,6 +68,8 @@ const Player = () => {
             </Paper>
         );
     }
+
+    const playerInfo = player ? (i18n.language === 'no' ? player.infoNorwegian : player.infoEnglish) : '';
 
     return (
         <Paper className={classes.paper} elevation={6}>
