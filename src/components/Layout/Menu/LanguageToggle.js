@@ -1,29 +1,30 @@
-import React, { useEffect } from 'react';
-import { Button } from '@material-ui/core';
-import { useTranslation } from 'react-i18next';
-import Cookies from 'js-cookie';
-import { useStyles } from './styles'
+//LanguageToggle.js
+import React, { useEffect } from "react";
+import { Button } from "@material-ui/core";
+import { useTranslation } from "react-i18next";
+import Cookies from "js-cookie";
+import { useStyles } from "./styles";
 
 const LanguageToggle = () => {
   const { i18n } = useTranslation();
   const classes = useStyles();
 
   useEffect(() => {
-    const savedLanguage = Cookies.get('language');
+    const savedLanguage = Cookies.get("language");
     if (savedLanguage && savedLanguage !== i18n.language) {
       i18n.changeLanguage(savedLanguage);
     }
   }, [i18n]);
 
   const toggleLanguage = () => {
-    const newLanguage = i18n.language === 'no' ? 'en' : 'no';
+    const newLanguage = i18n.language === "no" ? "en" : "no";
     i18n.changeLanguage(newLanguage);
-    Cookies.set('language', newLanguage, { expires: 365 }); // Store language cookie for 1 year
+    Cookies.set("language", newLanguage, { expires: 365 }); // Store language cookie for 1 year
   };
 
   return (
     <Button className={classes.button} onClick={toggleLanguage}>
-      {i18n.language === 'no' ? 'En' : 'No'}
+      {i18n.language === "no" ? "En" : "No"}
     </Button>
   );
 };

@@ -1,53 +1,41 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+//Footer.js
+import React from "react";
+import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
+import useStyles from "./styles";
 
-// Styles for the Footer component
-const styles = {
-  root: {
-    flexGrow: 1,
-    backgroundColor: 'black',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    height: '200px',
-  },
-  h: {
-    color: 'white',
-    textAlign: 'center',
-  },
-  row: {},
-  colSm: {
-    color: 'white',
-  },
-  link: {
-    color: '#FFF',
-    textDecoration: 'none',
-  },
-};
+function Footer() {
+  const { t } = useTranslation();
+  const classes = useStyles();
 
-function Footer({ classes }) {
-  const { t } = useTranslation(); // Hook for translation
-  
   return (
-    <footer className={classes.root}>
-      <Grid item container direction="column" justifyContent="center" alignItems="center" xs={12}>
-        <Grid item xs={10} component={'div'}>
+    <footer className={classes.rootFooter}>
+      <Grid
+        item
+        container
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+        xs={12}
+      >
+        <Grid item xs={10} component={"div"}>
           <Box p={2}>
             <Typography variant="h6" className={classes.h} component="h6">
-              {t('welcome_message')} {/* Translated welcome message */}
+              {t("welcome_message")} {/* Translated welcome message */}
             </Typography>
           </Box>
           <hr />
         </Grid>
         <div className={classes.row}>
           <Typography variant="body2" component="h2" className={classes.colSm}>
-            &copy;{new Date().getFullYear()} <Link to="https://www.limestoneweb.se" className={classes.link}>
+            &copy;{new Date().getFullYear()}{" "}
+            <Link to="https://www.limestoneweb.se" className={classes.link}>
               LIMESTONEWEB.SE
-            </Link> | All rights reserved | Terms Of Service | Privacy |{' '}
+            </Link>{" "}
+            | All rights reserved | Terms Of Service | Privacy |{" "}
           </Typography>
         </div>
       </Grid>
@@ -55,4 +43,4 @@ function Footer({ classes }) {
   );
 }
 
-export default withStyles(styles)(Footer);
+export default Footer;

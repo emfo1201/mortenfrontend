@@ -1,6 +1,7 @@
-import React from 'react';
-import TextField from '@material-ui/core/TextField';
-import TextareaAutosize from '@material-ui/core/TextareaAutosize';
+//PlayerData.js
+import React from "react";
+import TextField from "@material-ui/core/TextField";
+import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 
 function PlayerData({ playerData, handleInputChange }) {
   return (
@@ -25,7 +26,7 @@ function PlayerData({ playerData, handleInputChange }) {
         fullWidth
         name="infoEnglish"
         placeholder="Info (English)"
-        rowsMin={3}
+        minRows={3}
         value={playerData.infoEnglish}
         onChange={handleInputChange}
       />
@@ -33,7 +34,7 @@ function PlayerData({ playerData, handleInputChange }) {
         fullWidth
         name="infoNorwegian"
         placeholder="Info (Norwegian)"
-        rowsMin={3}
+        minRows={3}
         value={playerData.infoNorwegian}
         onChange={handleInputChange}
       />

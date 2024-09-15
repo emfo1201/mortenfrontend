@@ -1,11 +1,16 @@
-import React, { useEffect } from 'react';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
+//ImageUpload.js
+import React, { useEffect } from "react";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/Delete";
 
-function ImageUpload({ imagePreviews, handleImageChange, handleRemoveImage, existingImages }) {
-
+function ImageUpload({
+  imagePreviews,
+  handleImageChange,
+  handleRemoveImage,
+  existingImages,
+}) {
   useEffect(() => {
-    console.log("exist: ", existingImages)
+    console.log("exist: ", existingImages);
   }, [existingImages]);
 
   return (
@@ -17,25 +22,26 @@ function ImageUpload({ imagePreviews, handleImageChange, handleRemoveImage, exis
         onChange={handleImageChange}
         multiple
       />
-      {existingImages && existingImages.map((image, index) => (
-        <div key={index}>
-          <img
-            src={image}
-            alt={`Existing ${index + 1}`}
-            style={{ maxWidth: '100px', maxHeight: '100px' }}
-          />
-          <IconButton onClick={() => handleRemoveImage(index)}>
-            <DeleteIcon />
-          </IconButton>
-        </div>
-      ))}
+      {existingImages &&
+        existingImages.map((image, index) => (
+          <div key={index}>
+            <img
+              src={image}
+              alt={`Existing ${index + 1}`}
+              style={{ maxWidth: "100px", maxHeight: "100px" }}
+            />
+            <IconButton onClick={() => handleRemoveImage(index)}>
+              <DeleteIcon />
+            </IconButton>
+          </div>
+        ))}
 
       {imagePreviews.map((preview, index) => (
         <div key={index}>
           <img
             src={preview}
             alt={`Preview ${index + 1}`}
-            style={{ maxWidth: '100px', maxHeight: '100px' }}
+            style={{ maxWidth: "100px", maxHeight: "100px" }}
           />
           <IconButton onClick={() => handleRemoveImage(index)}>
             <DeleteIcon />

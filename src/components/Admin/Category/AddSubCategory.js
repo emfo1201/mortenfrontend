@@ -1,26 +1,24 @@
-import React, { useState } from 'react';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import { useDispatch } from 'react-redux';
-import { addSubCategory } from '../../../actions/menu'; // Ersätt 'actions/menu' med sökvägen till din Redux-action för att lägga till subkategorier
+//AddSubCategory.js
+import React, { useState } from "react";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import { useDispatch } from "react-redux";
+import { addSubCategory } from "../../../actions/menu";
 
 function AddSubCategory({ mainCategory, handleCloseDialog }) {
-  const [subCategory, setSubCategory] = useState('');
+  const [subCategory, setSubCategory] = useState("");
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Skapa den nya subkategorin med nödvändig information
     const newSubCategory = {
       category: mainCategory,
       newSubCategory: subCategory,
     };
 
-    // Använd Redux-actionen för att lägga till subkategorin i ditt Redux-tillstånd och/eller skicka den till din backend
     dispatch(addSubCategory(newSubCategory));
 
-    // Återställ formuläret efter inskickning
-    setSubCategory('');
+    setSubCategory("");
     handleCloseDialog();
   };
 

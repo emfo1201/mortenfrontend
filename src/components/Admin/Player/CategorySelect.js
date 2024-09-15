@@ -1,8 +1,9 @@
-import React from 'react';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
+//CategorySelect.js
+import React from "react";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
 
 function CategorySelect({
   selectedCategory,
@@ -40,11 +41,13 @@ function CategorySelect({
             onChange={handleSubCategoryChange}
             label="Sub Category"
           >
-            {menuData.subCategories[selectedCategory]?.map((subCategory, index) => (
-              <MenuItem key={index} value={subCategory}>
-                {subCategory}
-              </MenuItem>
-            ))}
+            {menuData.subCategories[selectedCategory]?.map(
+              (subCategory, index) => (
+                <MenuItem key={index} value={subCategory}>
+                  {subCategory}
+                </MenuItem>
+              )
+            )}
           </Select>
         </FormControl>
       )}

@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom';
+//PageNotFound.js
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const PageNotFound = () => {
   const navigate = useNavigate();
 
-  // Omdirigera till 404-sidan
   useEffect(() => {
-    navigate('/404', { replace: true });
+    navigate("/404", { replace: true });
   }, [navigate]);
 
   return (
@@ -18,4 +18,3 @@ const PageNotFound = () => {
 };
 
 export default PageNotFound;
-

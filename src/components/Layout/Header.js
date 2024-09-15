@@ -1,33 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import SearchIcon from '@material-ui/icons/Search';
-import InputBase from '@material-ui/core/InputBase';
-import Button from '@material-ui/core/Button';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import DrawerMenu from './Menu/DrawerMenu';
-import LanguageToggle from './Menu/LanguageToggle';
-import useStyles from './styles';
-import { useAuth } from '../Auth/AuthContext';
+//Header.js
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import SearchIcon from "@material-ui/icons/Search";
+import InputBase from "@material-ui/core/InputBase";
+import Button from "@material-ui/core/Button";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import DrawerMenu from "./Menu/DrawerMenu";
+import LanguageToggle from "./Menu/LanguageToggle";
+import useStyles from "./styles";
+import { useAuth } from "../Auth/AuthContext";
 
 const Header = () => {
   // Local state to manage loading status and search query
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState('');
-  
+  const [search, setSearch] = useState("");
+
   // Redux state for menu categories
   const category = useSelector((state) => state.menus);
-  
+
   // Custom styles from useStyles
   const classes = useStyles();
-  
+
   // Hooks for navigation and route location
   const navigate = useNavigate();
   const location = useLocation();
-  
+
   // Authentication context
   const { isAuthenticated, logout } = useAuth();
 
@@ -51,7 +52,7 @@ const Header = () => {
     if (search.trim()) {
       navigate(`/players/search?searchQuery=${search}&page=1`);
     } else {
-      navigate('/');
+      navigate("/");
     }
   };
 
@@ -66,7 +67,7 @@ const Header = () => {
   const handleLogout = (e) => {
     e.preventDefault();
     logout();
-    navigate('/');
+    navigate("/");
   };
 
   // Show loading indicator while data is being fetched
@@ -75,21 +76,39 @@ const Header = () => {
   }
 
   // Filter menu items based on authentication status
-  const menuItems = isAuthenticated ? category : category.filter((menu) => menu.subMenu.length > 0);
+  const menuItems = isAuthenticated
+    ? category
+    : category.filter((menu) => menu.subMenu.length > 0);
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" className={location.pathname === '/' ? classes.transparentBackground : classes.blackBackground}>
+      <AppBar
+        position="static"
+        className={
+          location.pathname === "/"
+            ? classes.transparentBackground
+            : classes.blackBackground
+        }
+      >
         <div className={classes.appBar}>
           <Toolbar component="div">
             {/* Drawer menu with categories */}
-            <DrawerMenu categories={menuItems} isAuthenticated={isAuthenticated} />
-            
+            <DrawerMenu
+              categories={menuItems}
+              isAuthenticated={isAuthenticated}
+            />
+
             {/* Title with link to home */}
-            <Typography variant="h6" color="inherit" className={classes.title} component={Link} to="./../">
+            <Typography
+              variant="h6"
+              color="inherit"
+              className={classes.title}
+              component={Link}
+              to="./../"
+            >
               Norsk Fotballdraktmuseum
             </Typography>
-            
+
             {/* Search input field */}
             <div className={classes.search}>
               <div className={classes.searchIcon}>
@@ -101,19 +120,23 @@ const Header = () => {
                   root: classes.inputRoot,
                   input: classes.inputInput,
                 }}
-                inputProps={{ 'aria-label': 'search' }}
+                inputProps={{ "aria-label": "search" }}
                 value={search}
                 onKeyDown={handleKeyPress}
                 onChange={(e) => setSearch(e.target.value)}
               />
             </div>
-            
+
             {/* Language toggle button */}
             <LanguageToggle />
-            
+
             {/* Logout button, shown only if authenticated */}
             {isAuthenticated && (
-              <Button onClick={handleLogout} className={classes.logoutButton} color="inherit">
+              <Button
+                onClick={handleLogout}
+                className={classes.logoutButton}
+                color="inherit"
+              >
                 Logout
               </Button>
             )}
