@@ -214,7 +214,7 @@ function AddUpdatePlayerForm({
         <Grid item xs={12} sm={6}>
           <CategorySelect
             selectedCategory={selectedCategory}
-            showExistingCategories={!!player}
+            showExistingCategories={Boolean(player)}
             handleSelectChange={handleSelectChange}
             menuData={menuData}
             handleSubCategoryChange={handleSubCategoryChange}
