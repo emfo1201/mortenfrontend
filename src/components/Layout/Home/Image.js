@@ -19,7 +19,7 @@ const Image = () => {
 
   return (
     <Grid container spacing={3} className={classes.outerContainer}>
-      <div className={classes.heroImage} style={backgroundImageStyle}></div>
+      <div className={classes.heroImage} style={backgroundImageStyle} />
     </Grid>
   );
 };

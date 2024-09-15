@@ -16,7 +16,7 @@ export default function ScrollDialog({ open, onClose, title, children }) {
       aria-describedby="scroll-dialog-description"
     >
       <DialogTitle id="scroll-dialog-title">{title}</DialogTitle>
-      <DialogContent dividers={true}>{children}</DialogContent>
+      <DialogContent dividers>{children}</DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="primary">
           Close
