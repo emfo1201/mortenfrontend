@@ -11,41 +11,12 @@ import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import MenuIcon from '@material-ui/icons/Menu';
-import { makeStyles } from '@material-ui/core/styles';
 import AddCategory from '../../Admin/Category/AddCategory';
 import AddSubCategory from '../../Admin/Category/AddSubCategory';
 import DeleteCategory from '../../Admin/Category/DeleteCategory';
 import DeleteSubCategory from '../../Admin/Category/DeleteSubCategory';
 import ScrollDialog from '../../dialog';
-
-const useStyles = makeStyles((theme) => ({
-  mainMenuContainer: {
-    display: "flex",
-    flexFlow: "column wrap",
-    maxHeight: 500,
-    overflow: "auto"
-  },
-  mainMenuItem: {
-    fontSize: '1rem',
-    paddingTop: 1,
-    paddingBottom: 1,
-  },
-  subMenuItem: {
-    fontSize: '0.2rem',
-    paddingTop: 1,
-    paddingBottom: 1,
-    paddingLeft: theme.spacing(3),
-  },
-  addCategoryButton: {
-    paddingTop: 2,
-    paddingBottom: 1,
-    paddingLeft: theme.spacing(3),
-  },
-  closeMenuButton: {
-    alignSelf: "flex-start",
-    margin: theme.spacing(2),
-  }
-}));
+import { useStyles } from './styles';
 
 const DrawerMenu = ({ categories, isAuthenticated }) => {
     const classes = useStyles();

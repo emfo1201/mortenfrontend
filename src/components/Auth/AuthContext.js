@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { AUTH } from '../../constants/actionTypes';
 import { validateToken } from '../../actions/auth.js';
-import { signIn } from '../../api/index.js';
+import { signIn } from '../../api';
 
 const AuthContext = createContext();
 
@@ -17,12 +17,9 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       const token = Cookies.get('jwtToken');
-      console.log("in auth context");
       if (token) {
-        console.log("is token");
         try {
           const userData = await validateToken();
-          console.log("after isValid ", userData);
           if (userData) {
             setIsAuthenticated(true);
           } else {
@@ -43,12 +40,9 @@ export const AuthProvider = ({ children }) => {
   const login = async (formData, navigate, dispatch) => {
     try {
       const { data } = await signIn(formData);
-      console.log("Sign in successful, token:", data.token);
-      const expirationTime = new Date(Date.now() + 60 * 60 * 1000);
-      Cookies.set('jwtToken', data.token, { expires: expirationTime });
-  
+      Cookies.set('jwtToken', data.token, { expires: 1 });
       dispatch({ type: AUTH, data });
-      navigate('/'); // Navigera till önskad sida efter inloggning
+      navigate('/');
       setIsAuthenticated(true);
     } catch (error) {
       console.error("Login error:", error);
@@ -56,8 +50,6 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    // Ta bort JWT-token från cookies
-    console.log("removed cookie");
     Cookies.remove('jwtToken');
     setIsAuthenticated(false);
   };

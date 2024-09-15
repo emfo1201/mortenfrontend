@@ -29,6 +29,7 @@ export default makeStyles((theme) => ({
     },
     imageSection: {
         marginRight: '20px',
+        marginLeft: '20px',
         [theme.breakpoints.down('sm')]: {
             marginLeft: 0,
         },
@@ -62,6 +63,16 @@ export default makeStyles((theme) => ({
         width: 200,
         maxHeight: '500px',
         paddingRight: 20,
+    },
+    imageListItem: {
+        position: 'relative',
+        '& img': {
+            opacity: 0.5,
+            transition: 'opacity 0.3s ease',
+        },
+        '&:hover img': {
+            opacity: 1,
+        },
     },
     title: {
         color: theme.palette.primary.light,

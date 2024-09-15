@@ -1,16 +1,8 @@
 import React, { useEffect } from 'react';
-import { Button, makeStyles } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import Cookies from 'js-cookie';
-
-const useStyles = makeStyles((theme) => ({
-  button: {
-    borderRadius: theme.spacing(2), // Adjust the border radius as needed
-    backgroundColor: theme.palette.primary.light, // Use the desired color from your theme
-    color: theme.palette.primary.contrastText, // Use the text color based on your theme
-    padding: theme.spacing(1, 2), // Adjust padding as needed
-  },
-}));
+import { useStyles } from './styles'
 
 const LanguageToggle = () => {
   const { i18n } = useTranslation();

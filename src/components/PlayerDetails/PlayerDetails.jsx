@@ -15,12 +15,11 @@ import 'swiper/css';
 
 const Player = () => {
     const { player, isLoading } = useSelector((state) => state.players);
-    console.log("player i details: ", player)
     const [open, setOpen] = useState(false);
     const [cardImageIndex, setCardImageIndex] = useState(0);
     const [dialogImageIndex, setDialogImageIndex] = useState(0);
     const { i18n } = useTranslation();
-    const swiperRef = useRef(null); // Referens till Swiper-komponenten
+    const swiperRef = useRef(null);
     const dispatch = useDispatch();
     const classes = useStyles();
     const { id } = useParams();
@@ -28,39 +27,47 @@ const Player = () => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm')); 
 
+    // Fetch player data when component mounts or when 'id' changes
     useEffect(() => {
         dispatch(getPlayerById(id));
     }, [dispatch, id]);
 
+    // Open image dialog and set the current image index
     const handleClickOpen = (index) => {
         setDialogImageIndex(index);
         setOpen(true);
     };
 
+    // Close image dialog
     const handleClose = () => {
         setOpen(false);
     };
 
+    // Change the main displayed image in the card view
     const handleImageClick = (index) => {
         setCardImageIndex(index);
     };
 
+    // Go to the next image in the Swiper component
     const handleNextImage = () => {
         if (swiperRef.current && swiperRef.current.swiper) {
-            swiperRef.current.swiper.slideNext(); // Byter till nästa bild
+            swiperRef.current.swiper.slideNext();
         }
     };
 
+    // Go to the previous image in the Swiper component
     const handlePreviousImage = () => {
         if (swiperRef.current && swiperRef.current.swiper) {
-            swiperRef.current.swiper.slidePrev(); // Byter till föregående bild
+            swiperRef.current.swiper.slidePrev();
         }
     };
 
+    // If no player data is available, return null
     if (!player) {
         return null;
     }
 
+    // Show a loading spinner while data is being fetched
     if (isLoading) {
         return (
             <Paper elevation={6} className={classes.loadingPaper}>
@@ -69,6 +76,7 @@ const Player = () => {
         );
     }
 
+    // Determine which language-specific player info to display
     const playerInfo = player ? (i18n.language === 'no' ? player.infoNorwegian : player.infoEnglish) : '';
 
     return (
@@ -80,11 +88,14 @@ const Player = () => {
             <div className={classes.card}>
                 <div>
                     <ImageList rowHeight={160} className={classes.imageList1} cols={1}>
-                        {player.images.map((item, index) => (
-                            <ImageListItem key={item} cols={1} onClick={() => handleImageClick(index)}>
-                                <img src={item} alt={`image-${index}`} />
-                            </ImageListItem>
-                        ))}
+                        {player.images
+                            .map((item, index) => (
+                                index !== cardImageIndex && (
+                                    <ImageListItem key={item} cols={1} onClick={() => handleImageClick(index)} className={classes.imageListItem}>
+                                        <img src={item} alt={`image-${index}`} />
+                                    </ImageListItem>
+                                )
+                            ))}
                     </ImageList>
                 </div>
                 <div className={classes.imageSection}>
@@ -103,15 +114,6 @@ const Player = () => {
                 </div>
             </div>
             <Divider style={{ margin: '20px 0' }} />
-            <div>
-                <ImageList className={classes.imageList} cols={2.5}>
-                    {player.images.map((item, index) => (
-                        <ImageListItem key={item}>
-                            <img src={item} alt={`image-${index}`} onClick={() => handleClickOpen(index)} />
-                        </ImageListItem>
-                    ))}
-                </ImageList>
-            </div>
             <Dialog
                 open={open}
                 onClose={handleClose}
@@ -168,7 +170,7 @@ const Player = () => {
                 </div>
             </Dialog>
         </Paper>
-    );
+    );        
 };
 
 export default Player;

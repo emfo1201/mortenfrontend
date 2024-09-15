@@ -81,60 +81,71 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
   },
     hero: {
-        display: 'flex',
-        height: '100vh', // 100% of the viewport height
-        overflow: 'hidden',
+    display: 'flex',
+    height: '100vh', // 100% of the viewport height
+    overflow: 'hidden',
+  },
+  heroImage: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    backgroundAttachment: 'fixed',
+  },
+  contentContainer: {
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      textAlign: 'center',
+      color: 'white',
+    },
+  
+    welcomeText: {
+      marginBottom: theme.spacing(3),
+    },
+  
+    readMoreButton: {
+      color: 'white',
+      borderColor: 'white',
+      '&:hover': {
+        color: 'black',
+        backgroundColor: 'white',
       },
-      heroImage: {
-        width: '100%',
-        height: '100%',
-        objectFit: 'cover',
-        backgroundAttachment: 'fixed',
-      },
-      contentContainer: {
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          textAlign: 'center',
-          color: 'white',
-        },
-      
-        welcomeText: {
-          marginBottom: theme.spacing(3),
-        },
-      
-        readMoreButton: {
-          color: 'white',
-          borderColor: 'white',
-          '&:hover': {
-            color: 'black',
-            backgroundColor: 'white',
-          },
-        },
-      
-        imagesContainer: {
-          position: 'relative',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        },
-      
-        bottomImage: {
-          width: '100%',
-          height: 'auto',
-          position: 'relative',
-          zIndex: 1,
-        },
-      
-        topImage: {
-          width: '75%', // Justera efter behov
-          height: 'auto',
-          position: 'absolute',
-          top: '25%', // Justera efter behov
-          left: '12.5%', // Justera efter behov
-          zIndex: 2,
-        },
+    },
+  
+    imagesContainer: {
+      position: 'relative',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+  
+    bottomImage: {
+      width: '100%',
+      height: 'auto',
+      position: 'relative',
+      zIndex: 1,
+    },
+  
+    topImage: {
+      width: '75%', // Justera efter behov
+      height: 'auto',
+      position: 'absolute',
+      top: '25%', // Justera efter behov
+      left: '12.5%', // Justera efter behov
+      zIndex: 2,
+    },
+
+    // Header styling
+    rootHeader: {
+      display: 'flex',
+      flexDirection: 'column',
+    },
+    container: {
+      flex: 1,
+      padding: 0,
+      marginTop: 0,
+    },
 }));
 
 export default useStyles;

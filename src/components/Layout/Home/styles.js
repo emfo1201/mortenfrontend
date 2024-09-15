@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'black',
   },
   imageContainer: {
-    flex: 1, // Lägg till flex: 1 för att ta upp tillgängligt utrymme
+    flex: 1,
     position: 'relative',
     marginBottom: theme.spacing(2),
   },
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   buttonContainer: {
     display: 'flex',
     justifyContent: 'center',
-    marginTop: theme.spacing(2), // Lägg till önskad marginal här
+    marginTop: theme.spacing(2),
   },
 
   readMoreButton: {

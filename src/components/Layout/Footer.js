@@ -6,6 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
+// Styles for the Footer component
 const styles = {
   root: {
     flexGrow: 1,
@@ -16,7 +17,7 @@ const styles = {
   },
   h: {
     color: 'white',
-    flex: 'center',
+    textAlign: 'center',
   },
   row: {},
   colSm: {
@@ -29,14 +30,15 @@ const styles = {
 };
 
 function Footer({ classes }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(); // Hook for translation
+  
   return (
     <footer className={classes.root}>
       <Grid item container direction="column" justifyContent="center" alignItems="center" xs={12}>
         <Grid item xs={10} component={'div'}>
           <Box p={2}>
             <Typography variant="h6" className={classes.h} component="h6">
-              {t('welcome_message')}
+              {t('welcome_message')} {/* Translated welcome message */}
             </Typography>
           </Box>
           <hr />
@@ -44,7 +46,7 @@ function Footer({ classes }) {
         <div className={classes.row}>
           <Typography variant="body2" component="h2" className={classes.colSm}>
             &copy;{new Date().getFullYear()} <Link to="https://www.limestoneweb.se" className={classes.link}>
-            LIMESTONEWEB.SE
+              LIMESTONEWEB.SE
             </Link> | All rights reserved | Terms Of Service | Privacy |{' '}
           </Typography>
         </div>

@@ -2,19 +2,22 @@ import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import Container from '@material-ui/core/Container';
-import { useAuth } from '../Auth/AuthContext'; 
+import { useAuth } from '../Auth/AuthContext';
+import useStyles from './styles'; // Justera sökvägen efter behov
 
 const Main = ({ children }) => {
   const { isAuthenticated, logout, loading } = useAuth();
+  const classes = useStyles(); // Använd stilarna från useStyles
 
+  // Visa en laddningsindikator medan autentiseringen pågår
   if (loading) {
-    return <p>Loading...</p>; // Visa en laddningsindikator medan autentiseringen pågår
+    return <p>Loading...</p>;
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <div className={classes.rootHeader}>
       <Header isAuthenticated={isAuthenticated} logout={logout} />
-      <Container style={{ flex: 1, padding: 0, marginTop: 0 }}>
+      <Container className={classes.container}>
         {children}
       </Container>
       <Footer />

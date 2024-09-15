@@ -18,19 +18,19 @@ const initialState = { username: '', password: '' };
 
 function Login() {
   const navigate = useNavigate();
-  const { login } = useAuth(); // Använd login från AuthContext
+  const { login } = useAuth();
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState(initialState);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
-  const [loading, setLoading] = useState(false); // Tillståndsvariabel för att hantera laddningstillstånd
+  const [loading, setLoading] = useState(false);
   const classes = useStyles();
-  const isMounted = useRef(true); // Skapa en ref för att hålla koll på om komponenten är monterad
+  const isMounted = useRef(true);
 
   useEffect(() => {
     return () => {
-      isMounted.current = false; // Markera komponenten som avmonterad när den rensas upp
+      isMounted.current = false;
     };
   }, []);
 
@@ -41,18 +41,17 @@ function Login() {
   const handleSignIn = async (e) => {
     e.preventDefault();
     try {
-      setLoading(true); // Sätt laddningstillståndet till true när inloggningen påbörjas
-      console.log("Logging in with formData:", formData);
+      setLoading(true);
       await login(formData, navigate, dispatch);
       if (isMounted.current) {
-        setLoading(false); // Återställ laddningstillståndet till false när inloggningen är klar
+        setLoading(false);
       }
     } catch (error) {
       if (isMounted.current) {
-        setLoading(false); // Återställ laddningstillståndet till false om inloggningen misslyckas
-        console.error("Login failed:", error);
-        setSnackbarMessage(error.message || 'Login failed');
+        setLoading(false);
         setSnackbarOpen(true);
+        console.error("Login failed:", error.message);
+        setSnackbarMessage(error.message || 'Login failed');
       }
     }
   };
@@ -90,27 +89,28 @@ function Login() {
               fullWidth
               className={classes.fields}
               style={{ marginBottom: 20 }}
-              disabled={loading} // Inaktivera knappen när inloggningen pågår
+              disabled={loading}
             >
-              {loading ? 'Loading...' : 'Sign in'} {/* Visa laddningstexten om inloggningen pågår */}
+              {loading ? 'Loading...' : 'Sign in'}
             </Button>
           </Grid>
         </form>
-      </Paper>
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={5000}
-        onClose={handleCloseSnackbar}
-      >
-        <MuiAlert
-          elevation={6}
-          variant="filled"
-          severity="error"
+        <Snackbar
+          open={snackbarOpen}
+          autoHideDuration={5000}
           onClose={handleCloseSnackbar}
         >
-          {snackbarMessage}
-        </MuiAlert>
-      </Snackbar>
+          {console.log("Rendering Snackbar, open:", snackbarOpen)}
+          <MuiAlert
+            elevation={6}
+            variant="filled"
+            severity="error"
+            onClose={handleCloseSnackbar}
+          >
+            {snackbarMessage}
+          </MuiAlert>
+        </Snackbar>
+      </Paper>
     </Container>
   );
 }
