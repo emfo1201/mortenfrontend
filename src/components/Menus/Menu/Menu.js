@@ -47,7 +47,7 @@ const Menu = ({ menu }) => {
                 {men[menu._id] ? <ExpandLess /> : <ExpandMore />}
             </ListItem>
 
-            <Collapse in={!!men[menu._id]} timeout="auto" unmountOnExit>
+            <Collapse in={Boolean(men[menu._id])} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding className={classes.flexContainer}>
                     {menu.subMenu.map((sub, index) =>
                         <ListItem button key={sub._id} className={classes.nested} onClick={() => {listPlayer(menu.mainMenu, sub)}}>
