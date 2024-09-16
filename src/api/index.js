@@ -28,10 +28,10 @@ export const getMenuCategory = () => API.get("/menus/getMenuCategory");
 // Player API calls
 export const getPlayer = () => API.get("/players");
 export const getPlayers = ({ key, page = 1 }) =>
-  API.get(`/players/listPlayers`, { params: { key: key || "none", page } });
+  API.get("/players/listPlayers", { params: { key: key || "none", page } });
 export const getPlayerById = (id) => API.get(`/players/${id}`);
 export const getPlayersBySearch = ({ searchQuery, page }) =>
-  API.get(`/players/search`, {
+  API.get("/players/search", {
     params: { searchQuery: searchQuery || "none", page },
   });
 

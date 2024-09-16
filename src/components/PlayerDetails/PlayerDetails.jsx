@@ -55,15 +55,11 @@ const Player = () => {
   };
 
   const handleNextImage = () => {
-    if (swiperRef.current && swiperRef.current.swiper) {
-      swiperRef.current.swiper.slideNext();
-    }
+    swiperRef.current?.swiper?.slideNext();
   };
 
   const handlePreviousImage = () => {
-    if (swiperRef.current && swiperRef.current.swiper) {
-      swiperRef.current.swiper.slidePrev();
-    }
+    swiperRef.current?.swiper?.slidePrev();
   };
 
   if (!player) {
@@ -163,7 +159,7 @@ const Player = () => {
             spaceBetween={0}
             slidesPerView={1}
             initialSlide={dialogImageIndex}
-            loop={true}
+            loop
             style={{ width: "100%", height: "100%" }}
             onSlideChange={(swiper) => setDialogImageIndex(swiper.activeIndex)}
           >

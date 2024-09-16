@@ -22,21 +22,20 @@ function ImageUpload({
         onChange={handleImageChange}
         multiple
       />
-      {existingImages &&
-        existingImages.map((image, index) => (
-          <div key={index}>
-            <img
-              src={image}
-              alt={`Existing ${index + 1}`}
-              style={{ maxWidth: "100px", maxHeight: "100px" }}
-            />
-            <IconButton onClick={() => handleRemoveImage(index)}>
-              <DeleteIcon />
-            </IconButton>
-          </div>
-        ))}
+      {existingImages?.map((image, index) => (
+        <div key={index}>
+          <img
+            src={image}
+            alt={`Existing ${index + 1}`}
+            style={{ maxWidth: "100px", maxHeight: "100px" }}
+          />
+          <IconButton onClick={() => handleRemoveImage(index)}>
+            <DeleteIcon />
+          </IconButton>
+        </div>
+      ))}
 
-      {imagePreviews.map((preview, index) => (
+      {imagePreviews?.map((preview, index) => (
         <div key={index}>
           <img
             src={preview}

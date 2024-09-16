@@ -70,7 +70,7 @@ const Player = ({ player }) => {
     data.append("categories", JSON.stringify(updatedPlayerData.category));
 
     updatedPlayerData.images.forEach((image, index) => {
-      data.append(`images`, image);
+      data.append("images", image);
     });
 
     dispatch(updatePlayer(player._id, data));

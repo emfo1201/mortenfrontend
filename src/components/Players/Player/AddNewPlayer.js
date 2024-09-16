@@ -42,7 +42,7 @@ const AddNewPlayer = ({ handleOpenDialog, handleCloseDialog, openDialog }) => {
     data.append("categories", JSON.stringify(selectedCategoriesToSend));
 
     updatedPlayerData.images.forEach((image, index) => {
-      data.append(`images`, image);
+      data.append("images", image);
     });
 
     dispatch(addPlayer(data));

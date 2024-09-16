@@ -10,7 +10,6 @@ const Input = ({
   name,
   handleChange,
   label,
-  autoFocus,
   type,
   handleShowPassword,
   half,
@@ -23,7 +22,6 @@ const Input = ({
       required
       fullWidth
       label={label}
-      autoFocus={autoFocus}
       type={type}
       InputProps={
         name === "password" && {

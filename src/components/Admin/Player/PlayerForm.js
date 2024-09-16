@@ -67,7 +67,7 @@ function AddUpdatePlayerForm({
       const updatedSelectedSubCategories = [];
       player.category.forEach(({ main, sub }) => {
         updatedSelectedSubCategories.push({
-          main: main,
+          main,
           sub: sub || "",
         });
       });
