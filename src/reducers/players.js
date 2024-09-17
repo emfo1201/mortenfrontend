@@ -26,10 +26,8 @@ const playersReducer = (state = initialState, action) => {
     case END_LOADING:
       return { ...state, isLoading: false }; // Set loading state to false
     case FETCH_PLAYERS:
-      console.log("fetch_players: ", action.payload.isLoading);
       return { ...state, players: action.payload }; // Update state with the fetched players
     case FETCH_PLAYERS_BY_SEARCH:
-      console.log("fetch: ", action.payload.data);
       return {
         ...state,
         filteredPlayers: action.payload.data, // Update state with filtered players
@@ -39,7 +37,7 @@ const playersReducer = (state = initialState, action) => {
       };
     case FETCH_PLAYER_DETAILS:
       return { ...state, player: action.payload }; // Set the selected player's details
-    case ADD_PLAYER:
+    case ADD_PLAYER: {
       const addedPlayers = [...state.players, action.payload];
       console.log("ADD_PLAYER: ", action.payload);
       return {
@@ -47,7 +45,8 @@ const playersReducer = (state = initialState, action) => {
         players: addedPlayers, // Add the new player to the full list
         filteredPlayers: addedPlayers, // Reflect the addition in the filtered list as well
       };
-    case UPDATE_PLAYER:
+    }
+    case UPDATE_PLAYER: {
       const updatedPlayers = state.players.map((player) =>
         player._id === action.payload._id ? action.payload : player
       );
@@ -59,7 +58,8 @@ const playersReducer = (state = initialState, action) => {
         players: updatedPlayers, // Update the player in the full list
         filteredPlayers: updatedFilteredPlayers, // Update the player in the filtered list
       };
-    case DELETE_PLAYER:
+    }
+    case DELETE_PLAYER: {
       const remainingPlayers = state.players.filter(
         (player) => player._id !== action.payload
       );
@@ -71,6 +71,7 @@ const playersReducer = (state = initialState, action) => {
         players: remainingPlayers, // Remove the player from the full list
         filteredPlayers: remainingFilteredPlayers, // Remove the player from the filtered list
       };
+    }
     default:
       return state; // Return the current state for any unknown action types
   }

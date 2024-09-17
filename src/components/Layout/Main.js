@@ -1,6 +1,6 @@
 //Main.js
 import React from "react";
-import Header from "./Header";
+import Header from "./Header/Header";
 import Footer from "./Footer";
 import Container from "@material-ui/core/Container";
 import { useAuth } from "../Auth/AuthContext";

@@ -37,7 +37,7 @@ const Paginate = ({ page, searchParams }) => {
       color="primary"
       renderItem={(item) => {
         const key = searchParams.get("key");
-        let url;
+        let url = "";
 
         if (searchQuery) {
           url = `/players/search?searchQuery=${searchQuery}&page=${item.page}`;
