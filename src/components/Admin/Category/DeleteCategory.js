@@ -16,7 +16,9 @@ function DeleteCategory({ category, id, handleCloseDialog }) {
   return (
     <div>
       <h3>Delete category</h3>
-      <p>Are you sure you want to delete the category "{category}"?</p>
+      <p>
+        Are you sure you want to delete the category &quot;{category}&quot;?
+      </p>
       <Button
         variant="contained"
         color="secondary"

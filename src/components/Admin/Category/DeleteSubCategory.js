@@ -21,7 +21,10 @@ function DeleteSubCategory({ mainCategory, subCategory, handleCloseDialog }) {
   return (
     <div>
       <h3>Delete category</h3>
-      <p>Are you sure you want to delete the sub category "{subCategory}"?</p>
+      <p>
+        Are you sure you want to delete the sub category &quot;{subCategory}
+        &quot;?
+      </p>
       <Button
         variant="contained"
         color="secondary"
