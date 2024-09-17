@@ -57,7 +57,18 @@ const AddNewPlayer = ({ handleOpenDialog, handleCloseDialog, openDialog }) => {
           title="Add New Player"
           onClick={handleOpenDialog}
         />
-        <div className={classes.overlay} onClick={handleOpenDialog}>
+        <div
+          className={classes.overlay}
+          onClick={handleOpenDialog}
+          role="button"
+          tabIndex={0}
+          aria-label="Add New Player"
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              handleOpenDialog();
+            }
+          }}
+        >
           <Typography variant="h6">Add New Player</Typography>
         </div>
         <ScrollDialog

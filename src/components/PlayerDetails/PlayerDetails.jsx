@@ -101,8 +101,11 @@ const Player = () => {
                   <ImageListItem
                     key={item}
                     cols={1}
+                    role="listitem"
                     onClick={() => handleImageClick(index)}
                     className={classes.imageListItem}
+                    tabIndex={0}
+                    aria-label={`Main image of ${player.name}`}
                   >
                     <img src={item} alt={`image-${index}`} />
                   </ImageListItem>
