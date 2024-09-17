@@ -16,6 +16,15 @@ import { useStyles } from "./styles";
 
 const initialState = { username: "", password: "" };
 
+// Snackbar component
+const AlertSnackbar = ({ open, message, onClose }) => (
+  <Snackbar open={open} autoHideDuration={5000} onClose={onClose}>
+    <MuiAlert elevation={6} variant="filled" severity="error" onClose={onClose}>
+      {message}
+    </MuiAlert>
+  </Snackbar>
+);
+
 function Login() {
   const navigate = useNavigate();
   const { login } = useAuth();
@@ -73,7 +82,7 @@ function Login() {
           Sign In
         </Typography>
         <form className={classes.form} onSubmit={handleSignIn}>
-          <Grid container spacing={2} component="div">
+          <Grid container spacing={2}>
             <Input
               name="username"
               label="Username"
@@ -86,34 +95,26 @@ function Login() {
               handleChange={handleChange}
               handleShowPassword={handleShowPassword}
             />
-            <Button
-              type="submit"
-              color="primary"
-              variant="contained"
-              fullWidth
-              className={classes.fields}
-              style={{ marginBottom: 20 }}
-              disabled={loading}
-            >
-              {loading ? "Loading..." : "Sign in"}
-            </Button>
+            <Grid item xs={12}>
+              <Button
+                type="submit"
+                color="primary"
+                variant="contained"
+                fullWidth
+                className={classes.fields}
+                style={{ marginBottom: 20 }}
+                disabled={loading}
+              >
+                {loading ? "Loading..." : "Sign in"}
+              </Button>
+            </Grid>
           </Grid>
         </form>
-        <Snackbar
+        <AlertSnackbar
           open={snackbarOpen}
-          autoHideDuration={5000}
+          message={snackbarMessage}
           onClose={handleCloseSnackbar}
-        >
-          {console.log("Rendering Snackbar, open:", snackbarOpen)}
-          <MuiAlert
-            elevation={6}
-            variant="filled"
-            severity="error"
-            onClose={handleCloseSnackbar}
-          >
-            {snackbarMessage}
-          </MuiAlert>
-        </Snackbar>
+        />
       </Paper>
     </Container>
   );

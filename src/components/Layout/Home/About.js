@@ -1,4 +1,3 @@
-// About.js
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -6,45 +5,51 @@ import Button from "@material-ui/core/Button";
 import useStyles from "./styles";
 import Soccer1 from "../../../images/soccer1.png";
 
+// Separate component for the image section
+const ImageSection = ({ classes }) => (
+  <Grid item xs={12}>
+    <div className={classes.imageContainer}>
+      <img className={classes.imageAbout} src={Soccer1} alt="Bild" />
+    </div>
+  </Grid>
+);
+
 const About = () => {
   const classes = useStyles();
 
   return (
     <Grid container spacing={3} className={classes.outerContainer}>
       {/* Vänster sida */}
-      <Grid item xs={12} sm={12} md={6} lg={6}>
-        <div className={classes.textContainer}>
-          <Typography variant="h4" gutterBottom>
-            About
-          </Typography>
-          <Typography variant="body1">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna. Lorem ipsum
-            dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
-            quis nostrud exercitation ullamco laboris nisi ut
-          </Typography>
-          <div className={classes.buttonContainer}>
-            <Button
-              variant="outlined"
-              color="primary"
-              className={classes.readMoreButton}
-            >
-              Read more
-            </Button>
-          </div>
-        </div>
+      <Grid
+        item
+        xs={12}
+        sm={12}
+        md={6}
+        lg={6}
+        className={classes.textContainer}
+      >
+        <Typography variant="h4" gutterBottom>
+          About
+        </Typography>
+        <Typography variant="body1">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna. Lorem ipsum dolor
+          sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+          incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+          quis nostrud exercitation ullamco laboris nisi ut.
+        </Typography>
+        <Button
+          variant="outlined"
+          color="primary"
+          className={classes.readMoreButton}
+        >
+          Read more
+        </Button>
       </Grid>
-      {/* Höger sida */}
+
+      {/* Höger sida med separat bildsektion */}
       <Grid item xs={12} sm={12} md={6} lg={6}>
-        <Grid container spacing={1}>
-          <Grid item xs={12}>
-            {/* Bild */}
-            <div className={classes.imageContainer}>
-              <img className={classes.imageAbout} src={Soccer1} alt="Bild" />
-            </div>
-          </Grid>
-        </Grid>
+        <ImageSection classes={classes} />
       </Grid>
     </Grid>
   );
