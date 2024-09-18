@@ -65,21 +65,29 @@ const Player = () => {
     setDialogImageIndex(swiper.activeIndex);
   }, []);
 
-  const renderImageListItem = useCallback(
-    (item, index) => (
-      <ImageListItem
-        key={item}
-        cols={1}
-        role="listitem"
-        onClick={() => handleImageClick(index)}
-        className={classes.imageListItem}
-        tabIndex={0}
-        aria-label={`Main image of ${player.name}`}
-      >
-        <img src={item} alt={`image-${index}`} />
-      </ImageListItem>
-    ),
-    [handleImageClick, player.name, classes.imageListItem]
+  const handleKeyDown = useCallback(
+    (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        handleImageClick(event.target.dataset.index);
+      }
+    },
+    [handleImageClick]
+  );
+
+  const renderImageListItem = (item, index) => (
+    <ImageListItem
+      key={item}
+      cols={1}
+      role="listitem"
+      onClick={() => handleImageClick(index)}
+      onKeyDown={handleKeyDown}
+      tabIndex={0}
+      aria-label={`Main image of ${player.name}`}
+      data-index={index}
+      className={classes.imageListItem}
+    >
+      <img src={item} alt={`image-${index}`} />
+    </ImageListItem>
   );
 
   if (!player) {
