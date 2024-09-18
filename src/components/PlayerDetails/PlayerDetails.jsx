@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   Paper,
   Typography,
@@ -40,43 +40,46 @@ const Player = () => {
     dispatch(getPlayerById(id));
   }, [dispatch, id]);
 
-  const handleClickOpen = (index) => {
+  const handleClickOpen = useCallback((index) => {
     setDialogImageIndex(index);
     setOpen(true);
-  };
+  }, []);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setOpen(false);
-  };
+  }, []);
 
-  const handleImageClick = (index) => {
+  const handleImageClick = useCallback((index) => {
     setCardImageIndex(index);
-  };
+  }, []);
 
-  const handleNextImage = () => {
+  const handleNextImage = useCallback(() => {
     swiperRef.current?.swiper?.slideNext();
-  };
+  }, []);
 
-  const handlePreviousImage = () => {
+  const handlePreviousImage = useCallback(() => {
     swiperRef.current?.swiper?.slidePrev();
-  };
+  }, []);
 
-  const handleSlideChange = (swiper) => {
+  const handleSlideChange = useCallback((swiper) => {
     setDialogImageIndex(swiper.activeIndex);
-  };
+  }, []);
 
-  const renderImageListItem = (item, index) => (
-    <ImageListItem
-      key={item}
-      cols={1}
-      role="listitem"
-      onClick={() => handleImageClick(index)}
-      className={classes.imageListItem}
-      tabIndex={0}
-      aria-label={`Main image of ${player.name}`}
-    >
-      <img src={item} alt={`image-${index}`} />
-    </ImageListItem>
+  const renderImageListItem = useCallback(
+    (item, index) => (
+      <ImageListItem
+        key={item}
+        cols={1}
+        role="listitem"
+        onClick={() => handleImageClick(index)}
+        className={classes.imageListItem}
+        tabIndex={0}
+        aria-label={`Main image of ${player.name}`}
+      >
+        <img src={item} alt={`image-${index}`} />
+      </ImageListItem>
+    ),
+    [handleImageClick, player.name, classes.imageListItem]
   );
 
   if (!player) {
@@ -91,11 +94,8 @@ const Player = () => {
     );
   }
 
-  const playerInfo = player
-    ? i18n.language === "no"
-      ? player.infoNorwegian
-      : player.infoEnglish
-    : "";
+  const playerInfo =
+    i18n.language === "no" ? player.infoNorwegian : player.infoEnglish;
 
   return (
     <Paper className={classes.paper} elevation={6}>
@@ -106,10 +106,10 @@ const Player = () => {
           width: "100%",
         }}
       >
-        <IconButton onClick={handlePreviousImage}>
+        <IconButton onClick={handlePreviousImage} aria-label="Previous image">
           <ArrowBackIcon fontSize="large" />
         </IconButton>
-        <IconButton onClick={handleNextImage}>
+        <IconButton onClick={handleNextImage} aria-label="Next image">
           <ArrowForwardIcon fontSize="large" />
         </IconButton>
       </div>
@@ -127,6 +127,9 @@ const Player = () => {
             src={player.images[cardImageIndex]}
             alt={player.name}
             onClick={() => handleClickOpen(cardImageIndex)}
+            role="button"
+            tabIndex={0}
+            aria-label={`Enlarge image of ${player.name}`}
           />
         </div>
         <div className={classes.section}>
@@ -162,6 +165,7 @@ const Player = () => {
           <IconButton
             className={`${classes.iconButton} ${classes.closeIconButton}`}
             onClick={handleClose}
+            aria-label="Close"
           >
             <CloseIcon />
           </IconButton>
@@ -187,12 +191,14 @@ const Player = () => {
           <IconButton
             className={`${classes.iconButton} ${classes.prevIconButton}`}
             onClick={handlePreviousImage}
+            aria-label="Previous slide"
           >
             <ArrowBackIcon fontSize="large" />
           </IconButton>
           <IconButton
             className={`${classes.iconButton} ${classes.nextIconButton}`}
             onClick={handleNextImage}
+            aria-label="Next slide"
           >
             <ArrowForwardIcon fontSize="large" />
           </IconButton>
