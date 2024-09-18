@@ -40,7 +40,6 @@ const Player = () => {
     dispatch(getPlayerById(id));
   }, [dispatch, id]);
 
-  // Use useCallback to memoize the callback functions
   const handleClickOpen = useCallback((index) => {
     setDialogImageIndex(index);
     setOpen(true);
@@ -66,14 +65,13 @@ const Player = () => {
     setDialogImageIndex(swiper.activeIndex);
   }, []);
 
-  // Avoid defining event handlers in JSX props
   const handleKeyDown = useCallback(
     (event) => {
       if (event.key === "Enter" || event.key === " ") {
-        handleImageClick(event.target.dataset.index);
+        handleImageClick(cardImageIndex);
       }
     },
-    [handleImageClick]
+    [cardImageIndex, handleImageClick]
   );
 
   const renderImageListItem = useCallback(
@@ -82,7 +80,7 @@ const Player = () => {
         key={item}
         cols={1}
         role="listitem"
-        onClick={() => handleImageClick(index)}
+        onClick={() => handleClickOpen(index)}
         onKeyDown={handleKeyDown}
         tabIndex={0}
         aria-label={`Main image of ${player.name}`}
@@ -92,7 +90,7 @@ const Player = () => {
         <img src={item} alt={`image-${index}`} />
       </ImageListItem>
     ),
-    [handleImageClick, handleKeyDown, player.name, classes.imageListItem]
+    [handleClickOpen, handleKeyDown, player.name, classes.imageListItem]
   );
 
   if (!player) {
@@ -140,11 +138,7 @@ const Player = () => {
             src={player.images[cardImageIndex]}
             alt={player.name}
             onClick={() => handleClickOpen(cardImageIndex)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                handleClickOpen(cardImageIndex);
-              }
-            }}
+            onKeyDown={handleKeyDown}
             role="button"
             tabIndex={0}
             aria-label={`Enlarge image of ${player.name}`}
