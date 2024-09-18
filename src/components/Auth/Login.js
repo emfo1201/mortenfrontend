@@ -1,11 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Button from "@material-ui/core/Button";
-import Input from "./Input";
 import { useDispatch } from "react-redux";
 import Container from "@material-ui/core/Container";
 import Snackbar from "@material-ui/core/Snackbar";
@@ -13,6 +10,7 @@ import MuiAlert from "@material-ui/lab/Alert";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import { useStyles } from "./styles";
+import LoginForm from "./LoginForm";
 
 const initialState = { username: "", password: "" };
 
@@ -81,35 +79,7 @@ function Login() {
         <Typography variant="h5" component="h5">
           Sign In
         </Typography>
-        <form className={classes.form} onSubmit={handleSignIn}>
-          <Grid container spacing={2}>
-            <Input
-              name="username"
-              label="Username"
-              handleChange={handleChange}
-            />
-            <Input
-              name="password"
-              label="Password"
-              type={showPassword ? "text" : "password"}
-              handleChange={handleChange}
-              handleShowPassword={handleShowPassword}
-            />
-            <Grid item xs={12}>
-              <Button
-                type="submit"
-                color="primary"
-                variant="contained"
-                fullWidth
-                className={classes.fields}
-                style={{ marginBottom: 20 }}
-                disabled={loading}
-              >
-                {loading ? "Loading..." : "Sign in"}
-              </Button>
-            </Grid>
-          </Grid>
-        </form>
+        <LoginForm />
         <AlertSnackbar
           open={snackbarOpen}
           message={snackbarMessage}
