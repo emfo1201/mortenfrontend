@@ -135,6 +135,11 @@ const Player = () => {
             src={player.images[cardImageIndex]}
             alt={player.name}
             onClick={() => handleClickOpen(cardImageIndex)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                handleClickOpen(cardImageIndex);
+              }
+            }}
             role="button"
             tabIndex={0}
             aria-label={`Enlarge image of ${player.name}`}
