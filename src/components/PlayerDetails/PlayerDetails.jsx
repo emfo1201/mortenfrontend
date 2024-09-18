@@ -51,6 +51,16 @@ const Player = () => {
     setOpen(false);
   };
 
+  const handleWrapperClick = () => {
+    handleClickOpen(cardImageIndex);
+  };
+
+  const handleWrapperKeyDown = (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      handleClickOpen(cardImageIndex);
+    }
+  };
+
   const handleImageClick = (index) => {
     setCardImageIndex(index);
   };
@@ -118,12 +128,8 @@ const Player = () => {
           <Box
             role="button"
             tabIndex={0}
-            onClick={() => handleClickOpen(cardImageIndex)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                handleClickOpen(cardImageIndex);
-              }
-            }}
+            onClick={handleWrapperClick}
+            onKeyDown={handleWrapperKeyDown}
             aria-label={`Image of ${player.name}, click to enlarge`}
             className={classes.imageWrapper}
             sx={{
