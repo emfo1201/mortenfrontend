@@ -3,7 +3,7 @@ import React, { useEffect, useState, useMemo } from "react";
 import { Grid, CircularProgress } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import AddNewPlayer from "../Players/Player/AddNewPlayer";
+import AddNewPlayer from "./Player/AddNewPlayer";
 import Player from "./Player/Player";
 import Paginate from "../Pagination/Pagination";
 import useStyles from "./styles";

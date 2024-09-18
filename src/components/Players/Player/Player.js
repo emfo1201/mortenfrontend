@@ -14,7 +14,7 @@ import {
 } from "@material-ui/core/";
 import DeleteIcon from "@material-ui/icons/Delete";
 import UpdateIcon from "@material-ui/icons/Update";
-import ScrollDialog from "../../../components/dialog";
+import ScrollDialog from "../../dialog";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { deletePlayer, updatePlayer } from "../../../actions/players";
