@@ -9,6 +9,7 @@ import {
   useMediaQuery,
   Dialog,
   IconButton,
+  Box,
 } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -114,10 +115,8 @@ const Player = () => {
           </ImageList>
         </div>
         <div className={classes.imageSection}>
-          <img
-            className={classes.media}
-            src={player.images[cardImageIndex]}
-            alt={player.name}
+          <Box
+            role="button"
             tabIndex={0}
             onClick={() => handleClickOpen(cardImageIndex)}
             onKeyDown={(e) => {
@@ -125,7 +124,23 @@ const Player = () => {
                 handleClickOpen(cardImageIndex);
               }
             }}
-          />
+            aria-label={`Image of ${player.name}, click to enlarge`}
+            className={classes.imageWrapper}
+            sx={{
+              cursor: "pointer",
+              outline: "none",
+              display: "inline-block",
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            <img
+              className={classes.media}
+              src={player.images[cardImageIndex]}
+              alt={player.name}
+              style={{ width: "100%", height: "100%" }}
+            />
+          </Box>
         </div>
         <div className={classes.section}>
           <Typography variant="h4" component="h4">
