@@ -68,26 +68,29 @@ const Player = () => {
   const handleKeyDown = useCallback(
     (event) => {
       if (event.key === "Enter" || event.key === " ") {
-        handleImageClick(event.target.dataset.index);
+        handleImageClick(parseInt(event.target.dataset.index, 10));
       }
     },
     [handleImageClick]
   );
 
-  const renderImageListItem = (item, index) => (
-    <ImageListItem
-      key={item}
-      cols={1}
-      role="listitem"
-      onClick={() => handleImageClick(index)}
-      onKeyDown={handleKeyDown}
-      tabIndex={0}
-      aria-label={`Main image of ${player.name}`}
-      data-index={index}
-      className={classes.imageListItem}
-    >
-      <img src={item} alt={`image-${index}`} />
-    </ImageListItem>
+  const renderImageListItem = useCallback(
+    (item, index) => (
+      <ImageListItem
+        key={item}
+        cols={1}
+        role="listitem"
+        onClick={() => handleImageClick(index)}
+        onKeyDown={handleKeyDown}
+        tabIndex={0}
+        aria-label={`Main image of ${player.name}`}
+        data-index={index}
+        className={classes.imageListItem}
+      >
+        <img src={item} alt={`image-${index}`} />
+      </ImageListItem>
+    ),
+    [handleImageClick, handleKeyDown, player.name, classes.imageListItem]
   );
 
   if (!player) {
