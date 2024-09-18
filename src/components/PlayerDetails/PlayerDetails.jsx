@@ -68,27 +68,20 @@ const Player = () => {
   const handleKeyDown = useCallback(
     (event) => {
       if (event.key === "Enter" || event.key === " ") {
-        handleImageClick(event.target.dataset.index);
+        handleImageClick(event.currentTarget.dataset.index);
       }
     },
     [handleImageClick]
   );
 
-  const renderImageListItem = (item, index) => {
-    const handleClick = () => handleImageClick(index);
-    const handleKeyDownHandler = (event) => {
-      if (event.key === "Enter" || event.key === " ") {
-        handleImageClick(index);
-      }
-    };
-
-    return (
+  const renderImageListItem = useCallback(
+    (item, index) => (
       <ImageListItem
         key={item}
         cols={1}
         role="listitem"
-        onClick={handleClick}
-        onKeyDown={handleKeyDownHandler}
+        onClick={() => handleImageClick(index)}
+        onKeyDown={handleKeyDown}
         tabIndex={0}
         aria-label={`Main image of ${player.name}`}
         data-index={index}
@@ -96,8 +89,9 @@ const Player = () => {
       >
         <img src={item} alt={`image-${index}`} />
       </ImageListItem>
-    );
-  };
+    ),
+    [handleImageClick, handleKeyDown, player.name, classes.imageListItem]
+  );
 
   if (!player) {
     return null;
@@ -144,7 +138,7 @@ const Player = () => {
             src={player.images[cardImageIndex]}
             alt={player.name}
             onClick={() => handleClickOpen(cardImageIndex)}
-            onKeyDown={(e) => handleKeyDown(e)}
+            onKeyDown={handleKeyDown}
             role="button"
             tabIndex={0}
             aria-label={`Enlarge image of ${player.name}`}
