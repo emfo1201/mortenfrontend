@@ -79,7 +79,13 @@ function Login() {
         <Typography variant="h5" component="h5">
           Sign In
         </Typography>
-        <LoginForm />
+        <LoginForm
+          handleChange={handleChange}
+          handleSignIn={handleSignIn}
+          showPassword={showPassword}
+          handleShowPassword={handleShowPassword}
+          loading={loading}
+        />
         <AlertSnackbar
           open={snackbarOpen}
           message={snackbarMessage}
