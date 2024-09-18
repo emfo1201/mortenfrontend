@@ -40,6 +40,7 @@ const Player = () => {
     dispatch(getPlayerById(id));
   }, [dispatch, id]);
 
+  // Use useCallback to memoize the callback functions
   const handleClickOpen = useCallback((index) => {
     setDialogImageIndex(index);
     setOpen(true);
@@ -65,10 +66,11 @@ const Player = () => {
     setDialogImageIndex(swiper.activeIndex);
   }, []);
 
+  // Avoid defining event handlers in JSX props
   const handleKeyDown = useCallback(
     (event) => {
       if (event.key === "Enter" || event.key === " ") {
-        handleImageClick(event.currentTarget.dataset.index);
+        handleImageClick(event.target.dataset.index);
       }
     },
     [handleImageClick]
@@ -138,7 +140,11 @@ const Player = () => {
             src={player.images[cardImageIndex]}
             alt={player.name}
             onClick={() => handleClickOpen(cardImageIndex)}
-            onKeyDown={handleKeyDown}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                handleClickOpen(cardImageIndex);
+              }
+            }}
             role="button"
             tabIndex={0}
             aria-label={`Enlarge image of ${player.name}`}
