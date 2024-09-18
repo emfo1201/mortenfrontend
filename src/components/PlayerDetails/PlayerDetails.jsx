@@ -106,11 +106,6 @@ const Player = () => {
                     className={classes.imageListItem}
                     tabIndex={0}
                     aria-label={`Main image of ${player.name}`}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.key === " ") {
-                        handleClickOpen(cardImageIndex);
-                      }
-                    }}
                   >
                     <img src={item} alt={`image-${index}`} />
                   </ImageListItem>
@@ -124,6 +119,11 @@ const Player = () => {
             src={player.images[cardImageIndex]}
             alt={player.name}
             onClick={() => handleClickOpen(cardImageIndex)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                handleClickOpen(cardImageIndex);
+              }
+            }}
           />
         </div>
         <div className={classes.section}>
