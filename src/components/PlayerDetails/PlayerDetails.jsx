@@ -118,6 +118,7 @@ const Player = () => {
             className={classes.media}
             src={player.images[cardImageIndex]}
             alt={player.name}
+            role="button"
             onClick={() => handleClickOpen(cardImageIndex)}
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === " ") {
