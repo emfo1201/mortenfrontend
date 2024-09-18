@@ -1,5 +1,4 @@
-//PlayerDetails.jsx
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   Paper,
   Typography,
@@ -9,7 +8,6 @@ import {
   useMediaQuery,
   Dialog,
   IconButton,
-  Box,
 } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -34,7 +32,6 @@ const Player = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const { id } = useParams();
-
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -42,36 +39,26 @@ const Player = () => {
     dispatch(getPlayerById(id));
   }, [dispatch, id]);
 
-  const handleClickOpen = (index) => {
+  const handleClickOpen = useCallback((index) => {
     setDialogImageIndex(index);
     setOpen(true);
-  };
+  }, []);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setOpen(false);
-  };
+  }, []);
 
-  const handleWrapperClick = () => {
-    handleClickOpen(cardImageIndex);
-  };
-
-  const handleWrapperKeyDown = (e) => {
-    if (e.key === "Enter" || e.key === " ") {
-      handleClickOpen(cardImageIndex);
-    }
-  };
-
-  const handleImageClick = (index) => {
+  const handleImageClick = useCallback((index) => {
     setCardImageIndex(index);
-  };
+  }, []);
 
-  const handleNextImage = () => {
+  const handleNextImage = useCallback(() => {
     swiperRef.current?.swiper?.slideNext();
-  };
+  }, []);
 
-  const handlePreviousImage = () => {
+  const handlePreviousImage = useCallback(() => {
     swiperRef.current?.swiper?.slidePrev();
-  };
+  }, []);
 
   if (!player) {
     return null;
@@ -100,8 +87,15 @@ const Player = () => {
           width: "100%",
         }}
       >
-        <ArrowBackIcon />
-        <ArrowForwardIcon />
+        <IconButton
+          className={classes.iconButton}
+          onClick={handlePreviousImage}
+        >
+          <ArrowBackIcon fontSize="large" />
+        </IconButton>
+        <IconButton className={classes.iconButton} onClick={handleNextImage}>
+          <ArrowForwardIcon fontSize="large" />
+        </IconButton>
       </div>
       <div className={classes.card}>
         <div>
@@ -125,28 +119,12 @@ const Player = () => {
           </ImageList>
         </div>
         <div className={classes.imageSection}>
-          <Box
-            role="button"
-            tabIndex={0}
-            onClick={handleWrapperClick}
-            onKeyDown={handleWrapperKeyDown}
-            aria-label={`Image of ${player.name}, click to enlarge`}
-            className={classes.imageWrapper}
-            sx={{
-              cursor: "pointer",
-              outline: "none",
-              display: "inline-block",
-              width: "100%",
-              height: "100%",
-            }}
-          >
-            <img
-              className={classes.media}
-              src={player.images[cardImageIndex]}
-              alt={player.name}
-              style={{ width: "100%", height: "100%" }}
-            />
-          </Box>
+          <img
+            className={classes.media}
+            src={player.images[cardImageIndex]}
+            alt={player.name}
+            onClick={() => handleClickOpen(cardImageIndex)}
+          />
         </div>
         <div className={classes.section}>
           <Typography variant="h4" component="h4">
