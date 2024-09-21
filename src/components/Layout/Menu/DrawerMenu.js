@@ -19,6 +19,13 @@ import DeleteSubCategory from "../../Admin/Category/DeleteSubCategory";
 import ScrollDialog from "../../dialog";
 import { useStyles } from "./styles";
 
+/**
+ * DrawerMenu component renders a navigation drawer for selecting categories and subcategories.
+ *
+ * @param {Array} categories - The list of categories to display in the drawer.
+ * @param {boolean} isAuthenticated - Indicates whether the user is authenticated.
+ * @returns {JSX.Element} The rendered DrawerMenu component.
+ */
 const DrawerMenu = ({ categories, isAuthenticated }) => {
   const classes = useStyles();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -106,6 +113,13 @@ const DrawerMenu = ({ categories, isAuthenticated }) => {
     [handleOpenDialog, handleCloseDialog]
   );
 
+  /**
+   * Returns a click handler for deleting a specific subcategory.
+   *
+   * @param {string} mainMenu - The main category name.
+   * @param {string} _id - The id of the category.
+   * @returns {function} The click handler function.
+   */
   const createDeleteCategoryClickHandler = (mainMenu, _id) => {
     return () => handleDeleteCategoryClick(mainMenu, _id);
   };
@@ -147,6 +161,13 @@ const DrawerMenu = ({ categories, isAuthenticated }) => {
     [handleDrawerClose, navigate]
   );
 
+  /**
+   * Returns a click handler for opening a list of players.
+   *
+   * @param {string} mainMenu - The main category name.
+   * @param {string} subItem - The subcategory name.
+   * @returns {function} The click handler function.
+   */
   const createListPlayerHandler = useCallback(
     (mainMenu, subItem) => (e) => {
       listPlayer(e, mainMenu, subItem);
