@@ -1,5 +1,5 @@
 //Players.js
-import React, { useEffect, useState, useMemo, useCallback } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import { Grid, CircularProgress } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
@@ -25,11 +25,6 @@ const Players = () => {
   const isAuthenticated = useAuth().isAuthenticated;
   const query = useQuery();
   const page = query.get("page") || 1;
-
-  useEffect(() => {
-    console.log("isLoading: ", isLoading);
-    console.log("filteredPlayers: ", filteredPlayers);
-  }, [filteredPlayers, isLoading]);
 
   const handleOpenDialog = useCallback(() => {
     if (isAuthenticated) {

@@ -53,40 +53,94 @@ const DrawerMenu = ({ categories, isAuthenticated }) => {
   );
 
   useEffect(() => {
-    console.log("setMenu in DrawerMenu");
     setMenu(isAuthenticated ? categories : filterCategories(categories));
   }, [categories, filterCategories, isAuthenticated, players]);
 
-  useEffect(() => {
-    console.log("useEffect in DrawerMenu");
-  }, [players]);
+  useEffect(() => {}, [players]);
 
-  const handleDrawerOpen = () => {
+  const handleDrawerOpen = useCallback(() => {
     setIsDrawerOpen(true);
-  };
+  }, []);
 
-  const handleDrawerClose = () => {
+  const handleDrawerClose = useCallback(() => {
     setIsDrawerOpen(false);
-  };
+  }, []);
 
-  const handleOpenDialog = (content) => {
+  const handleOpenDialog = useCallback((content) => {
     setDialogContent(content);
     setOpenDialog(true);
-  };
+  }, []);
 
-  const handleCloseDialog = () => {
+  const handleCloseDialog = useCallback(() => {
     setOpenDialog(false);
+  }, []);
+
+  const handleAddCategoryClick = useCallback(() => {
+    handleOpenDialog(<AddCategory handleCloseDialog={handleCloseDialog} />);
+  }, [handleOpenDialog, handleCloseDialog]);
+
+  const handleAddSubCategoryClick = useCallback(
+    (mainMenu) => {
+      handleOpenDialog(
+        <AddSubCategory
+          mainCategory={mainMenu}
+          handleCloseDialog={handleCloseDialog}
+        />
+      );
+    },
+    [handleOpenDialog, handleCloseDialog]
+  );
+
+  const createAddSubCategoryClickHandler = (mainMenu) => () => {
+    handleAddSubCategoryClick(mainMenu);
   };
 
-  const listPlayer = (e, mainMenu, sub) => {
-    e.preventDefault();
-    const categories = [mainMenu, sub];
-    console.log("navigate in DrawerMenu");
-    navigate(`/players/listPlayers?key=${categories.join(",")}&page=1`, {
-      redirect: true,
-    });
-    handleDrawerClose();
+  const handleDeleteCategoryClick = useCallback(
+    (mainMenu, _id) => {
+      handleOpenDialog(
+        <DeleteCategory
+          category={mainMenu}
+          id={_id}
+          handleCloseDialog={handleCloseDialog}
+        />
+      );
+    },
+    [handleOpenDialog, handleCloseDialog]
+  );
+
+  const createDeleteCategoryClickHandler = (mainMenu, _id) => () => {
+    handleDeleteCategoryClick(mainMenu, _id);
   };
+
+  const handleDeleteSubCategoryClick = useCallback(
+    (mainMenu, subItem) => {
+      handleOpenDialog(
+        <DeleteSubCategory
+          mainCategory={mainMenu}
+          subCategory={subItem}
+          handleCloseDialog={handleCloseDialog}
+        />
+      );
+    },
+    [handleOpenDialog, handleCloseDialog]
+  );
+
+  const createDeleteSubCategoryClickHandler = (mainMenu, subItem) => () => {
+    handleDeleteSubCategoryClick(mainMenu, subItem);
+  };
+
+  const listPlayer = useCallback(
+    (e, mainMenu, sub) => {
+      e.preventDefault();
+      const categories = [mainMenu, sub];
+      console.log("navigate in DrawerMenu");
+      navigate(`/players/listPlayers?key=${categories.join(",")}&page=1`, {
+        redirect: true,
+      });
+      handleDrawerClose();
+    },
+    [handleDrawerClose, navigate]
+  );
 
   return (
     <div>
@@ -111,11 +165,7 @@ const DrawerMenu = ({ categories, isAuthenticated }) => {
               variant="outlined"
               size="small"
               color="primary"
-              onClick={() =>
-                handleOpenDialog(
-                  <AddCategory handleCloseDialog={handleCloseDialog} />
-                )
-              }
+              onClick={handleAddCategoryClick}
             >
               Add new category
             </Button>
@@ -137,28 +187,13 @@ const DrawerMenu = ({ categories, isAuthenticated }) => {
                     <div>
                       <IconButton
                         className={classes.iconButton}
-                        onClick={() =>
-                          handleOpenDialog(
-                            <AddSubCategory
-                              mainCategory={mainMenu}
-                              handleCloseDialog={handleCloseDialog}
-                            />
-                          )
-                        }
+                        onClick={createAddSubCategoryClickHandler}
                       >
                         <AddIcon />
                       </IconButton>
                       <IconButton
                         className={classes.iconButton}
-                        onClick={() =>
-                          handleOpenDialog(
-                            <DeleteCategory
-                              category={mainMenu}
-                              id={_id}
-                              handleCloseDialog={handleCloseDialog}
-                            />
-                          )
-                        }
+                        onClick={createDeleteCategoryClickHandler}
                       >
                         <DeleteIcon />
                       </IconButton>
@@ -182,15 +217,7 @@ const DrawerMenu = ({ categories, isAuthenticated }) => {
                           <div>
                             <IconButton
                               className={classes.iconButton}
-                              onClick={() =>
-                                handleOpenDialog(
-                                  <DeleteSubCategory
-                                    mainCategory={mainMenu}
-                                    subCategory={subItem}
-                                    handleCloseDialog={handleCloseDialog}
-                                  />
-                                )
-                              }
+                              onClick={createDeleteSubCategoryClickHandler}
                             >
                               <DeleteIcon />
                             </IconButton>
