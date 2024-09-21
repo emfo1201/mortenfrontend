@@ -137,8 +137,6 @@ const Player = () => {
             className={classes.media}
             src={player.images[cardImageIndex]}
             alt={player.name}
-            aria-label="Open image"
-            tabIndex={0}
             onClick={onClickOpen}
             onKeyDown={handleKeyDown}
           />
