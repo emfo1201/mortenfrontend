@@ -1,5 +1,5 @@
 //Player.js
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   Card,
   CardActions,
@@ -32,49 +32,49 @@ const Player = ({ player }) => {
   const [openDialog, setOpenDialog] = useState(false);
   const [openUpdatePlayer, setOpenUpdatePlayer] = useState(false);
 
-  const handleOpenUpdatePlayer = () => {
+  const handleOpenUpdatePlayer = useCallback(() => {
     setOpenUpdatePlayer(true);
-  };
+  }, []);
 
-  const handleCloseUpdatePlayer = () => {
+  const handleCloseUpdatePlayer = useCallback(() => {
     setOpenUpdatePlayer(false);
-  };
+  }, []);
 
-  const handleOpenDialog = () => {
+  const handleOpenDialog = useDispatch(() => {
     setOpenDialog(true);
-  };
+  }, []);
 
-  const handleCloseDialog = () => {
+  const handleCloseDialog = useCallback(() => {
     setOpenDialog(false);
-  };
+  }, []);
 
-  const handleDeletePlayer = () => {
+  const handleDeletePlayer = useCallback(() => {
     dispatch(deletePlayer(player._id));
     setOpenDialog(false);
-  };
+  }, [dispatch, player._id]);
 
-  const openPlayer = () => {
-    console.log("player: ", player);
+  const openPlayer = useCallback(() => {
     history(`/players/${player._id}`, { redirect: true });
-  };
+  }, [history, player._id]);
 
-  const handleSubmit = (updatedPlayerData) => {
-    const data = new FormData();
+  const handleSubmit = useCallback(
+    (updatedPlayerData) => {
+      const data = new FormData();
 
-    console.log("updatedPlayerData: ", updatedPlayerData);
+      data.append("name", updatedPlayerData.name);
+      data.append("club", updatedPlayerData.club);
+      data.append("infoEnglish", updatedPlayerData.infoEnglish);
+      data.append("infoNorwegian", updatedPlayerData.infoNorwegian);
+      data.append("categories", JSON.stringify(updatedPlayerData.category));
 
-    data.append("name", updatedPlayerData.name);
-    data.append("club", updatedPlayerData.club);
-    data.append("infoEnglish", updatedPlayerData.infoEnglish);
-    data.append("infoNorwegian", updatedPlayerData.infoNorwegian);
-    data.append("categories", JSON.stringify(updatedPlayerData.category));
+      updatedPlayerData.images.forEach((image, index) => {
+        data.append("images", image);
+      });
 
-    updatedPlayerData.images.forEach((image, index) => {
-      data.append("images", image);
-    });
-
-    dispatch(updatePlayer(player._id, data));
-  };
+      dispatch(updatePlayer(player._id, data));
+    },
+    [dispatch, player._id]
+  );
 
   return (
     <Card className={classes.card} raised elevation={6}>

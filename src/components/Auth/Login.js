@@ -41,9 +41,12 @@ function Login() {
     };
   }, []);
 
-  const handleChange = useCallback((e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  }, []);
+  const handleChange = useCallback(
+    (e) => {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    },
+    [formData]
+  );
 
   const handleSignIn = useCallback(
     async (e) => {
