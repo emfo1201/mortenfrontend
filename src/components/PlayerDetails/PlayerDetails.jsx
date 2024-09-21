@@ -4,6 +4,7 @@ import {
   Paper,
   Typography,
   CircularProgress,
+  CardMedia,
   Divider,
   useTheme,
   useMediaQuery,
@@ -124,10 +125,12 @@ const Player = () => {
           </ImageList>
         </div>
         <div className={classes.imageSection}>
-          <img
-            className={classes.media}
-            src={player.images[cardImageIndex]}
+          <CardMedia
+            component="img"
+            height="400"
+            image={player.images[cardImageIndex]}
             alt={player.name}
+            className={classes.media}
             onClick={onClickOpen}
           />
         </div>

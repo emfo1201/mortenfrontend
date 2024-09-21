@@ -142,6 +142,13 @@ const DrawerMenu = ({ categories, isAuthenticated }) => {
     [handleDrawerClose, navigate]
   );
 
+  const createListPlayerHandler = useCallback(
+    (mainMenu, subItem) => (e) => {
+      listPlayer(e, mainMenu, subItem);
+    },
+    [listPlayer]
+  );
+
   return (
     <div>
       <IconButton
@@ -212,7 +219,7 @@ const DrawerMenu = ({ categories, isAuthenticated }) => {
                       <ListItem
                         key={`${subItemId}-${index}`}
                         button
-                        onClick={listPlayer}
+                        onClick={createListPlayerHandler(mainMenu, subItem)}
                         className={classes.subMenuItem}
                       >
                         <ListItemText primary={subItemText} />
