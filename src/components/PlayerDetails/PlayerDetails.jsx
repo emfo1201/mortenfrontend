@@ -41,18 +41,24 @@ const Player = () => {
     dispatch(getPlayerById(id));
   }, [dispatch, id]);
 
-  const handleClickOpen = useCallback((index) => {
-    setDialogImageIndex(index);
-    setOpen(true);
-  }, []);
+  const handleClickOpen = useCallback(
+    (index) => {
+      setDialogImageIndex(index);
+      setOpen(true);
+    },
+    [setDialogImageIndex, setOpen]
+  );
 
   const handleClose = useCallback(() => {
     setOpen(false);
   }, []);
 
-  const handleImageClick = (index) => {
-    setCardImageIndex(index);
-  };
+  const handleImageClick = useCallback(
+    (index) => {
+      setCardImageIndex(index);
+    },
+    [setCardImageIndex]
+  );
 
   const handleNextImage = useCallback(() => {
     swiperRef.current?.swiper?.slideNext();
