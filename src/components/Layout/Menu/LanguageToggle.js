@@ -1,5 +1,5 @@
 //LanguageToggle.js
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { Button } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import Cookies from "js-cookie";
@@ -16,11 +16,11 @@ const LanguageToggle = () => {
     }
   }, [i18n]);
 
-  const toggleLanguage = () => {
+  const toggleLanguage = useCallback(() => {
     const newLanguage = i18n.language === "no" ? "en" : "no";
     i18n.changeLanguage(newLanguage);
     Cookies.set("language", newLanguage, { expires: 365 }); // Store language cookie for 1 year
-  };
+  }, [i18n]);
 
   return (
     <Button className={classes.button} onClick={toggleLanguage}>

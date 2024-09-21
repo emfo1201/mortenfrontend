@@ -212,7 +212,7 @@ const DrawerMenu = ({ categories, isAuthenticated }) => {
                       <ListItem
                         key={`${subItemId}-${index}`}
                         button
-                        onClick={(e) => listPlayer(e, mainMenu, subItem)}
+                        onClick={listPlayer}
                         className={classes.subMenuItem}
                       >
                         <ListItemText primary={subItemText} />
