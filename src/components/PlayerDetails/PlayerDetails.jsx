@@ -46,7 +46,7 @@ const Player = () => {
     setOpen(true);
   }, []);
 
-  // Funktion för att hantera bildklick utan arrow function
+  // Function to handle image clicks without inline arrow function
   const onClickOpen = useCallback(() => {
     handleClickOpen(cardImageIndex);
   }, [cardImageIndex, handleClickOpen]);
@@ -62,6 +62,7 @@ const Player = () => {
     [setCardImageIndex]
   );
 
+  // Function to handle image clicks without inline arrow function
   const onImageClick = useCallback(() => {
     handleImageClick(cardImageIndex);
   }, [cardImageIndex, handleImageClick]);
