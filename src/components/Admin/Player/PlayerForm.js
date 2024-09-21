@@ -7,6 +7,16 @@ import CategorySelect from "./CategorySelect";
 import PlayerData from "./PlayerData";
 import ImageUpload from "./ImageUpload";
 
+/**
+ * AddUpdatePlayerForm component allows users to add a new player or update
+ * an existing player's information.
+ *
+ * @param {Object} props - The component props.
+ * @param {Object} [props.player] - The player data to be updated; if undefined, a new player is created.
+ * @param {function} props.handleSubmit - Function to handle the form submission.
+ * @param {function} props.handleCloseUpdatePlayer - Function to close the form after submission.
+ * @returns {JSX.Element} The rendered AddUpdatePlayerForm component.
+ */
 function AddUpdatePlayerForm({
   player,
   handleSubmit,

@@ -3,6 +3,21 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Input from "./Input";
 
+/**
+ * LoginForm component renders a form for user authentication.
+ * It includes input fields for the username and password,
+ * and a button to submit the form. The component handles
+ * password visibility toggling and loading state while
+ * signing in.
+ *
+ * @param {Function} handleChange - Function to handle input changes.
+ * @param {Function} handleSignIn - Function to handle form submission.
+ * @param {boolean} showPassword - Determines if the password should be visible.
+ * @param {Function} handleShowPassword - Function to toggle password visibility.
+ * @param {boolean} loading - Indicates if the form is in a loading state.
+ *
+ * @returns {JSX.Element} The rendered LoginForm component.
+ */
 const LoginForm = ({
   handleChange,
   handleSignIn,

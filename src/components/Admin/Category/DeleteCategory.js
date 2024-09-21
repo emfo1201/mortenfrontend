@@ -4,6 +4,16 @@ import { useDispatch } from "react-redux";
 import Button from "@material-ui/core/Button";
 import { deleteCategory } from "../../../actions/menu";
 
+/**
+ * DeleteCategory component allows users to delete a specified category.
+ * It provides a confirmation dialog before executing the deletion.
+ *
+ * @param {Object} props - The component props.
+ * @param {string} props.category - The category to be deleted.
+ * @param {string} props.id - The unique identifier of the category to be deleted.
+ * @param {function} props.handleCloseDialog - Function to close the dialog after deletion or cancellation.
+ * @returns {JSX.Element} The rendered DeleteCategory component.
+ */
 function DeleteCategory({ category, id, handleCloseDialog }) {
   const dispatch = useDispatch();
 

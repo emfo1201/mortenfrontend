@@ -5,6 +5,14 @@ import Button from "@material-ui/core/Button";
 import { useDispatch } from "react-redux";
 import { addCategory } from "../../../actions/menu";
 
+/**
+ * AddCategory component allows users to create a new category.
+ * It manages the input for the category name and dispatches an action to add the category.
+ *
+ * @param {Object} props - The component props.
+ * @param {function} props.handleCloseDialog - Function to close the dialog after the category is added.
+ * @returns {JSX.Element} The rendered AddCategory component.
+ */
 function AddCategory({ handleCloseDialog }) {
   const [categoryData, setCategoryData] = useState({ categoryName: "" });
   const dispatch = useDispatch();

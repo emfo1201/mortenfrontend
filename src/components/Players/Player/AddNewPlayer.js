@@ -8,6 +8,16 @@ import ScrollDialog from "../../dialog";
 import PlayerForm from "../../Admin/Player/PlayerForm";
 import { addPlayer } from "../../../actions/players";
 
+/**
+ * AddNewPlayer component allows users to add a new player
+ * by providing a form to input player details.
+ *
+ * @param {Object} props - The component props.
+ * @param {function} props.handleOpenDialog - Function to open the dialog for adding a new player.
+ * @param {function} props.handleCloseDialog - Function to close the dialog after the player has been added.
+ * @param {boolean} props.openDialog - A boolean indicating if the dialog is currently open.
+ * @returns {JSX.Element} The rendered AddNewPlayer component.
+ */
 const AddNewPlayer = ({ handleOpenDialog, handleCloseDialog, openDialog }) => {
   const classes = useStyles();
   const dispatch = useDispatch();

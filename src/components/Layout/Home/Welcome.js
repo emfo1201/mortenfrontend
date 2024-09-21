@@ -38,6 +38,12 @@ const TextSection = ({ classes }) => (
   </div>
 );
 
+/**
+ * Welcome component serves as a greeting or introductory section of the application.
+ * It may include a welcome message, application features, or a call to action.
+ *
+ * @returns {JSX.Element} The rendered Welcome component.
+ */
 const Welcome = () => {
   const classes = useStyles();
 

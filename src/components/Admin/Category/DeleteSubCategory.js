@@ -4,6 +4,16 @@ import { useDispatch } from "react-redux";
 import Button from "@material-ui/core/Button";
 import { deleteSubCategory } from "../../../actions/menu";
 
+/**
+ * DeleteSubCategory component allows users to delete a specified subcategory.
+ * It provides a confirmation dialog before executing the deletion.
+ *
+ * @param {Object} props - The component props.
+ * @param {string} props.mainCategory - The main category that the subcategory belongs to.
+ * @param {string} props.subCategory - The subcategory to be deleted.
+ * @param {function} props.handleCloseDialog - Function to close the dialog after deletion or cancellation.
+ * @returns {JSX.Element} The rendered DeleteSubCategory component.
+ */
 function DeleteSubCategory({ mainCategory, subCategory, handleCloseDialog }) {
   const dispatch = useDispatch();
 

@@ -14,6 +14,12 @@ const ImageSection = ({ classes }) => (
   </Grid>
 );
 
+/**
+ * About component displays information about the application or organization.
+ * It may include details such as mission, vision, values, and key features.
+ *
+ * @returns {JSX.Element} The rendered About component.
+ */
 const About = () => {
   const classes = useStyles();
 

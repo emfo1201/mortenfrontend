@@ -5,6 +5,15 @@ import Button from "@material-ui/core/Button";
 import { useDispatch } from "react-redux";
 import { addSubCategory } from "../../../actions/menu";
 
+/**
+ * AddSubCategory component provides a form to add a new subcategory
+ * under a specified main category.
+ *
+ * @param {Object} props - The component props.
+ * @param {string} props.mainCategory - The main category under which the subcategory will be added.
+ * @param {function} props.handleCloseDialog - Function to close the dialog after adding the subcategory.
+ * @returns {JSX.Element} The rendered AddSubCategory component.
+ */
 function AddSubCategory({ mainCategory, handleCloseDialog }) {
   const [subCategory, setSubCategory] = useState("");
   const dispatch = useDispatch();

@@ -3,6 +3,16 @@ import React, { useEffect } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 
+/**
+ * ImageUpload component allows users to upload and preview images,
+ * as well as remove selected images.
+ *
+ * @param {Object} props - The component props.
+ * @param {Array} props.imagePreviews - Array of image previews to display.
+ * @param {function} props.handleImageChange - Function to handle changes to the image input.
+ * @param {function} props.handleRemoveImage - Function to remove a selected image.
+ * @returns {JSX.Element} The rendered ImageUpload component.
+ */
 function ImageUpload({
   imagePreviews,
   handleImageChange,

@@ -4,6 +4,13 @@ import { Link } from "react-router-dom";
 import useStyles from "./styles";
 import { useTranslation } from "react-i18next";
 
+/**
+ * FooterMessage component displays a message in the footer section
+ * of the application. It uses internationalization for translating
+ * the message based on the user's selected language.
+ *
+ * @returns {JSX.Element} The rendered FooterMessage component.
+ */
 const FooterMessage = () => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -14,6 +21,13 @@ const FooterMessage = () => {
   );
 };
 
+/**
+ * FooterLinks component renders a set of links in the footer section
+ * of the application. It provides users with navigation options
+ * and important information related to the website.
+ *
+ * @returns {JSX.Element} The rendered FooterLinks component.
+ */
 const FooterLinks = () => {
   const classes = useStyles();
   return (

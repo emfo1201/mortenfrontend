@@ -23,6 +23,15 @@ import { useAuth } from "../../Auth/AuthContext";
 
 import useStyles from "./styles";
 
+/**
+ * Player component displays the details of a single player,
+ * including the player's name, club, and images, as well as
+ * functionality for updating and deleting the player.
+ *
+ * @param {Object} props - The component props.
+ * @param {Object} props.player - The player object containing player details.
+ * @returns {JSX.Element} The rendered Player component.
+ */
 const Player = ({ player }) => {
   const dispatch = useDispatch();
   const history = useNavigate();

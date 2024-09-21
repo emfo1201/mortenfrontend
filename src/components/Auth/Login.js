@@ -23,6 +23,13 @@ const AlertSnackbar = ({ open, message, onClose }) => (
   </Snackbar>
 );
 
+/**
+ * Login component handles user authentication by providing
+ * a login form. It allows users to enter their credentials
+ * and navigate to the application upon successful login.
+ *
+ * @returns {JSX.Element} The rendered Login component.
+ */
 function Login() {
   const navigate = useNavigate();
   const { login } = useAuth();
