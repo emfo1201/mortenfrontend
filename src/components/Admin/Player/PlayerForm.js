@@ -1,5 +1,5 @@
 //PlayerForm.js
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
@@ -52,8 +52,6 @@ function AddUpdatePlayerForm({
 
   useEffect(() => {
     if (player) {
-      console.log("main: ", player.category.main);
-      console.log("sub: ", player.category.sub);
       setPlayerData({
         name: player.name || "",
         club: player.club || "",
@@ -88,72 +86,87 @@ function AddUpdatePlayerForm({
     }
   }, [player]);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setPlayerData({
-      ...playerData,
-      [name]: value,
-    });
-  };
+  const handleInputChange = useCallback(
+    (e) => {
+      const { name, value } = e.target;
+      setPlayerData({
+        ...playerData,
+        [name]: value,
+      });
+    },
+    [playerData]
+  );
 
-  const handleSelectChange = (event) => {
-    const newSelectedCategory = event.target.value;
-    setSelectedCategory(newSelectedCategory);
+  const handleSelectChange = useCallback(
+    (e) => {
+      const newSelectedCategory = e.target.value;
+      setSelectedCategory(newSelectedCategory);
 
-    const selectedSubCategoriesForNewCategory =
-      selectedSubCategoriesByCategory[newSelectedCategory] || [];
+      const selectedSubCategoriesForNewCategory =
+        selectedSubCategoriesByCategory[newSelectedCategory] || [];
 
-    setSelectedSubCategories(selectedSubCategoriesForNewCategory);
-  };
+      setSelectedSubCategories(selectedSubCategoriesForNewCategory);
+    },
+    [selectedSubCategoriesByCategory]
+  );
 
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
-    const previews = files.map((file) => URL.createObjectURL(file));
+  const handleImageChange = useCallback(
+    (e) => {
+      const files = Array.from(e.target.files);
+      const previews = files.map((file) => URL.createObjectURL(file));
 
-    setImageFiles([...imageFiles, ...files]);
-    setImagePreviews([...imagePreviews, ...previews]);
-    setPlayerData({ ...playerData, images: [...imageFiles, ...files] });
-  };
+      setImageFiles([...imageFiles, ...files]);
+      setImagePreviews([...imagePreviews, ...previews]);
+      setPlayerData({ ...playerData, images: [...imageFiles, ...files] });
+    },
+    [imageFiles, imagePreviews, playerData]
+  );
 
-  const handleRemoveImage = (index) => {
-    if (index < existingImages.length) {
-      const updatedExistingImages = [...existingImages];
-      updatedExistingImages.splice(index, 1);
-      setExistingImages(updatedExistingImages);
-    } else {
-      const updatedFiles = [...imageFiles];
-      const updatedPreviews = [...imagePreviews];
+  const handleRemoveImage = useCallback(
+    (index) => {
+      if (index < existingImages.length) {
+        const updatedExistingImages = [...existingImages];
+        updatedExistingImages.splice(index, 1);
+        setExistingImages(updatedExistingImages);
+      } else {
+        const updatedFiles = [...imageFiles];
+        const updatedPreviews = [...imagePreviews];
 
-      const newIndex = index - existingImages.length;
+        const newIndex = index - existingImages.length;
 
-      updatedFiles.splice(newIndex, 1);
-      updatedPreviews.splice(newIndex, 1);
+        updatedFiles.splice(newIndex, 1);
+        updatedPreviews.splice(newIndex, 1);
 
-      setImageFiles(updatedFiles);
-      setImagePreviews(updatedPreviews);
-    }
+        setImageFiles(updatedFiles);
+        setImagePreviews(updatedPreviews);
+      }
 
-    const fileInput = document.querySelector('input[type="file"]');
-    if (fileInput) {
-      fileInput.value = "";
-    }
-  };
+      const fileInput = document.querySelector('input[type="file"]');
+      if (fileInput) {
+        fileInput.value = "";
+      }
+    },
+    [existingImages, imageFiles, imagePreviews]
+  );
 
-  const handleSubCategoryChange = (event) => {
-    const { value } = event.target;
-    const newSubCategories = value;
+  const handleSubCategoryChange = useCallback(
+    (e) => {
+      const { value } = e.target;
+      const newSubCategories = value;
 
-    if (typeof selectedCategory === "string") {
-      setSelectedSubCategoriesByCategory((prev) => ({
-        ...prev,
-        [selectedCategory]: newSubCategories,
-      }));
-    }
+      if (typeof selectedCategory === "string") {
+        setSelectedSubCategoriesByCategory((prev) => ({
+          ...prev,
+          [selectedCategory]: newSubCategories,
+        }));
+      }
 
-    setSelectedSubCategories(newSubCategories);
-  };
+      setSelectedSubCategories(newSubCategories);
+    },
+    [selectedCategory]
+  );
 
-  const mergeCategories = (existingCategories, newCategories) => {
+  const mergeCategories = useCallback((existingCategories, newCategories) => {
     const existingSet = new Set(
       existingCategories.map((cat) => JSON.stringify(cat))
     );
@@ -161,7 +174,7 @@ function AddUpdatePlayerForm({
     newCategories.forEach((cat) => existingSet.add(JSON.stringify(cat)));
 
     return Array.from(existingSet).map((cat) => JSON.parse(cat));
-  };
+  }, []);
 
   const clear = () => {
     setPlayerData({
@@ -175,32 +188,43 @@ function AddUpdatePlayerForm({
     setImagePreviews([]);
   };
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
+  const handleFormSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
 
-    const flattenedCategories = Object.entries(
-      selectedSubCategoriesByCategory
-    ).flatMap(([main, subCategories]) =>
-      subCategories.map((sub) => ({ main, sub }))
-    );
+      const flattenedCategories = Object.entries(
+        selectedSubCategoriesByCategory
+      ).flatMap(([main, subCategories]) =>
+        subCategories.map((sub) => ({ main, sub }))
+      );
 
-    const mergedCategories = mergeCategories(
-      playerData.category,
-      flattenedCategories
-    );
+      const mergedCategories = mergeCategories(
+        playerData.category,
+        flattenedCategories
+      );
 
-    const updatedPlayerData = {
-      ...playerData,
-      category: mergedCategories,
-      images: existingImages.concat(imageFiles),
-    };
+      const updatedPlayerData = {
+        ...playerData,
+        category: mergedCategories,
+        images: existingImages.concat(imageFiles),
+      };
 
-    console.log("updatedPlayerData: ", updatedPlayerData);
+      console.log("updatedPlayerData: ", updatedPlayerData);
 
-    handleSubmit(updatedPlayerData);
-    handleCloseUpdatePlayer(false);
-    clear();
-  };
+      handleSubmit(updatedPlayerData);
+      handleCloseUpdatePlayer(false);
+      clear();
+    },
+    [
+      existingImages,
+      handleCloseUpdatePlayer,
+      handleSubmit,
+      imageFiles,
+      mergeCategories,
+      playerData,
+      selectedSubCategoriesByCategory,
+    ]
+  );
 
   return (
     <form onSubmit={handleFormSubmit} encType="multipart/form-data">

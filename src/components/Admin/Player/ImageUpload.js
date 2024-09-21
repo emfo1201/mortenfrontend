@@ -29,7 +29,7 @@ function ImageUpload({
             alt={`Existing ${index + 1}`}
             style={{ maxWidth: "100px", maxHeight: "100px" }}
           />
-          <IconButton onClick={() => handleRemoveImage(index)}>
+          <IconButton onClick={handleRemoveImage}>
             <DeleteIcon />
           </IconButton>
         </div>
@@ -42,7 +42,7 @@ function ImageUpload({
             alt={`Preview ${index + 1}`}
             style={{ maxWidth: "100px", maxHeight: "100px" }}
           />
-          <IconButton onClick={() => handleRemoveImage(index)}>
+          <IconButton onClick={handleRemoveImage}>
             <DeleteIcon />
           </IconButton>
         </div>

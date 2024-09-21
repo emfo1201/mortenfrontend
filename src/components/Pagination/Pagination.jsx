@@ -1,5 +1,5 @@
 //Pagination.js
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Pagination, PaginationItem } from "@material-ui/lab";
@@ -28,6 +28,22 @@ const Paginate = ({ page, searchParams }) => {
     }
   }, [page, key, searchQuery, dispatch]);
 
+  const renderPaginationItem = useCallback(
+    (item) => {
+      const key = searchParams.get("key");
+      let url = "";
+      if (searchQuery) {
+        url = `/players/search?searchQuery=${searchQuery}&page=${item.page}`;
+      } else if (key) {
+        url = `/players/listPlayers?key=${key}&page=${item.page}`;
+      } else {
+        url = `/players/page=${item.page}`;
+      }
+      return <PaginationItem {...item} component={Link} to={url} />;
+    },
+    [searchQuery, searchParams]
+  );
+
   return (
     <Pagination
       classes={{ ul: classes.ul }}
@@ -35,20 +51,7 @@ const Paginate = ({ page, searchParams }) => {
       page={Number(page) || 1}
       variant="outlined"
       color="primary"
-      renderItem={(item) => {
-        const key = searchParams.get("key");
-        let url = "";
-
-        if (searchQuery) {
-          url = `/players/search?searchQuery=${searchQuery}&page=${item.page}`;
-        } else if (key) {
-          url = `/players/listPlayers?key=${key}&page=${item.page}`;
-        } else {
-          url = `/players/page=${item.page}`;
-        }
-
-        return <PaginationItem {...item} component={Link} to={url} />;
-      }}
+      renderItem={renderPaginationItem}
     />
   );
 };
