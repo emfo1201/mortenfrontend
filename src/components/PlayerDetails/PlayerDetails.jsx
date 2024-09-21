@@ -41,23 +41,17 @@ const Player = () => {
     dispatch(getPlayerById(id));
   }, [dispatch, id]);
 
-  useEffect(() => {
-    console.log("Dialog index changed:", dialogImageIndex);
-    console.log("Dialog state changed:", open);
-
-    if (open) {
-      console.log("Dialog is now open with index:", dialogImageIndex);
-    }
-  }, [dialogImageIndex, open]);
-
   const handleClickOpen = useCallback((index) => {
-    console.log("Button clicked with index:", index);
     setDialogImageIndex(index);
     setOpen(true);
   }, []);
 
+  // Funktion för att hantera bildklick utan arrow function
+  const onClickOpen = useCallback(() => {
+    handleClickOpen(cardImageIndex);
+  }, [cardImageIndex, handleClickOpen]);
+
   const handleClose = useCallback(() => {
-    console.log("Closing dialog");
     setOpen(false);
   }, []);
 
@@ -68,6 +62,10 @@ const Player = () => {
     [setCardImageIndex]
   );
 
+  const onImageClick = useCallback(() => {
+    handleImageClick(cardImageIndex);
+  }, [cardImageIndex, handleImageClick]);
+
   const handleNextImage = useCallback(() => {
     swiperRef.current?.swiper?.slideNext();
   }, []);
@@ -75,11 +73,6 @@ const Player = () => {
   const handlePreviousImage = useCallback(() => {
     swiperRef.current?.swiper?.slidePrev();
   }, []);
-
-  // Funktion för att hantera bildklick utan arrow function
-  const onImageClick = useCallback(() => {
-    handleClickOpen(cardImageIndex);
-  }, [cardImageIndex, handleClickOpen]);
 
   if (!player) {
     return null;
@@ -120,7 +113,7 @@ const Player = () => {
                   <ImageListItem
                     key={item}
                     cols={1}
-                    onClick={() => handleImageClick(index)}
+                    onClick={onImageClick}
                     className={classes.imageListItem}
                   >
                     <img src={item} alt={`image-${index}`} />
@@ -134,7 +127,7 @@ const Player = () => {
             className={classes.media}
             src={player.images[cardImageIndex]}
             alt={player.name}
-            onClick={onImageClick} // Använder onImageClick istället
+            onClick={onClickOpen}
           />
         </div>
         <div className={classes.section}>
