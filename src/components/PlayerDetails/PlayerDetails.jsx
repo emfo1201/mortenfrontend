@@ -41,15 +41,23 @@ const Player = () => {
     dispatch(getPlayerById(id));
   }, [dispatch, id]);
 
-  const handleClickOpen = useCallback(
-    (index) => {
-      setDialogImageIndex(index);
-      setOpen(true);
-    },
-    [setDialogImageIndex]
-  );
+  useEffect(() => {
+    console.log("Dialog index changed:", dialogImageIndex);
+    console.log("Dialog state changed:", open);
+
+    if (open) {
+      console.log("Dialog is now open with index:", dialogImageIndex);
+    }
+  }, [dialogImageIndex, open]);
+
+  const handleClickOpen = useCallback((index) => {
+    console.log("Button clicked with index:", index);
+    setDialogImageIndex(index);
+    setOpen(true);
+  }, []);
 
   const handleClose = useCallback(() => {
+    console.log("Closing dialog");
     setOpen(false);
   }, []);
 
@@ -167,7 +175,6 @@ const Player = () => {
             initialSlide={dialogImageIndex}
             loop
             style={{ width: "100%", height: "100%" }}
-            onSlideChange={(swiper) => setDialogImageIndex(swiper.activeIndex)}
           >
             {player.images.map((item, index) => (
               <SwiperSlide key={item} className={classes.swiperSlide}>
