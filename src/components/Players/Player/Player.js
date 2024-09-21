@@ -40,7 +40,7 @@ const Player = ({ player }) => {
     setOpenUpdatePlayer(false);
   }, []);
 
-  const handleOpenDialog = useDispatch(() => {
+  const handleOpenDialog = useCallback(() => {
     setOpenDialog(true);
   }, []);
 

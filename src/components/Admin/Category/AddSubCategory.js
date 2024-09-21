@@ -1,5 +1,5 @@
 //AddSubCategory.js
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { useDispatch } from "react-redux";
@@ -9,18 +9,21 @@ function AddSubCategory({ mainCategory, handleCloseDialog }) {
   const [subCategory, setSubCategory] = useState("");
   const dispatch = useDispatch();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const newSubCategory = {
-      category: mainCategory,
-      newSubCategory: subCategory,
-    };
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      const newSubCategory = {
+        category: mainCategory,
+        newSubCategory: subCategory,
+      };
 
-    dispatch(addSubCategory(newSubCategory));
+      dispatch(addSubCategory(newSubCategory));
 
-    setSubCategory("");
-    handleCloseDialog();
-  };
+      setSubCategory("");
+      handleCloseDialog();
+    },
+    [dispatch, handleCloseDialog, mainCategory, subCategory]
+  );
 
   return (
     <div>

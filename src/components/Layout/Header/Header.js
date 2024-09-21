@@ -1,5 +1,5 @@
 //Header.js
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -46,27 +46,33 @@ const Header = () => {
   }, [isAuthenticated]);
 
   // Function to navigate to search results or home page
-  const searchPlayer = () => {
+  const searchPlayer = useCallback(() => {
     if (search.trim()) {
       navigate(`/players/search?searchQuery=${search}&page=1`);
     } else {
       navigate("/");
     }
-  };
+  }, [navigate, search]);
 
   // Handle Enter key press to trigger search
-  const handleKeyPress = (e) => {
-    if (e.keyCode === 13) {
-      searchPlayer();
-    }
-  };
+  const handleKeyPress = useCallback(
+    (e) => {
+      if (e.keyCode === 13) {
+        searchPlayer();
+      }
+    },
+    [searchPlayer]
+  );
 
   // Handle logout and redirect to home page
-  const handleLogout = (e) => {
-    e.preventDefault();
-    logout();
-    navigate("/");
-  };
+  const handleLogout = useCallback(
+    (e) => {
+      e.preventDefault();
+      logout();
+      navigate("/");
+    },
+    [logout, navigate]
+  );
 
   // Show loading indicator while data is being fetched
   if (loading) {

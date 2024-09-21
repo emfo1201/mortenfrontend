@@ -1,5 +1,5 @@
 //AddNewPlayer.js
-import React from "react";
+import React, { useCallback } from "react";
 import { Card, CardMedia, Grid, Typography } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import image from "../../../images/profile.png";
@@ -12,41 +12,49 @@ const AddNewPlayer = ({ handleOpenDialog, handleCloseDialog, openDialog }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const handleSubmit = (updatedPlayerData) => {
-    const data = new FormData();
+  const handleSubmit = useCallback(
+    (updatedPlayerData) => {
+      const data = new FormData();
 
-    console.log("playerData: ", updatedPlayerData);
+      data.append("name", updatedPlayerData.name);
+      data.append("club", updatedPlayerData.club);
+      data.append("infoEnglish", updatedPlayerData.infoEnglish);
+      data.append("infoNorwegian", updatedPlayerData.infoNorwegian);
 
-    data.append("name", updatedPlayerData.name);
-    data.append("club", updatedPlayerData.club);
-    data.append("infoEnglish", updatedPlayerData.infoEnglish);
-    data.append("infoNorwegian", updatedPlayerData.infoNorwegian);
+      let categoriesToSend = [];
 
-    let categoriesToSend = [];
-
-    if (updatedPlayerData.category) {
-      if (Array.isArray(updatedPlayerData.category)) {
-        categoriesToSend = updatedPlayerData.category;
-      } else {
-        categoriesToSend = [updatedPlayerData.category];
+      if (updatedPlayerData.category) {
+        if (Array.isArray(updatedPlayerData.category)) {
+          categoriesToSend = updatedPlayerData.category;
+        } else {
+          categoriesToSend = [updatedPlayerData.category];
+        }
       }
-    }
 
-    const selectedCategoriesToSend = categoriesToSend.map((subCategory) => ({
-      main: subCategory.main,
-      sub: subCategory.sub,
-    }));
+      const selectedCategoriesToSend = categoriesToSend.map((subCategory) => ({
+        main: subCategory.main,
+        sub: subCategory.sub,
+      }));
 
-    console.log("selectedCategoriesToSend:", selectedCategoriesToSend);
+      data.append("categories", JSON.stringify(selectedCategoriesToSend));
 
-    data.append("categories", JSON.stringify(selectedCategoriesToSend));
+      updatedPlayerData.images.forEach((image, index) => {
+        data.append("images", image);
+      });
 
-    updatedPlayerData.images.forEach((image, index) => {
-      data.append("images", image);
-    });
+      dispatch(addPlayer(data));
+    },
+    [dispatch]
+  );
 
-    dispatch(addPlayer(data));
-  };
+  const handleKeyDown = useCallback(
+    (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        handleOpenDialog();
+      }
+    },
+    [handleOpenDialog]
+  );
 
   return (
     <Grid item xs={12} sm={6} md={4}>
@@ -63,11 +71,7 @@ const AddNewPlayer = ({ handleOpenDialog, handleCloseDialog, openDialog }) => {
           role="button"
           tabIndex={0}
           aria-label="Add New Player"
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              handleOpenDialog();
-            }
-          }}
+          onKeyDown={handleKeyDown}
         >
           <Typography variant="h6">Add New Player</Typography>
         </div>

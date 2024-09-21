@@ -1,5 +1,5 @@
 //Players.js
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import { Grid, CircularProgress } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
@@ -31,15 +31,15 @@ const Players = () => {
     console.log("filteredPlayers: ", filteredPlayers);
   }, [filteredPlayers, isLoading]);
 
-  const handleOpenDialog = () => {
+  const handleOpenDialog = useCallback(() => {
     if (isAuthenticated) {
       setOpenDialog(true);
     }
-  };
+  }, [isAuthenticated]);
 
-  const handleCloseDialog = () => {
+  const handleCloseDialog = useCallback(() => {
     setOpenDialog(false);
-  };
+  }, []);
 
   return isLoading || !filteredPlayers ? (
     <CircularProgress />

@@ -1,5 +1,5 @@
 //DeleteCategory.js
-import React from "react";
+import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import Button from "@material-ui/core/Button";
 import { deleteCategory } from "../../../actions/menu";
@@ -7,11 +7,14 @@ import { deleteCategory } from "../../../actions/menu";
 function DeleteCategory({ category, id, handleCloseDialog }) {
   const dispatch = useDispatch();
 
-  const handleDeleteCategory = (e) => {
-    e.preventDefault();
-    dispatch(deleteCategory(id));
-    handleCloseDialog();
-  };
+  const handleDeleteCategory = useCallback(
+    (e) => {
+      e.preventDefault();
+      dispatch(deleteCategory(id));
+      handleCloseDialog();
+    },
+    [dispatch, handleCloseDialog, id]
+  );
 
   return (
     <div>

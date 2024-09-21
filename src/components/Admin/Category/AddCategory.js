@@ -1,5 +1,5 @@
 //AddCategory.js
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { useDispatch } from "react-redux";
@@ -9,22 +9,28 @@ function AddCategory({ handleCloseDialog }) {
   const [categoryData, setCategoryData] = useState({ categoryName: "" });
   const dispatch = useDispatch();
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setCategoryData({
-      ...categoryData,
-      [name]: value,
-    });
-  };
+  const handleInputChange = useCallback(
+    (e) => {
+      const { name, value } = e.target;
+      setCategoryData({
+        ...categoryData,
+        [name]: value,
+      });
+    },
+    [categoryData]
+  );
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const newCategory = {
-      newCategory: categoryData.categoryName,
-    };
-    dispatch(addCategory(newCategory));
-    handleCloseDialog();
-  };
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      const newCategory = {
+        newCategory: categoryData.categoryName,
+      };
+      dispatch(addCategory(newCategory));
+      handleCloseDialog();
+    },
+    [dispatch, handleCloseDialog, categoryData.categoryName]
+  );
 
   return (
     <div>

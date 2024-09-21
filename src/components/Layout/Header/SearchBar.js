@@ -1,11 +1,19 @@
 // SearchBar.js
-import React from "react";
+import React, { useCallback } from "react";
 import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 import useStyles from "../styles";
 
 const SearchBar = ({ search, setSearch, handleKeyPress }) => {
   const classes = useStyles();
+
+  const handleSearchChange = useCallback(
+    (e) => {
+      setSearch(e.target.value);
+    },
+    [setSearch]
+  );
+
   return (
     <div className={classes.search}>
       <div className={classes.searchIcon}>
@@ -20,7 +28,7 @@ const SearchBar = ({ search, setSearch, handleKeyPress }) => {
         inputProps={{ "aria-label": "search" }}
         value={search}
         onKeyDown={handleKeyPress}
-        onChange={(e) => setSearch(e.target.value)}
+        onChange={handleSearchChange}
       />
     </div>
   );
