@@ -41,27 +41,30 @@ function Login() {
     };
   }, []);
 
-  const handleChange = (e) => {
+  const handleChange = useCallback((e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  }, []);
 
-  const handleSignIn = async (e) => {
-    e.preventDefault();
-    try {
-      setLoading(true);
-      await login(formData, navigate, dispatch);
-      if (isMounted.current) {
-        setLoading(false);
+  const handleSignIn = useCallback(
+    async (e) => {
+      e.preventDefault();
+      try {
+        setLoading(true);
+        await login(formData, navigate, dispatch);
+        if (isMounted.current) {
+          setLoading(false);
+        }
+      } catch (error) {
+        if (isMounted.current) {
+          setLoading(false);
+          setSnackbarOpen(true);
+          console.error("Login failed:", error.message);
+          setSnackbarMessage(error.message || "Login failed");
+        }
       }
-    } catch (error) {
-      if (isMounted.current) {
-        setLoading(false);
-        setSnackbarOpen(true);
-        console.error("Login failed:", error.message);
-        setSnackbarMessage(error.message || "Login failed");
-      }
-    }
-  };
+    },
+    [formData, navigate, dispatch, isMounted, login]
+  );
 
   const handleShowPassword = useCallback(
     () => setShowPassword((prevShowPassword) => !prevShowPassword),
