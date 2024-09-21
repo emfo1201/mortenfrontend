@@ -46,9 +46,9 @@ const Player = () => {
     setOpen(true);
   }, []);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setOpen(false);
-  };
+  }, []);
 
   const handleImageClick = (index) => {
     setCardImageIndex(index);
