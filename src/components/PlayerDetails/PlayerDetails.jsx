@@ -138,6 +138,7 @@ const Player = () => {
             src={player.images[cardImageIndex]}
             alt={player.name}
             aria-label="Open image"
+            role="button"
             tabIndex={0}
             onClick={onClickOpen}
             onKeyDown={handleKeyDown}
