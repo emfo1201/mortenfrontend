@@ -56,8 +56,6 @@ const DrawerMenu = ({ categories, isAuthenticated }) => {
     setMenu(isAuthenticated ? categories : filterCategories(categories));
   }, [categories, filterCategories, isAuthenticated, players]);
 
-  useEffect(() => {}, [players]);
-
   const handleDrawerOpen = useCallback(() => {
     setIsDrawerOpen(true);
   }, []);
