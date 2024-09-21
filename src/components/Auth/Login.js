@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
@@ -63,12 +63,14 @@ function Login() {
     }
   };
 
-  const handleShowPassword = () =>
-    setShowPassword((prevShowPassword) => !prevShowPassword);
+  const handleShowPassword = useCallback(
+    () => setShowPassword((prevShowPassword) => !prevShowPassword),
+    []
+  );
 
-  const handleCloseSnackbar = () => {
+  const handleCloseSnackbar = useCallback(() => {
     setSnackbarOpen(false);
-  };
+  }, []);
 
   return (
     <Container component="main" maxWidth="xs">

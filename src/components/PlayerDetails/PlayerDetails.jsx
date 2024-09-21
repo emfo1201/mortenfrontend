@@ -46,7 +46,7 @@ const Player = () => {
       setDialogImageIndex(index);
       setOpen(true);
     },
-    [setDialogImageIndex, setOpen]
+    [setDialogImageIndex]
   );
 
   const handleClose = useCallback(() => {
@@ -107,7 +107,7 @@ const Player = () => {
                   <ImageListItem
                     key={item}
                     cols={1}
-                    onClick={handleImageClick(index)}
+                    onClick={() => handleImageClick(index)}
                     className={classes.imageListItem}
                   >
                     <img src={item} alt={`image-${index}`} />
@@ -121,7 +121,7 @@ const Player = () => {
             className={classes.media}
             src={player.images[cardImageIndex]}
             alt={player.name}
-            onClick={handleClickOpen(cardImageIndex)}
+            onClick={() => handleClickOpen(cardImageIndex)}
           />
         </div>
         <div className={classes.section}>
