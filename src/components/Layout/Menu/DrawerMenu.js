@@ -91,8 +91,8 @@ const DrawerMenu = ({ categories, isAuthenticated }) => {
     [handleOpenDialog, handleCloseDialog]
   );
 
-  const createAddSubCategoryClickHandler = (mainMenu) => () => {
-    handleAddSubCategoryClick(mainMenu);
+  const createAddSubCategoryClickHandler = (mainMenu) => {
+    return () => handleAddSubCategoryClick(mainMenu);
   };
 
   const handleDeleteCategoryClick = useCallback(
@@ -108,8 +108,8 @@ const DrawerMenu = ({ categories, isAuthenticated }) => {
     [handleOpenDialog, handleCloseDialog]
   );
 
-  const createDeleteCategoryClickHandler = (mainMenu, _id) => () => {
-    handleDeleteCategoryClick(mainMenu, _id);
+  const createDeleteCategoryClickHandler = (mainMenu, _id) => {
+    return () => handleDeleteCategoryClick(mainMenu, _id);
   };
 
   const handleDeleteSubCategoryClick = useCallback(
@@ -125,8 +125,8 @@ const DrawerMenu = ({ categories, isAuthenticated }) => {
     [handleOpenDialog, handleCloseDialog]
   );
 
-  const createDeleteSubCategoryClickHandler = (mainMenu, subItem) => () => {
-    handleDeleteSubCategoryClick(mainMenu, subItem);
+  const createDeleteSubCategoryClickHandler = (mainMenu, subItem) => {
+    return () => handleDeleteSubCategoryClick(mainMenu, subItem);
   };
 
   const listPlayer = useCallback(
@@ -187,13 +187,16 @@ const DrawerMenu = ({ categories, isAuthenticated }) => {
                     <div>
                       <IconButton
                         className={classes.iconButton}
-                        onClick={createAddSubCategoryClickHandler}
+                        onClick={createAddSubCategoryClickHandler(mainMenu)}
                       >
                         <AddIcon />
                       </IconButton>
                       <IconButton
                         className={classes.iconButton}
-                        onClick={createDeleteCategoryClickHandler}
+                        onClick={createDeleteCategoryClickHandler(
+                          mainMenu,
+                          _id
+                        )}
                       >
                         <DeleteIcon />
                       </IconButton>
@@ -217,7 +220,10 @@ const DrawerMenu = ({ categories, isAuthenticated }) => {
                           <div>
                             <IconButton
                               className={classes.iconButton}
-                              onClick={createDeleteSubCategoryClickHandler}
+                              onClick={createDeleteSubCategoryClickHandler(
+                                mainMenu,
+                                subItem
+                              )}
                             >
                               <DeleteIcon />
                             </IconButton>
