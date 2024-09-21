@@ -123,6 +123,13 @@ const DrawerMenu = ({ categories, isAuthenticated }) => {
     [handleOpenDialog, handleCloseDialog]
   );
 
+  /**
+   * Returns a click handler for deleting a specific subcategory.
+   *
+   * @param {string} mainMenu - The main category name.
+   * @param {string} subItem - The subcategory name to delete.
+   * @returns {function} The click handler function.
+   */
   const createDeleteSubCategoryClickHandler = (mainMenu, subItem) => {
     return () => handleDeleteSubCategoryClick(mainMenu, subItem);
   };
