@@ -1,4 +1,4 @@
-//PlayerDetails.jsx
+// PlayerDetails.jsx
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   Paper,
@@ -76,6 +76,11 @@ const Player = () => {
     swiperRef.current?.swiper?.slidePrev();
   }, []);
 
+  // Funktion för att hantera bildklick utan arrow function
+  const onImageClick = useCallback(() => {
+    handleClickOpen(cardImageIndex);
+  }, [cardImageIndex, handleClickOpen]);
+
   if (!player) {
     return null;
   }
@@ -129,7 +134,7 @@ const Player = () => {
             className={classes.media}
             src={player.images[cardImageIndex]}
             alt={player.name}
-            onClick={() => handleClickOpen(cardImageIndex)}
+            onClick={onImageClick} // Använder onImageClick istället
           />
         </div>
         <div className={classes.section}>
