@@ -9,6 +9,10 @@ function AddSubCategory({ mainCategory, handleCloseDialog }) {
   const [subCategory, setSubCategory] = useState("");
   const dispatch = useDispatch();
 
+  const handleSubCategoryChange = useCallback((e) => {
+    setSubCategory(e.target.value);
+  }, []);
+
   const handleSubmit = useCallback(
     (e) => {
       e.preventDefault();
@@ -34,7 +38,7 @@ function AddSubCategory({ mainCategory, handleCloseDialog }) {
           label="New subcategory"
           variant="outlined"
           value={subCategory}
-          onChange={(e) => setSubCategory(e.target.value)}
+          onChange={handleSubCategoryChange}
         />
         <p />
         <Button variant="contained" color="primary" type="submit">
