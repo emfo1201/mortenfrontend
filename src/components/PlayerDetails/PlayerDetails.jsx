@@ -75,15 +75,6 @@ const Player = () => {
     swiperRef.current?.swiper?.slidePrev();
   }, []);
 
-  const handleKeyDown = useCallback(
-    (event) => {
-      if (event.key === "Enter" || event.key === " ") {
-        onImageClick();
-      }
-    },
-    [onImageClick]
-  );
-
   if (!player) {
     return null;
   }
@@ -138,7 +129,6 @@ const Player = () => {
             src={player.images[cardImageIndex]}
             alt={player.name}
             onClick={onClickOpen}
-            onKeyDown={handleKeyDown}
           />
         </div>
         <div className={classes.section}>
