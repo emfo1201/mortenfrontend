@@ -1,3 +1,4 @@
+//PlayerDetails.jsx
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   Paper,
@@ -45,53 +46,21 @@ const Player = () => {
     setOpen(true);
   }, []);
 
-  const handleClose = useCallback(() => {
+  const handleClose = () => {
     setOpen(false);
-  }, []);
+  };
 
-  const handleImageClick = useCallback((index) => {
+  const handleImageClick = (index) => {
     setCardImageIndex(index);
-  }, []);
+  };
 
-  const handleNextImage = useCallback(() => {
+  const handleNextImage = () => {
     swiperRef.current?.swiper?.slideNext();
-  }, []);
+  };
 
-  const handlePreviousImage = useCallback(() => {
+  const handlePreviousImage = () => {
     swiperRef.current?.swiper?.slidePrev();
-  }, []);
-
-  const handleSlideChange = useCallback((swiper) => {
-    setDialogImageIndex(swiper.activeIndex);
-  }, []);
-
-  const handleKeyDown = useCallback(
-    (event) => {
-      if (event.key === "Enter" || event.key === " ") {
-        handleImageClick(cardImageIndex);
-      }
-    },
-    [cardImageIndex, handleImageClick]
-  );
-
-  const renderImageListItem = useCallback(
-    (item, index) => (
-      <ImageListItem
-        key={item}
-        cols={1}
-        role="listitem"
-        onClick={() => handleClickOpen(index)}
-        onKeyDown={handleKeyDown}
-        tabIndex={0}
-        aria-label={`Main image of ${player.name}`}
-        data-index={index}
-        className={classes.imageListItem}
-      >
-        <img src={item} alt={`image-${index}`} />
-      </ImageListItem>
-    ),
-    [handleClickOpen, handleKeyDown, player.name, classes.imageListItem]
-  );
+  };
 
   if (!player) {
     return null;
@@ -105,8 +74,11 @@ const Player = () => {
     );
   }
 
-  const playerInfo =
-    i18n.language === "no" ? player.infoNorwegian : player.infoEnglish;
+  const playerInfo = player
+    ? i18n.language === "no"
+      ? player.infoNorwegian
+      : player.infoEnglish
+    : "";
 
   return (
     <Paper className={classes.paper} elevation={6}>
@@ -117,18 +89,24 @@ const Player = () => {
           width: "100%",
         }}
       >
-        <IconButton onClick={handlePreviousImage} aria-label="Previous image">
-          <ArrowBackIcon fontSize="large" />
-        </IconButton>
-        <IconButton onClick={handleNextImage} aria-label="Next image">
-          <ArrowForwardIcon fontSize="large" />
-        </IconButton>
+        <ArrowBackIcon />
+        <ArrowForwardIcon />
       </div>
       <div className={classes.card}>
         <div>
           <ImageList rowHeight={160} className={classes.imageList1} cols={1}>
-            {player.images.map((item, index) =>
-              index !== cardImageIndex ? renderImageListItem(item, index) : null
+            {player.images.map(
+              (item, index) =>
+                index !== cardImageIndex && (
+                  <ImageListItem
+                    key={item}
+                    cols={1}
+                    onClick={() => handleImageClick(index)}
+                    className={classes.imageListItem}
+                  >
+                    <img src={item} alt={`image-${index}`} />
+                  </ImageListItem>
+                )
             )}
           </ImageList>
         </div>
@@ -138,10 +116,6 @@ const Player = () => {
             src={player.images[cardImageIndex]}
             alt={player.name}
             onClick={() => handleClickOpen(cardImageIndex)}
-            onKeyDown={handleKeyDown}
-            role="button"
-            tabIndex={0}
-            aria-label={`Enlarge image of ${player.name}`}
           />
         </div>
         <div className={classes.section}>
@@ -177,7 +151,6 @@ const Player = () => {
           <IconButton
             className={`${classes.iconButton} ${classes.closeIconButton}`}
             onClick={handleClose}
-            aria-label="Close"
           >
             <CloseIcon />
           </IconButton>
@@ -188,7 +161,7 @@ const Player = () => {
             initialSlide={dialogImageIndex}
             loop
             style={{ width: "100%", height: "100%" }}
-            onSlideChange={handleSlideChange}
+            onSlideChange={(swiper) => setDialogImageIndex(swiper.activeIndex)}
           >
             {player.images.map((item, index) => (
               <SwiperSlide key={item} className={classes.swiperSlide}>
@@ -203,14 +176,12 @@ const Player = () => {
           <IconButton
             className={`${classes.iconButton} ${classes.prevIconButton}`}
             onClick={handlePreviousImage}
-            aria-label="Previous slide"
           >
             <ArrowBackIcon fontSize="large" />
           </IconButton>
           <IconButton
             className={`${classes.iconButton} ${classes.nextIconButton}`}
             onClick={handleNextImage}
-            aria-label="Next slide"
           >
             <ArrowForwardIcon fontSize="large" />
           </IconButton>
