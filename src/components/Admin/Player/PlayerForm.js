@@ -176,6 +176,12 @@ function AddUpdatePlayerForm({
     return Array.from(existingSet).map((cat) => JSON.parse(cat));
   }, []);
 
+  /**
+   * clear resets the player data to its initial state.
+   *
+   * This function clears all fields in the player data form by setting
+   * the playerData state to empty strings for the name and club properties.
+   */
   const clear = () => {
     setPlayerData({
       name: "",

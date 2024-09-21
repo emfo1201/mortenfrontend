@@ -5,6 +5,11 @@ import { useTranslation } from "react-i18next";
 import Cookies from "js-cookie";
 import { useStyles } from "./styles";
 
+/**
+ * LanguageToggle component allows users to switch between different languages.
+ *
+ * @returns {JSX.Element} The rendered LanguageToggle component.
+ */
 const LanguageToggle = () => {
   const { i18n } = useTranslation();
   const classes = useStyles();

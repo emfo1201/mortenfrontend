@@ -24,6 +24,12 @@ import { useTranslation } from "react-i18next";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 
+/**
+ * Player component displays detailed information about a specific player,
+ * including images and stats.
+ *
+ * @returns {JSX.Element} The rendered PlayerDetails component.
+ */
 const Player = () => {
   const { player, isLoading } = useSelector((state) => state.players);
   const [open, setOpen] = useState(false);

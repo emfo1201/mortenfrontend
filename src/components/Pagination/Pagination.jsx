@@ -7,6 +7,15 @@ import { Pagination, PaginationItem } from "@material-ui/lab";
 import { getPlayers, getPlayersBySearch } from "../../actions/players";
 import useStyles from "./styles";
 
+/**
+ * Paginate component provides pagination controls for navigating through
+ * a list of players based on the current page and search parameters.
+ *
+ * @param {Object} props - The component props.
+ * @param {number} props.page - The current page number.
+ * @param {URLSearchParams} props.searchParams - The search parameters for filtering players.
+ * @returns {JSX.Element} The rendered Paginate component.
+ */
 const Paginate = ({ page, searchParams }) => {
   const classes = useStyles();
   const dispatch = useDispatch();

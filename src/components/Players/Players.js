@@ -9,6 +9,11 @@ import Paginate from "../Pagination/Pagination";
 import useStyles from "./styles";
 import { useAuth } from "../Auth/AuthContext";
 
+/**
+ * useQuery is a custom hook that parses the query string from the current URL.
+ *
+ * @returns {URLSearchParams} The parsed query parameters.
+ */
 function useQuery() {
   const location = useLocation();
 
@@ -18,6 +23,11 @@ function useQuery() {
   }, [location.search]);
 }
 
+/**
+ * Players component displays a list of players, allowing users to filter and view details.
+ *
+ * @returns {JSX.Element} The rendered Players component.
+ */
 const Players = () => {
   const { isLoading, filteredPlayers } = useSelector((state) => state.players);
   const classes = useStyles();

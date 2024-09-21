@@ -96,6 +96,12 @@ const DrawerMenu = ({ categories, isAuthenticated }) => {
     [handleOpenDialog, handleCloseDialog]
   );
 
+  /**
+   * Returns a click handler for adding sub categories.
+   *
+   * @param {string} mainMenu - The main category name.
+   * @returns {function} The click handler function.
+   */
   const createAddSubCategoryClickHandler = (mainMenu) => {
     return () => handleAddSubCategoryClick(mainMenu);
   };
@@ -114,7 +120,7 @@ const DrawerMenu = ({ categories, isAuthenticated }) => {
   );
 
   /**
-   * Returns a click handler for deleting a specific subcategory.
+   * Returns a click handler for deleting a specific category.
    *
    * @param {string} mainMenu - The main category name.
    * @param {string} _id - The id of the category.
