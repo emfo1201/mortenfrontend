@@ -54,13 +54,13 @@ const Player = () => {
     setCardImageIndex(index);
   };
 
-  const handleNextImage = () => {
+  const handleNextImage = useCallback(() => {
     swiperRef.current?.swiper?.slideNext();
-  };
+  }, []);
 
-  const handlePreviousImage = () => {
+  const handlePreviousImage = useCallback(() => {
     swiperRef.current?.swiper?.slidePrev();
-  };
+  }, []);
 
   if (!player) {
     return null;
