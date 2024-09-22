@@ -19,6 +19,23 @@ const initialState = {
   numberOfPages: 1, // Total number of pages available in pagination
 };
 
+/**
+ * playersReducer manages the state related to players, including loading status, player lists, and pagination.
+ *
+ * @param {Object} state - The current state of the players reducer.
+ * @param {Object} action - The action object that includes type and payload.
+ * @returns {Object} The updated state based on the action type.
+ *
+ * The reducer handles the following actions:
+ * - `START_LOADING`: Sets loading state to true.
+ * - `END_LOADING`: Sets loading state to false.
+ * - `FETCH_PLAYERS`: Updates the list of players.
+ * - `FETCH_PLAYERS_BY_SEARCH`: Updates the list of filtered players, current page, and total number of pages.
+ * - `FETCH_PLAYER_DETAILS`: Sets the details of the selected player.
+ * - `ADD_PLAYER`: Adds a new player to both the players and filteredPlayers lists.
+ * - `UPDATE_PLAYER`: Updates an existing player in both the players and filteredPlayers lists.
+ * - `DELETE_PLAYER`: Removes a player from both the players and filteredPlayers lists.
+ */
 const playersReducer = (state = initialState, action) => {
   switch (action.type) {
     case START_LOADING:
