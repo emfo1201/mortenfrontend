@@ -48,7 +48,7 @@ const AddNewPlayer = ({ handleOpenDialog, handleCloseDialog, openDialog }) => {
 
       data.append("categories", JSON.stringify(selectedCategoriesToSend));
 
-      updatedPlayerData.images.forEach((img, index) => {
+      updatedPlayerData.images.forEach((img) => {
         data.append("images", img);
       });
 

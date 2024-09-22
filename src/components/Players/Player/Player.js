@@ -76,7 +76,7 @@ const Player = ({ player }) => {
       data.append("infoNorwegian", updatedPlayerData.infoNorwegian);
       data.append("categories", JSON.stringify(updatedPlayerData.category));
 
-      updatedPlayerData.images.forEach((image, index) => {
+      updatedPlayerData.images.forEach((image) => {
         data.append("images", image);
       });
 
