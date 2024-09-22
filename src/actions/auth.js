@@ -8,6 +8,13 @@ import {
 } from "../constants/actionTypes";
 import * as api from "../api";
 
+/**
+ * Validates the JWT token by making an API call.
+ *
+ * @async
+ * @function validateToken
+ * @returns {Object|null} The user data if the token is valid, or null if invalid.
+ */
 export const validateToken = async () => {
   try {
     const response = await api.validateToken();
@@ -18,6 +25,16 @@ export const validateToken = async () => {
   }
 };
 
+/**
+ * Signs up a new user by making an API call and dispatching actions to update the store.
+ *
+ * @async
+ * @function signup
+ * @param {Object} formData - The data for the new user.
+ * @param {Function} router - The router function to navigate after signup.
+ * @returns {function} A dispatch function to trigger a Redux action.
+ * @throws {Error} Throws an error if signup fails.
+ */
 export const signup = (formData, router) => async (dispatch) => {
   console.log("In signup action with formData:", formData);
   try {

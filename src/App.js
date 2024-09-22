@@ -13,6 +13,15 @@ import { useDispatch } from "react-redux";
 import { getCategory } from "./actions/menu";
 import { getPlayer } from "./actions/players";
 
+/**
+ * The main application component that sets up routing and global state.
+ *
+ * @function App
+ * @returns {JSX.Element} The rendered application component.
+ *
+ * @example
+ * <App />
+ */
 function App() {
   const dispatch = useDispatch();
 

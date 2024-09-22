@@ -5,6 +5,18 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 
+/**
+ * Component for selecting a category and subcategories from a dropdown.
+ *
+ * @component
+ * @param {object} props - The properties for the CategorySelect component.
+ * @param {string} props.selectedCategory - The currently selected category.
+ * @param {function} props.handleSelectChange - Function to handle changes in the category dropdown.
+ * @param {object} props.menuData - Data containing categories and subcategories for selection.
+ * @param {array} props.selectedSubCategoryValues - The selected values for subcategories.
+ * @param {function} props.handleSubCategoryChange - Function to handle changes in the subcategory dropdown.
+ * @returns {JSX.Element} The rendered category and subcategory select elements.
+ */
 function CategorySelect({
   selectedCategory,
   handleSelectChange,

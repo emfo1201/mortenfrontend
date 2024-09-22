@@ -3,6 +3,15 @@ import React from "react";
 import TextField from "@material-ui/core/TextField";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 
+/**
+ * Component for displaying and editing player data.
+ *
+ * @component
+ * @param {object} props - The properties for the PlayerData component.
+ * @param {object} props.playerData - The current player data, including name, club, and info in multiple languages.
+ * @param {function} props.handleInputChange - Function to handle input changes in the form.
+ * @returns {JSX.Element} The rendered player data form.
+ */
 function PlayerData({ playerData, handleInputChange }) {
   return (
     <div>
