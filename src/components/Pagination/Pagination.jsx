@@ -39,7 +39,6 @@ const Paginate = ({ page, searchParams }) => {
 
   const renderPaginationItem = useCallback(
     (item) => {
-      const key = searchParams.get("key");
       let url = "";
       if (searchQuery) {
         url = `/players/search?searchQuery=${searchQuery}&page=${item.page}`;
@@ -50,7 +49,7 @@ const Paginate = ({ page, searchParams }) => {
       }
       return <PaginationItem {...item} component={Link} to={url} />;
     },
-    [searchQuery, searchParams]
+    [searchQuery, key]
   );
 
   return (

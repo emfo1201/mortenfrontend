@@ -36,8 +36,8 @@ const DrawerMenu = ({ categories, isAuthenticated }) => {
   const players = useSelector((state) => state.players.players); // Alla spelare
 
   const filterCategories = useCallback(
-    (categories) => {
-      const filteredCategories = categories
+    (filtCat) => {
+      const filteredCategories = filtCat
         .map((category) => {
           const subMenusWithPlayers = category.subMenu.filter((subMenu) =>
             players.some((player) =>
@@ -157,9 +157,9 @@ const DrawerMenu = ({ categories, isAuthenticated }) => {
   const listPlayer = useCallback(
     (e, mainMenu, sub) => {
       e.preventDefault();
-      const categories = [mainMenu, sub];
+      const joinCategories = [mainMenu, sub];
       console.log("navigate in DrawerMenu");
-      navigate(`/players/listPlayers?key=${categories.join(",")}&page=1`, {
+      navigate(`/players/listPlayers?key=${joinCategories.join(",")}&page=1`, {
         redirect: true,
       });
       handleDrawerClose();
