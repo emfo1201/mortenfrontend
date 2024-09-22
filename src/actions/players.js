@@ -10,6 +10,10 @@ import {
   UPDATE_PLAYER,
 } from "../constants/actionTypes";
 
+/**
+ * Fetches all players and dispatches the result to the Redux store.
+ * @returns {function} A Redux thunk action to get players.
+ */
 export const getPlayer = () => async (dispatch) => {
   try {
     dispatch({ type: START_LOADING });
@@ -21,7 +25,12 @@ export const getPlayer = () => async (dispatch) => {
   }
 };
 
-// Fetch players based on key and pagination, then update state
+/**
+ * Fetches players based on search key and pagination.
+ * @param {string} key - Search key for filtering players.
+ * @param {number} page - Pagination page number.
+ * @returns {function} A Redux thunk action to get players by search.
+ */
 export const getPlayers = (key, page) => async (dispatch) => {
   try {
     const { data } = await api.getPlayers({ key, page });
@@ -31,6 +40,11 @@ export const getPlayers = (key, page) => async (dispatch) => {
   }
 };
 
+/**
+ * Fetches a player by ID and dispatches the result to the Redux store.
+ * @param {string} id - The ID of the player to fetch.
+ * @returns {function} A Redux thunk action to get a player by ID.
+ */
 export const getPlayerById = (id) => async (dispatch) => {
   try {
     dispatch({ type: START_LOADING });
@@ -42,6 +56,12 @@ export const getPlayerById = (id) => async (dispatch) => {
   }
 };
 
+/**
+ * Searches players based on a search query and page number.
+ * @param {string} searchQuery - The search query string.
+ * @param {number} page - The pagination page number.
+ * @returns {function} A Redux thunk action to search players.
+ */
 export const getPlayersBySearch = (searchQuery, page) => async (dispatch) => {
   try {
     console.log("innan data");
@@ -53,6 +73,11 @@ export const getPlayersBySearch = (searchQuery, page) => async (dispatch) => {
   }
 };
 
+/**
+ * Adds a new player and dispatches the result to the Redux store.
+ * @param {Object} player - The player data to add.
+ * @returns {function} A Redux thunk action to add a player.
+ */
 export const addPlayer = (player) => async (dispatch) => {
   try {
     dispatch({ type: START_LOADING });
@@ -64,6 +89,12 @@ export const addPlayer = (player) => async (dispatch) => {
   }
 };
 
+/**
+ * Updates an existing player by ID and dispatches the result to the Redux store.
+ * @param {string} id - The ID of the player to update.
+ * @param {Object} player - The updated player data.
+ * @returns {function} A Redux thunk action to update a player.
+ */
 export const updatePlayer = (id, player) => async (dispatch) => {
   try {
     const { data } = await api.updatePlayer(id, player);
@@ -73,6 +104,11 @@ export const updatePlayer = (id, player) => async (dispatch) => {
   }
 };
 
+/**
+ * Deletes a player by ID and dispatches the result to the Redux store.
+ * @param {string} id - The ID of the player to delete.
+ * @returns {function} A Redux thunk action to delete a player.
+ */
 export const deletePlayer = (id) => async (dispatch) => {
   try {
     await api.deletePlayer(id);

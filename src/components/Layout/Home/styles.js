@@ -1,6 +1,7 @@
 // styles.js - Styles used by /Layout/Home/About.js, /Layout/Home/Image.js, and /Layout/Home/Welcome/.js
 
 import { makeStyles } from "@material-ui/core/styles";
+import Soccer2 from "../../../images/soccer2.jpg";
 
 const useStyles = makeStyles((theme) => ({
   outerContainer: {
@@ -61,9 +62,12 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
   },
   heroImage: {
+    backgroundImage: `url(${Soccer2})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundAttachment: "fixed",
     width: "100%",
-    height: "100%",
-    objectFit: "cover",
+    height: "100vh",
   },
 
   backgroundImage: {

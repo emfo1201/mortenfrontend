@@ -8,6 +8,12 @@ import About from "./Layout/Home/About";
 import Image from "./Layout/Home/Image";
 import Footer from "./Layout/Footer";
 
+/**
+ * Home component for the main landing page.
+ * Displays a hero image, welcome message, about sections, an image, and the footer.
+ *
+ * @component
+ */
 const Home = () => {
   const classes = useStyles();
 
