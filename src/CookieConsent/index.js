@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Cookies from "js-cookie";
 import { Button, Snackbar, SnackbarContent } from "@material-ui/core";
 import useStyles from "./styles";
@@ -21,22 +21,22 @@ const CookieConsent = () => {
   }, []);
 
   // Handle cookie acceptance
-  const handleAccept = () => {
+  const handleAccept = useCallback(() => {
     Cookies.set("cookieConsent", "true", { expires: 365 });
     setIsVisible(false);
-  };
+  }, []); // Empty dependency array to ensure the function is stable
 
   // Handle cookie decline
-  const handleDecline = () => {
+  const handleDecline = useCallback(() => {
     Cookies.set("cookieConsent", "false", { expires: 365 });
     setIsVisible(false);
-  };
+  }, []); // Empty dependency array to ensure the function is stable
 
   // Handle snackbar close
-  const handleClose = (event, reason) => {
+  const handleClose = useCallback((event, reason) => {
     if (reason === "clickaway") return; // Prevent closing on clickaway
     setIsVisible(false);
-  };
+  }, []); // Empty dependency array to ensure the function is stable
 
   return (
     <Snackbar
