@@ -1,4 +1,3 @@
-//LanguageToggle.js
 import React, { useCallback, useEffect } from "react";
 import { Button } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
@@ -15,16 +14,29 @@ const LanguageToggle = () => {
   const classes = useStyles();
 
   useEffect(() => {
+    // When the component mounts, check if a language cookie exists
     const savedLanguage = Cookies.get("language");
-    if (savedLanguage && savedLanguage !== i18n.language) {
+    if (savedLanguage) {
       i18n.changeLanguage(savedLanguage);
+    } else {
+      // Default to Norwegian if no language cookie is found
+      i18n.changeLanguage("no");
     }
   }, [i18n]);
 
+  /**
+   * Toggles the language between Norwegian and English.
+   * If the user has accepted cookies, the selected language is saved in a cookie.
+   */
   const toggleLanguage = useCallback(() => {
     const newLanguage = i18n.language === "no" ? "en" : "no";
     i18n.changeLanguage(newLanguage);
-    Cookies.set("language", newLanguage, { expires: 365 }); // Store language cookie for 1 year
+
+    // Check if cookies have been accepted before setting the language cookie
+    const consent = Cookies.get("cookieConsent");
+    if (consent === "true") {
+      Cookies.set("language", newLanguage, { expires: 365 });
+    }
   }, [i18n]);
 
   return (

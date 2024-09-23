@@ -12,6 +12,7 @@ import "./i18n";
 import { useDispatch } from "react-redux";
 import { getCategory } from "./actions/menu";
 import { getPlayer } from "./actions/players";
+import CookieConsent from "./CookieConsent";
 
 /**
  * The main application component that sets up routing and global state.
@@ -46,6 +47,7 @@ function App() {
           <Route exact path="/players/:id" element={<PlayerDetails />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
+        <CookieConsent />
       </Main>
     </AuthProvider>
   );

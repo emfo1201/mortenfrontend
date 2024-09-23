@@ -4,9 +4,17 @@ import { makeStyles } from "@material-ui/core/styles";
 export const useStyles = makeStyles((theme) => ({
   button: {
     borderRadius: theme.spacing(2),
-    backgroundColor: theme.palette.primary.light,
     color: theme.palette.primary.contrastText,
     padding: theme.spacing(1, 2),
+    backgroundColor: theme.palette.primary.light,
+    transition: "background-color 0.3s",
+    "&:focus": {
+      backgroundColor: theme.palette.primary.light, // Återgå till ljus färg vid fokus
+      outline: "none", // Ta bort standardfokusram
+    },
+    "&:active": {
+      backgroundColor: theme.palette.primary.main, // Färg vid klick
+    },
   },
   mainMenuContainer: {
     display: "flex",
