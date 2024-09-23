@@ -1,6 +1,6 @@
 // index.js
 import React, { Suspense } from "react";
-import { createRoot } from "react-dom/client"; // Importera createRoot
+import ReactDOM from "react-dom";
 import App from "./App";
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
@@ -14,7 +14,7 @@ import thunk from "redux-thunk";
 import { reducers } from "./reducers";
 
 i18n
-  .use(initReactI18next)
+  .use(initReactI18next) // passes i18n down to react-i18next
   .use(LanguageDetector)
   .use(HttpApi)
   .init({
@@ -40,19 +40,15 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
 });
 
-// Skapa en root med createRoot
-const container = document.getElementById("root");
-const root = createRoot(container); // Skapa en root
-
-// Rendera applikationen med createRoot
-root.render(
+ReactDOM.render(
   <Suspense fallback={loadingMarkup}>
     <Provider store={store}>
       <BrowserRouter>
         <App />
       </BrowserRouter>
     </Provider>
-  </Suspense>
+  </Suspense>,
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function
