@@ -1,11 +1,6 @@
 import React from "react";
-import { Grid, Box } from "@mui/material"; // Uppdaterat till @mui/material
-import {
-  HomeContainer,
-  HeroImage,
-  ContentContainer,
-  WelcomeText,
-} from "./Layout/styles"; // Importera styles
+import { Grid } from "@mui/material"; // Uppdaterat till @mui/material
+import { HomeContainer, HeroImage } from "./Layout/styles"; // Importera styles
 
 import LandingImage from "../images/nfdmheroimage.png";
 
