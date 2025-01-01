@@ -48,15 +48,21 @@ function AddUpdatePlayerForm({
     const subCategories = {};
 
     categories.forEach((cat) => {
-      subCategories[cat.mainMenu] = cat.subMenu.flatMap((sub) => {
-        // Kontrollera om sub är ett årtionde
-        const match = sub.match(/(\d{4})-tal/);
-        if (match) {
-          const startYear = parseInt(match[1], 10);
-          return Array.from({ length: 10 }, (_, i) => startYear + i); // Skapa en lista av år
-        }
-        return sub; // Lägg till sub som det är om det inte är ett årtionde
-      });
+      subCategories[cat.mainMenu] = cat.subMenu
+        .flatMap((sub) => {
+          const match = sub.match(/(\d{4})-tal/);
+          if (match) {
+            const startYear = parseInt(match[1], 10);
+            return Array.from({ length: 10 }, (_, i) => startYear + i); // Skapa lista av år
+          }
+          return sub; // Lägg till sub som det är om det inte är ett årtionde
+        })
+        .sort((a, b) => {
+          // Sortera år först om båda är nummer
+          if (typeof a === "number" && typeof b === "number") return a - b;
+          // Behåll alfabetisk ordning för strängar
+          return a.toString().localeCompare(b.toString());
+        });
     });
 
     const filteredCategories = categories.filter(
