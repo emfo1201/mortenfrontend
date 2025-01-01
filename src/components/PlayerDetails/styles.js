@@ -15,7 +15,6 @@ export const StyledPaper = styled(Paper)(({ theme }) => ({
 }));
 
 export const StyledCardMedia = styled(CardMedia)(() => ({
-  borderRadius: "20px",
   objectFit: "cover",
   maxWidth: 300,
 }));
@@ -29,6 +28,9 @@ export const StyledImageContainer = styled("div")(() => ({
 
 export const StyledImage = styled("img")(() => ({
   width: "100%",
+  height: "40%",
+  objectFit: "cover",
+  objectPosition: "center",
   opacity: 0.5,
   transition: "opacity 0.3s ease",
   cursor: "pointer",
