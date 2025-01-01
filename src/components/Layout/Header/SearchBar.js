@@ -1,8 +1,7 @@
-// SearchBar.js
 import React, { useCallback } from "react";
-import InputBase from "@material-ui/core/InputBase";
-import SearchIcon from "@material-ui/icons/Search";
-import useStyles from "../styles";
+import DOMPurify from "dompurify";
+import SearchIcon from "@mui/icons-material/Search";
+import { SearchInput, SearchIconWrapper, SearchWrapper } from "./styles";
 
 /**
  * SearchBar component provides an input field for searching players.
@@ -15,32 +14,28 @@ import useStyles from "../styles";
  * @returns {JSX.Element} The rendered SearchBar component.
  */
 const SearchBar = ({ search, setSearch, handleKeyPress }) => {
-  const classes = useStyles();
-
+  // Hantering av inputändringar och sanering av värde
   const handleSearchChange = useCallback(
     (e) => {
-      setSearch(e.target.value);
+      const sanitizedValue = DOMPurify.sanitize(e.target.value);
+      setSearch(sanitizedValue);
     },
     [setSearch]
   );
 
   return (
-    <div className={classes.search}>
-      <div className={classes.searchIcon}>
+    <SearchWrapper>
+      <SearchIconWrapper>
         <SearchIcon />
-      </div>
-      <InputBase
+      </SearchIconWrapper>
+      <SearchInput
         placeholder="Search…"
-        classes={{
-          root: classes.inputRoot,
-          input: classes.inputInput,
-        }}
         inputProps={{ "aria-label": "search" }}
         value={search}
         onKeyDown={handleKeyPress}
         onChange={handleSearchChange}
       />
-    </div>
+    </SearchWrapper>
   );
 };
 

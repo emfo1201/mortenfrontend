@@ -1,4 +1,3 @@
-// App.js
 import React, { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./components/Auth/AuthContext";
@@ -27,9 +26,10 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    // Dispatch actions to fetch players and categories
     dispatch(getPlayer());
     dispatch(getCategory());
-  }, [dispatch]);
+  }, [dispatch]); // Dependency array ensures this runs only once when the component mounts
 
   return (
     <AuthProvider>

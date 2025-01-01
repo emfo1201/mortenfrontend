@@ -1,11 +1,14 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { styled } from "@mui/material/styles";
 
-const useStyles = makeStyles((theme) => ({
-  snackbar: {
-    backgroundColor: theme.palette.background.default,
-    boxShadow: theme.shadows[3],
-    color: theme.palette.text.primary,
-  },
+const SnackbarStyled = styled("div")(({ theme }) => ({
+  backgroundColor: theme.palette.background.default,
+  boxShadow: theme.shadows[3],
+  color: theme.palette.text.primary,
+  padding: theme.spacing(2),
+  borderRadius: theme.shape.borderRadius,
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
 }));
 
-export default useStyles;
+export default SnackbarStyled;

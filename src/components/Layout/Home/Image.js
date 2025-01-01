@@ -1,8 +1,20 @@
-//Image.js
-
 import React from "react";
-import Grid from "@material-ui/core/Grid";
-import useStyles from "./styles";
+import Grid from "@mui/material/Grid";
+import { styled } from "@mui/material/styles";
+
+// Styled Component for the background image container
+const OuterContainer = styled(Grid)({
+  flexGrow: 1,
+});
+
+const HeroImage = styled("div")({
+  backgroundImage: `url(../../../images/soccer2.jpg)`,
+  backgroundSize: "cover",
+  backgroundPosition: "center",
+  backgroundAttachment: "fixed",
+  width: "100%",
+  height: "100vh",
+});
 
 /**
  * Image component used to display a full-screen background image.
@@ -13,12 +25,10 @@ import useStyles from "./styles";
  * @returns {JSX.Element} - The rendered Image component with a full-screen background image.
  */
 const Image = () => {
-  const classes = useStyles();
-
   return (
-    <Grid container spacing={3} className={classes.outerContainer}>
-      <div className={classes.heroImage} />
-    </Grid>
+    <OuterContainer container spacing={3}>
+      <HeroImage />
+    </OuterContainer>
   );
 };
 

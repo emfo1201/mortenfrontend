@@ -1,8 +1,9 @@
 //PlayerForm.js
 import React, { useState, useEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
+import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
+import DOMPurify from "dompurify";
 import CategorySelect from "./CategorySelect";
 import PlayerData from "./PlayerData";
 import ImageUpload from "./ImageUpload";
@@ -47,7 +48,15 @@ function AddUpdatePlayerForm({
     const subCategories = {};
 
     categories.forEach((cat) => {
-      subCategories[cat.mainMenu] = cat.subMenu;
+      subCategories[cat.mainMenu] = cat.subMenu.flatMap((sub) => {
+        // Kontrollera om sub är ett årtionde
+        const match = sub.match(/(\d{4})-tal/);
+        if (match) {
+          const startYear = parseInt(match[1], 10);
+          return Array.from({ length: 10 }, (_, i) => startYear + i); // Skapa en lista av år
+        }
+        return sub; // Lägg till sub som det är om det inte är ett årtionde
+      });
     });
 
     const filteredCategories = categories.filter(
@@ -63,10 +72,14 @@ function AddUpdatePlayerForm({
   useEffect(() => {
     if (player) {
       setPlayerData({
-        name: player.name || "",
-        club: player.club || "",
-        infoEnglish: player.infoEnglish || "",
-        infoNorwegian: player.infoNorwegian || "",
+        name: DOMPurify.sanitize(player.name) || "",
+        club: DOMPurify.sanitize(player.club) || "",
+        infoEnglish: player.infoEnglish
+          ? DOMPurify.sanitize(player.infoEnglish)
+          : "",
+        infoNorwegian: player.infoNorwegian
+          ? DOMPurify.sanitize(player.infoNorwegian)
+          : "",
         category: player.category || [],
       });
 
@@ -99,9 +112,10 @@ function AddUpdatePlayerForm({
   const handleInputChange = useCallback(
     (e) => {
       const { name, value } = e.target;
+      const sanitizedValue = DOMPurify.sanitize(value);
       setPlayerData({
         ...playerData,
-        [name]: value,
+        [name]: sanitizedValue,
       });
     },
     [playerData]
@@ -225,8 +239,6 @@ function AddUpdatePlayerForm({
         images: existingImages.concat(imageFiles),
       };
 
-      console.log("updatedPlayerData: ", updatedPlayerData);
-
       handleSubmit(updatedPlayerData);
       handleCloseUpdatePlayer(false);
       clear();
@@ -258,7 +270,7 @@ function AddUpdatePlayerForm({
             handleSelectChange={handleSelectChange}
             menuData={menuData}
             handleSubCategoryChange={handleSubCategoryChange}
-            selectedSubCategoryValues={selectedSubCategories}
+            selectedSubCategoryValues={selectedSubCategories.map(String)}
           />
         </Grid>
         <Grid item xs={12} sm={6}>

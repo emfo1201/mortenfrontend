@@ -1,48 +1,42 @@
-// PlayerDetails.jsx
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
-  Paper,
   Typography,
   CircularProgress,
   CardMedia,
   Divider,
-  useTheme,
-  useMediaQuery,
-  Dialog,
-  IconButton,
-} from "@material-ui/core";
+  Box,
+} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getPlayerById } from "../../actions/players";
-import useStyles from "./styles";
-import ImageList from "@material-ui/core/ImageList";
-import ImageListItem from "@material-ui/core/ImageListItem";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
-import CloseIcon from "@material-ui/icons/Close";
-import { useTranslation } from "react-i18next";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import CloseIcon from "@mui/icons-material/Close";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
+import {
+  CircularPaper,
+  StyledPaper,
+  StyledCardMedia,
+  StyledImageContainer,
+  StyledImage,
+  StyledDialog,
+  StyledDialogContent,
+  StyledIconButtonClose,
+  StyledIconButtonRight,
+  StyledIconButtonLeft,
+} from "./styles";
+import { useTranslation } from "react-i18next";
+import { getPlayerById } from "../../actions/players";
 
-/**
- * Player component displays detailed information about a specific player,
- * including images and stats.
- *
- * @returns {JSX.Element} The rendered PlayerDetails component.
- */
 const Player = () => {
   const { player, isLoading } = useSelector((state) => state.players);
   const [open, setOpen] = useState(false);
   const [cardImageIndex, setCardImageIndex] = useState(0);
   const [dialogImageIndex, setDialogImageIndex] = useState(0);
-  const { i18n } = useTranslation();
   const swiperRef = useRef(null);
   const dispatch = useDispatch();
-  const classes = useStyles();
+  const { i18n } = useTranslation();
   const { id } = useParams();
-
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(() => {
     dispatch(getPlayerById(id));
@@ -53,26 +47,9 @@ const Player = () => {
     setOpen(true);
   }, []);
 
-  // Function to handle image clicks without inline arrow function
-  const onClickOpen = useCallback(() => {
-    handleClickOpen(cardImageIndex);
-  }, [cardImageIndex, handleClickOpen]);
-
   const handleClose = useCallback(() => {
     setOpen(false);
   }, []);
-
-  const handleImageClick = useCallback(
-    (index) => {
-      setCardImageIndex(index);
-    },
-    [setCardImageIndex]
-  );
-
-  // Function to handle image clicks without inline arrow function
-  const onImageClick = useCallback(() => {
-    handleImageClick(cardImageIndex);
-  }, [cardImageIndex, handleImageClick]);
 
   const handleNextImage = useCallback(() => {
     swiperRef.current?.swiper?.slideNext();
@@ -82,100 +59,68 @@ const Player = () => {
     swiperRef.current?.swiper?.slidePrev();
   }, []);
 
-  if (!player) {
-    return null;
-  }
-
-  if (isLoading) {
-    return (
-      <Paper elevation={6} className={classes.loadingPaper}>
-        <CircularProgress size="7em" />
-      </Paper>
-    );
-  }
-
   const playerInfo = player
     ? i18n.language === "no"
       ? player.infoNorwegian
       : player.infoEnglish
     : "";
 
+  if (!player) {
+    return null;
+  }
+
+  if (isLoading) {
+    return (
+      <CircularPaper elevation={6}>
+        <CircularProgress size="7em" />
+      </CircularPaper>
+    );
+  }
+
   return (
-    <Paper className={classes.paper} elevation={6}>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          width: "100%",
-        }}
-      >
+    <StyledPaper>
+      <Box display="flex" justifyContent="space-between" width="100%">
         <ArrowBackIcon />
         <ArrowForwardIcon />
-      </div>
-      <div className={classes.card}>
-        <div>
-          <ImageList rowHeight={160} className={classes.imageList1} cols={1}>
-            {player.images.map(
-              (item, index) =>
-                index !== cardImageIndex && (
-                  <ImageListItem
-                    key={item}
-                    cols={1}
-                    onClick={onImageClick}
-                    className={classes.imageListItem}
-                  >
-                    <img src={item} alt={`image-${index}`} />
-                  </ImageListItem>
-                )
-            )}
-          </ImageList>
-        </div>
-        <div className={classes.imageSection}>
-          <CardMedia
+      </Box>
+      <Box display="flex" flexWrap={{ xs: "wrap", sm: "nowrap" }} pt={2}>
+        <StyledImageContainer>
+          {player.images.map(
+            (item, index) =>
+              index !== cardImageIndex && (
+                <StyledImage
+                  key={item}
+                  src={item}
+                  alt={`image-${index}`}
+                  onClick={() => setCardImageIndex(index)}
+                />
+              )
+          )}
+        </StyledImageContainer>
+        <Box mx={2}>
+          <StyledCardMedia
             component="img"
             height="400"
             image={player.images[cardImageIndex]}
             alt={player.name}
-            className={classes.media}
-            onClick={onClickOpen}
+            onClick={() => handleClickOpen(cardImageIndex)}
           />
-        </div>
-        <div className={classes.section}>
-          <Typography variant="h4" component="h4">
-            {player.name}
+        </Box>
+        <Box flex={1} mx={2}>
+          <Typography variant="h4">{player.name}</Typography>
+          <Typography variant="h6">{player.club}</Typography>
+          <Divider sx={{ marginY: 2 }} />
+          <Typography gutterBottom variant="body1">
+            {playerInfo || "Ingen information tillgänglig"}
           </Typography>
-          <Typography variant="h6" component="h4">
-            {player.club}
-          </Typography>
-          <Divider style={{ margin: "20px 0" }} />
-          <Typography gutterBottom variant="body1" component="p">
-            {playerInfo}
-          </Typography>
-        </div>
-      </div>
-      <Divider style={{ margin: "20px 0" }} />
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        PaperProps={{
-          style: {
-            width: isMobile ? "90%" : "40%",
-            maxWidth: "none",
-            height: "80%",
-            maxHeight: "80%",
-            margin: 0,
-            padding: 0,
-            border: "none",
-          },
-        }}
-      >
-        <div className={classes.swiperContainer}>
-          <IconButton
-            className={`${classes.iconButton} ${classes.closeIconButton}`}
-            onClick={handleClose}
-          >
+        </Box>
+      </Box>
+      <Divider sx={{ marginY: 2 }} />
+      <StyledDialog open={open} onClose={handleClose}>
+        <StyledDialogContent>
+          <StyledIconButtonClose onClick={handleClose}>
             <CloseIcon />
-          </IconButton>
+          </StyledIconButtonClose>
           <Swiper
             ref={swiperRef}
             spaceBetween={0}
@@ -185,30 +130,24 @@ const Player = () => {
             style={{ width: "100%", height: "100%" }}
           >
             {player.images.map((item, index) => (
-              <SwiperSlide key={item} className={classes.swiperSlide}>
+              <SwiperSlide key={item}>
                 <img
                   src={item}
                   alt={`image-${index}`}
-                  className={classes.swiperImage}
+                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 />
               </SwiperSlide>
             ))}
           </Swiper>
-          <IconButton
-            className={`${classes.iconButton} ${classes.prevIconButton}`}
-            onClick={handlePreviousImage}
-          >
+          <StyledIconButtonLeft onClick={handlePreviousImage}>
             <ArrowBackIcon fontSize="large" />
-          </IconButton>
-          <IconButton
-            className={`${classes.iconButton} ${classes.nextIconButton}`}
-            onClick={handleNextImage}
-          >
+          </StyledIconButtonLeft>
+          <StyledIconButtonRight onClick={handleNextImage}>
             <ArrowForwardIcon fontSize="large" />
-          </IconButton>
-        </div>
-      </Dialog>
-    </Paper>
+          </StyledIconButtonRight>
+        </StyledDialogContent>
+      </StyledDialog>
+    </StyledPaper>
   );
 };
 

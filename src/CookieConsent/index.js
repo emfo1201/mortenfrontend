@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Cookies from "js-cookie";
-import { Button, Snackbar, SnackbarContent } from "@material-ui/core";
-import useStyles from "./styles";
+import Button from "@mui/material/Button";
+import SnackBar from "@mui/material/Snackbar";
+import SnackbarStyled from "./styles"; // Importera styles från styles-filen
 
 /**
  * CookieConsent component displays a snackbar for cookie consent.
@@ -9,66 +10,59 @@ import useStyles from "./styles";
  * @returns {JSX.Element} The rendered CookieConsent component.
  */
 const CookieConsent = () => {
-  const classes = useStyles();
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const consent = Cookies.get("cookieConsent");
-    // Check if consent cookie exists
     if (!consent) {
       setIsVisible(true); // Show snackbar if no consent found
     }
   }, []);
 
-  // Handle cookie acceptance
   const handleAccept = useCallback(() => {
-    Cookies.set("cookieConsent", "true", { expires: 365 });
+    Cookies.set("cookieConsent", "true", {
+      expires: 365,
+      secure: true,
+      httpOnly: true,
+    });
     setIsVisible(false);
-  }, []); // Empty dependency array to ensure the function is stable
+  }, []);
 
-  // Handle cookie decline
   const handleDecline = useCallback(() => {
-    Cookies.set("cookieConsent", "false", { expires: 365 });
+    Cookies.set("cookieConsent", "false", {
+      expires: 365,
+      secure: true,
+      httpOnly: true,
+    });
     setIsVisible(false);
-  }, []); // Empty dependency array to ensure the function is stable
+  }, []);
 
-  // Handle snackbar close
   const handleClose = useCallback((event, reason) => {
     if (reason === "clickaway") return; // Prevent closing on clickaway
     setIsVisible(false);
-  }, []); // Empty dependency array to ensure the function is stable
+  }, []);
 
   return (
-    <Snackbar
+    <SnackBar
       open={isVisible}
       anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       onClose={handleClose}
     >
-      <SnackbarContent
-        className={classes.snackbar}
-        message={
-          <span style={{ fontSize: "inherit" }}>
-            We use cookies to improve your experience. Do you accept?
-          </span>
-        }
-        action={[
+      <SnackbarStyled>
+        <div>We use cookies to improve your experience. Do you accept?</div>
+        <div style={{ marginTop: "10px" }}>
           <Button
-            className={classes.button}
-            color="inherit"
             onClick={handleAccept}
+            style={{ marginRight: "10px", color: "green" }}
           >
             Accept
-          </Button>,
-          <Button
-            className={classes.button}
-            color="inherit"
-            onClick={handleDecline}
-          >
+          </Button>
+          <Button onClick={handleDecline} style={{ color: "red" }}>
             Decline
-          </Button>,
-        ]}
-      />
-    </Snackbar>
+          </Button>
+        </div>
+      </SnackbarStyled>
+    </SnackBar>
   );
 };
 

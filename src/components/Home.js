@@ -1,12 +1,13 @@
-// Home.js
 import React from "react";
-import Grid from "@material-ui/core/Grid";
-import useStyles from "./Layout/styles";
-import LandingImage from "../images/UllevaalStadion.png";
-import Welcome from "./Layout/Home/Welcome";
-import About from "./Layout/Home/About";
-import Image from "./Layout/Home/Image";
-import Footer from "./Layout/Footer";
+import { Grid, Box } from "@mui/material"; // Uppdaterat till @mui/material
+import {
+  HomeContainer,
+  HeroImage,
+  ContentContainer,
+  WelcomeText,
+} from "./Layout/styles"; // Importera styles
+
+import LandingImage from "../images/nfdmheroimage.png";
 
 /**
  * Home component for the main landing page.
@@ -15,34 +16,24 @@ import Footer from "./Layout/Footer";
  * @component
  */
 const Home = () => {
-  const classes = useStyles();
-
   return (
-    <div className={classes.homeContainer}>
+    <HomeContainer>
       <Grid container spacing={3}>
-        <Grid item xs={12} sm={12}>
-          <img
-            className={classes.heroImage}
-            src={LandingImage}
-            alt="Soccer Jersey Collection"
-          />
-        </Grid>
-        <Welcome />
         <Grid item xs={12}>
-          <About />
+          <HeroImage>
+            <img
+              src={LandingImage}
+              alt="Soccer Jersey Collection"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+              }}
+            />
+          </HeroImage>
         </Grid>
-        <Grid item xs={12}>
-          <Image />
-        </Grid>
-        <Grid item xs={12}>
-          <About />
-        </Grid>
-        <Grid item xs={12}>
-          <About />
-        </Grid>
-        <Footer />
       </Grid>
-    </div>
+    </HomeContainer>
   );
 };
 
