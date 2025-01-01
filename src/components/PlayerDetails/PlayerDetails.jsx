@@ -1,11 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import {
-  Typography,
-  CircularProgress,
-  CardMedia,
-  Divider,
-  Box,
-} from "@mui/material";
+import { Typography, CircularProgress, Divider, Box } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";

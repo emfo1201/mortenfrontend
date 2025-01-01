@@ -5,7 +5,6 @@ import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
 
 import { getPlayers, getPlayersBySearch } from "../../actions/players";
-import { PaginationContainer } from "./styles";
 
 /**
  * Paginate component provides pagination controls for navigating through
