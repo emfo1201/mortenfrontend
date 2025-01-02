@@ -103,12 +103,43 @@ export const Hero = styled("div")({
   overflow: "hidden",
 });
 
-export const HeroImage = styled("div")({
+export const HeroImage = styled("div")(({ theme }) => ({
   width: "100%",
   height: "100%",
   objectFit: "cover",
   backgroundAttachment: "fixed",
-});
+  [theme.breakpoints.up("sm")]: {
+    display: "block",
+  },
+  [theme.breakpoints.down("sm")]: {
+    display: "none",
+  },
+  img: {
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+  },
+}));
+
+export const HeroImagePhone = styled("div")(({ theme }) => ({
+  width: "100%",
+  height: "100%",
+  objectFit: "cover",
+  backgroundAttachment: "fixed",
+
+  [theme.breakpoints.up("sm")]: {
+    display: "none",
+  },
+  [theme.breakpoints.down("sm")]: {
+    display: "block",
+  },
+
+  img: {
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+  },
+}));
 
 export const ContentContainer = styled("div")({
   position: "absolute",

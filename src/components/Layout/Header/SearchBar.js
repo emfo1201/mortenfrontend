@@ -1,20 +1,21 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import DOMPurify from "dompurify";
 import SearchIcon from "@mui/icons-material/Search";
-import { SearchInput, SearchIconWrapper, SearchWrapper } from "./styles";
+import CloseIcon from "@mui/icons-material/Close";
+import {
+  SearchInput,
+  SearchIconWrapper,
+  SearchWrapper,
+  MobileSearchIconStyled,
+  MobileSearchIconWrapper,
+  DialogStyled,
+  DialogContentStyled,
+} from "./styles";
+import { IconButton } from "@mui/material";
 
-/**
- * SearchBar component provides an input field for searching players.
- * It allows users to type a search query and triggers a search function on a key press.
- *
- * @param {Object} props - The component props.
- * @param {string} props.search - The current search query.
- * @param {function} props.setSearch - Function to update the search query state.
- * @param {function} props.handleKeyPress - Function to handle key press events for search submission.
- * @returns {JSX.Element} The rendered SearchBar component.
- */
 const SearchBar = ({ search, setSearch, handleKeyPress }) => {
-  // Hantering av inputändringar och sanering av värde
+  const [open, setOpen] = useState(false);
+
   const handleSearchChange = useCallback(
     (e) => {
       const sanitizedValue = DOMPurify.sanitize(e.target.value);
@@ -23,19 +24,61 @@ const SearchBar = ({ search, setSearch, handleKeyPress }) => {
     [setSearch]
   );
 
+  const toggleDialog = useCallback(() => {
+    setOpen((prev) => !prev);
+  }, []);
+
+  const handleMobileKeyPress = useCallback(
+    (e) => {
+      if (e.key === "Enter" || e.keyCode === 13) {
+        e.preventDefault();
+        handleKeyPress(e);
+        setOpen(false);
+      }
+    },
+    [handleKeyPress]
+  );
+
   return (
-    <SearchWrapper>
-      <SearchIconWrapper>
-        <SearchIcon />
-      </SearchIconWrapper>
-      <SearchInput
-        placeholder="Search…"
-        inputProps={{ "aria-label": "search" }}
-        value={search}
-        onKeyDown={handleKeyPress}
-        onChange={handleSearchChange}
-      />
-    </SearchWrapper>
+    <>
+      {/* Desktop Search */}
+      <SearchWrapper>
+        <SearchIconWrapper>
+          <SearchIcon />
+        </SearchIconWrapper>
+        <SearchInput
+          placeholder="Search…"
+          inputProps={{ "aria-label": "search" }}
+          value={search}
+          onKeyDown={handleKeyPress}
+          onChange={handleSearchChange}
+        />
+      </SearchWrapper>
+
+      {/* Mobile Search */}
+      <MobileSearchIconWrapper>
+        <IconButton onClick={toggleDialog} aria-label="Open search">
+          <MobileSearchIconStyled />
+        </IconButton>
+      </MobileSearchIconWrapper>
+
+      {/* Dialog for Mobile */}
+      <DialogStyled open={open} onClose={toggleDialog}>
+        <DialogContentStyled>
+          <IconButton onClick={toggleDialog} aria-label="Close search">
+            <CloseIcon />
+          </IconButton>
+          <SearchInput
+            autoFocus
+            placeholder="Search…"
+            inputProps={{ "aria-label": "search" }}
+            value={search}
+            onKeyDown={handleMobileKeyPress}
+            onChange={handleSearchChange}
+          />
+        </DialogContentStyled>
+      </DialogStyled>
+    </>
   );
 };
 

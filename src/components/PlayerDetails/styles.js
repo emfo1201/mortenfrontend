@@ -12,6 +12,8 @@ export const CircularPaper = styled(Paper)(() => ({
 
 export const StyledPaper = styled(Paper)(({ theme }) => ({
   borderRadius: 0,
+  paddingTop: theme.spacing(4),
+  paddingBottom: theme.spacing(2),
 }));
 
 export const StyledCardMedia = styled(CardMedia)(() => ({

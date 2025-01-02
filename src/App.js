@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./components/Auth/AuthContext";
 import Main from "./components/Layout/Main";
 import Login from "./components/Auth/Login";
-import Home from "./components/Home";
+import Home from "./components/Layout/Home";
 import PageNotFound from "./components/PageNotFound";
 import Players from "./components/Players/Players";
 import PlayerDetails from "./components/PlayerDetails/PlayerDetails";
