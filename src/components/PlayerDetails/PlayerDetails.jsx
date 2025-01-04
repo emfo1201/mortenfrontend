@@ -10,9 +10,11 @@ import "swiper/css";
 import {
   CircularPaper,
   StyledPaper,
+  StyledBox,
   StyledCardMedia,
   StyledImageContainer,
   StyledImage,
+  StyledTextContainer,
   StyledDialog,
   StyledDialogContent,
   StyledIconButtonClose,
@@ -77,7 +79,7 @@ const Player = () => {
         <ArrowBackIcon />
         <ArrowForwardIcon />
       </Box>
-      <Box display="flex" flexWrap={{ xs: "wrap", sm: "nowrap" }} pt={2}>
+      <StyledBox>
         <StyledImageContainer>
           {player.images.map(
             (item, index) =>
@@ -91,24 +93,22 @@ const Player = () => {
               )
           )}
         </StyledImageContainer>
-        <Box mx={2}>
-          <StyledCardMedia
-            component="img"
-            height="400"
-            image={player.images[cardImageIndex]}
-            alt={player.name}
-            onClick={() => handleClickOpen(cardImageIndex)}
-          />
-        </Box>
-        <Box flex={1} mx={2}>
+        <StyledCardMedia
+          component="img"
+          height="400"
+          image={player.images[cardImageIndex]}
+          alt={player.name}
+          onClick={() => handleClickOpen(cardImageIndex)}
+        />
+        <StyledTextContainer mx={2}>
           <Typography variant="h4">{player.name}</Typography>
           <Typography variant="h6">{player.club}</Typography>
           <Divider sx={{ marginY: 2 }} />
           <Typography gutterBottom variant="body1">
             {playerInfo || "Ingen information tillgänglig"}
           </Typography>
-        </Box>
-      </Box>
+        </StyledTextContainer>
+      </StyledBox>
       <Divider sx={{ marginY: 2 }} />
       <StyledDialog open={open} onClose={handleClose}>
         <StyledDialogContent>
