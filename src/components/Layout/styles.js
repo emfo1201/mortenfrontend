@@ -127,10 +127,10 @@ export const HeroImagePhone = styled("div")(({ theme }) => ({
   objectFit: "cover",
   backgroundAttachment: "fixed",
 
-  [theme.breakpoints.up("sm")]: {
+  [theme.breakpoints.up("md")]: {
     display: "none",
   },
-  [theme.breakpoints.down("sm")]: {
+  [theme.breakpoints.down("md")]: {
     display: "block",
   },
 
