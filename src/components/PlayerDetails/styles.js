@@ -30,12 +30,12 @@ export const StyledCardMediaGrid = styled(Grid)(({ theme }) => ({
   },
 }));
 
-export const StyledCardMedia = styled(CardMedia)(({ theme }) => ({
+export const StyledCardMedia = styled(CardMedia)(() => ({
   objectFit: "cover",
   maxWidth: 300,
 }));
 
-export const StyledImageContainerGrid = styled(Grid)(({ theme }) => ({
+export const StyledImageContainerGrid = styled(Grid)(() => ({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
