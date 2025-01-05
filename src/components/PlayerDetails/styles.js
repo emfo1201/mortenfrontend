@@ -89,13 +89,17 @@ export const StyledImage = styled("img")(({ theme }) => ({
 
 export const StyledDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiPaper-root": {
-    width: "30%",
+    width: "300px",
     height: "auto",
     maxWidth: "none",
     margin: 0,
     padding: 0,
     border: "none",
     objectFit: "contain",
+  },
+  [theme.breakpoints.down("md")]: {
+    width: "auto",
+    height: "100%",
   },
 }));
 
