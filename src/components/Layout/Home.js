@@ -1,7 +1,6 @@
 import React from "react";
 import { Grid } from "@mui/material";
 import { HomeContainer, HeroImage, HeroImagePhone } from "./styles";
-import ImageFadeTransition from "./Home/Image"; // Importera ImageFadeTransition
 
 import LandingImage from "../../images/nfdmheroimage.png";
 import LandingImagePhone from "../../images/nfdmheroimagemobile.png";
@@ -18,8 +17,6 @@ const Home = () => {
               src={LandingImage} // Desktop-version av bilden
               alt="Soccer Jersey Collection"
             />
-            {/* Lägg till ImageFadeTransition ovanpå HeroImage */}
-            <ImageFadeTransition />
           </HeroImage>
 
           <HeroImagePhone>
