@@ -108,10 +108,10 @@ export const HeroImage = styled("div")(({ theme }) => ({
   height: "100%",
   objectFit: "cover",
   backgroundAttachment: "fixed",
-  [theme.breakpoints.up("sm")]: {
+  [theme.breakpoints.up("md")]: {
     display: "block",
   },
-  [theme.breakpoints.down("sm")]: {
+  [theme.breakpoints.down("md")]: {
     display: "none",
   },
   img: {
