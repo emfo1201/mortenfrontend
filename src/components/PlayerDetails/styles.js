@@ -1,5 +1,5 @@
 import { styled } from "@mui/system";
-import { Paper, CardMedia, Dialog, IconButton, Box } from "@mui/material";
+import { Paper, CardMedia, Dialog, IconButton, Grid } from "@mui/material";
 
 export const CircularPaper = styled(Paper)(() => ({
   display: "flex",
@@ -16,47 +16,45 @@ export const StyledPaper = styled(Paper)(({ theme }) => ({
   paddingBottom: theme.spacing(2),
 }));
 
-export const StyledBox = styled(Box)(({ theme }) => ({
-  display: "flex",
-  flexWrap: "wrap",
-  flexDirection: "column",
-  paddingTop: theme.spacing(2),
-  [theme.breakpoints.down("md")]: {
-    flexDirection: "row", // Horizontal layout on medium screens
+export const StyledPaperGrid = styled(Grid)(({ theme }) => ({
+  margin: theme.spacing(4),
+  alignItems: "center",
+  justifyContent: "space-between",
+}));
+
+export const StyledCardMediaGrid = styled(Grid)(({ theme }) => ({
+  [theme.breakpoints.down("sm")]: {
+    display: "flex",
     justifyContent: "center",
-  },
-  [theme.breakpoints.up("md")]: {
-    flexDirection: "row", // Horizontal layout on medium screens
-    justifyContent: "center",
+    alignItems: "center",
   },
 }));
 
 export const StyledCardMedia = styled(CardMedia)(({ theme }) => ({
   objectFit: "cover",
   maxWidth: 300,
-  [theme.breakpoints.down("sm")]: {
-    order: 1, // Put first on small screens
-  },
+}));
+
+export const StyledImageContainerGrid = styled(Grid)(({ theme }) => ({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
 }));
 
 export const StyledImageContainer = styled("div")(({ theme }) => ({
   display: "flex",
   flexDirection: "column", // Standard: vertical layout
   width: "100%",
+  justifyContent: "center",
+  alignItems: "center",
   overflowY: "auto",
   paddingRight: 16,
-  [theme.breakpoints.down("md")]: {
+  [theme.breakpoints.down("sm")]: {
     flexDirection: "row", // Horizontal layout on medium screens
-    overflowX: "auto",
-    overflowY: "hidden",
-    gap: "2px",
     width: "100%",
     height: "40%",
     maxHeight: "150px",
-    justifyContent: "center",
     paddingTop: theme.spacing(1),
-    margin: "0",
-    order: 2,
   },
   [theme.breakpoints.up("md")]: {
     height: "auto",
@@ -86,24 +84,6 @@ export const StyledImage = styled("img")(({ theme }) => ({
     height: "40%",
     maxHeight: "350px",
     maxWidth: "200px",
-  },
-}));
-
-export const StyledTextContainer = styled(Box)(({ theme }) => ({
-  display: "flex",
-  flexDirection: "column",
-  marginLeft: theme.spacing(3),
-  [theme.breakpoints.down("sm")]: {
-    order: 3, // Move to the bottom on small screens
-    width: "100%",
-    marginTop: theme.spacing(2),
-    marginLeft: 0,
-  },
-  [theme.breakpoints.down("md")]: {
-    order: 2, // Move under images on medium screens
-    width: "100%",
-    marginTop: theme.spacing(2),
-    marginLeft: 0,
   },
 }));
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { Typography, CircularProgress, Divider, Box } from "@mui/material";
+import { Typography, CircularProgress, Divider, Grid } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -10,11 +10,12 @@ import "swiper/css";
 import {
   CircularPaper,
   StyledPaper,
-  StyledBox,
+  StyledPaperGrid,
+  StyledCardMediaGrid,
   StyledCardMedia,
+  StyledImageContainerGrid,
   StyledImageContainer,
   StyledImage,
-  StyledTextContainer,
   StyledDialog,
   StyledDialogContent,
   StyledIconButtonClose,
@@ -75,41 +76,71 @@ const Player = () => {
 
   return (
     <StyledPaper>
-      <Box display="flex" justifyContent="space-between" width="100%">
-        <ArrowBackIcon />
-        <ArrowForwardIcon />
-      </Box>
-      <StyledBox>
-        <StyledImageContainer>
-          {player.images.map(
-            (item, index) =>
-              index !== cardImageIndex && (
-                <StyledImage
-                  key={item}
-                  src={item}
-                  alt={`image-${index}`}
-                  onClick={() => setCardImageIndex(index)}
-                />
-              )
-          )}
-        </StyledImageContainer>
-        <StyledCardMedia
-          component="img"
-          height="400"
-          image={player.images[cardImageIndex]}
-          alt={player.name}
-          onClick={() => handleClickOpen(cardImageIndex)}
-        />
-        <StyledTextContainer mx={2}>
-          <Typography variant="h4">{player.name}</Typography>
-          <Typography variant="h6">{player.club}</Typography>
-          <Divider sx={{ marginY: 2 }} />
-          <Typography gutterBottom variant="body1">
-            {playerInfo || "Ingen information tillgänglig"}
-          </Typography>
-        </StyledTextContainer>
-      </StyledBox>
+      <Grid container spacing={2}>
+        {/* Navigationsikoner */}
+        <Grid item xs={12} display="flex" justifyContent="space-between">
+          <ArrowBackIcon />
+          <ArrowForwardIcon />
+        </Grid>
+
+        {/* Layout för media, bilder och text */}
+        <StyledPaperGrid container spacing={2}>
+          {/* Huvudbild */}
+          <StyledCardMediaGrid
+            item
+            xs={12}
+            sm={6}
+            md={4}
+            order={{ sx: 1, sm: 2 }}
+          >
+            <StyledCardMedia
+              component="img"
+              height="400"
+              image={player.images[cardImageIndex]}
+              alt={player.name}
+              onClick={() => handleClickOpen(cardImageIndex)}
+            />
+          </StyledCardMediaGrid>
+
+          {/* Bildcontainer */}
+          <StyledImageContainerGrid
+            item
+            xs={12}
+            sm={6}
+            md={4}
+            order={{ sx: 2, sm: 1 }}
+          >
+            <StyledImageContainer>
+              {player.images.map(
+                (item, index) =>
+                  index !== cardImageIndex && (
+                    <StyledImage
+                      key={item}
+                      src={item}
+                      alt={`image-${index}`}
+                      onClick={() => setCardImageIndex(index)}
+                    />
+                  )
+              )}
+            </StyledImageContainer>
+          </StyledImageContainerGrid>
+
+          {/* Textcontainer */}
+          <Grid item xs={12} md={4} order={{ xs: 3, md: 3 }}>
+            <Typography variant="h4">{player.name}</Typography>
+            <Typography variant="h6">{player.club}</Typography>
+            <Divider sx={{ marginY: 2 }} />
+            <Typography gutterBottom variant="body1">
+              {playerInfo || "Ingen information tillgänglig"}
+            </Typography>
+          </Grid>
+        </StyledPaperGrid>
+      </Grid>
+
+      {/* Divider */}
       <Divider sx={{ marginY: 2 }} />
+
+      {/* Dialog för bilder */}
       <StyledDialog open={open} onClose={handleClose}>
         <StyledDialogContent>
           <StyledIconButtonClose onClick={handleClose}>
