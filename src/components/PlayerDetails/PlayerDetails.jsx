@@ -127,7 +127,7 @@ const Player = () => {
 
           {/* Textcontainer */}
           <Grid item xs={12} md={4} order={{ xs: 3, md: 3 }}>
-            <Typography variant="h4">{player.name}</Typography>
+            <Typography variant="h5">{player.name}</Typography>
             <Typography variant="h6">{player.club}</Typography>
             <Divider sx={{ marginY: 2 }} />
             <Typography gutterBottom variant="body1">
