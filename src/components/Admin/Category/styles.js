@@ -1,9 +1,9 @@
+// Styled components for Admin/Category/
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 
-// Styled components
 export const Root = styled(Box)(({ theme }) => ({
   "& .MuiTextField-root": {
     margin: theme.spacing(1),

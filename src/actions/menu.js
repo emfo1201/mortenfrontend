@@ -102,7 +102,7 @@ export const deleteCategory = (id) => async (dispatch) => {
 export const deleteSubCategory =
   (categoryId, subCategoryName) => async (dispatch) => {
     try {
-      console.log("data: ", categoryId, subCategoryName);
+      console.log("Deleting subcategory:", { categoryId, subCategoryName });
       const response = await api.deleteSubCategory(categoryId, subCategoryName);
       dispatch({ type: DELETE_SUBCATEGORY, payload: response.data }); // Uppdatera hela menyn
     } catch (error) {

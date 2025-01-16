@@ -34,7 +34,7 @@ function useQuery() {
 const Players = () => {
   const { isLoading, filteredPlayers } = useSelector((state) => state.players);
   const [openDialog, setOpenDialog] = useState(false);
-  const [filterOption, setFilterOption] = useState(10); // Standard: Årtal
+  const [filterOption, setFilterOption] = useState(10);
   const isAuthenticated = useAuth().isAuthenticated;
   const query = useQuery();
   const page = query.get("page") || 1;
@@ -45,6 +45,8 @@ const Players = () => {
 
   const sortedPlayers = useMemo(() => {
     const playersCopy = [...filteredPlayers];
+
+    console.log("players: ", filteredPlayers);
     switch (filterOption) {
       case 10: // Filtrera efter år
         return playersCopy.sort((a, b) => {

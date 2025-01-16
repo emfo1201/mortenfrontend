@@ -16,7 +16,6 @@ import DeleteCategory from "../../Admin/Category/DeleteCategory";
 import DeleteSubCategory from "../../Admin/Category/DeleteSubCategory";
 import ScrollDialog from "../../dialog";
 
-// Import styled components
 import {
   Button as StyledButton,
   MainMenuContainer,
@@ -44,7 +43,6 @@ const DrawerMenu = ({ categories, isAuthenticated }) => {
 
             if (yearMatch) {
               const year = parseInt(yearMatch[0], 10); // Hämta det första matchande året
-
               // Kolla om någon spelare har ett årtal som matchar eller ligger i närheten (decennium)
               const matches = players.some((player) =>
                 player.category.some((cat) => {
@@ -224,7 +222,7 @@ const DrawerMenu = ({ categories, isAuthenticated }) => {
                     {isAuthenticated && (
                       <IconButton
                         onClick={() =>
-                          handleDeleteSubCategoryClick(mainMenu, subItem)
+                          handleDeleteSubCategoryClick(_id, subItem)
                         }
                       >
                         <DeleteIcon />
