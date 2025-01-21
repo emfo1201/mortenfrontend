@@ -212,11 +212,10 @@ const DrawerMenu = ({ categories, isAuthenticated }) => {
               </MainMenuItem>
               <List disablePadding>
                 {subMenu.map((subItem, index) => (
-                  <ListItem
+                  <SubMenuItem
                     key={`${subItem || ""}-${index}`}
                     button
                     onClick={(e) => listPlayer(e, mainMenu, subItem)}
-                    className={SubMenuItem}
                   >
                     <ListItemText primary={subItem || ""} />
                     {isAuthenticated && (
@@ -228,7 +227,7 @@ const DrawerMenu = ({ categories, isAuthenticated }) => {
                         <DeleteIcon />
                       </IconButton>
                     )}
-                  </ListItem>
+                  </SubMenuItem>
                 ))}
               </List>
             </div>
