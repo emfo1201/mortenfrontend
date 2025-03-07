@@ -1,8 +1,6 @@
 import React from "react";
-import { Grid } from "@mui/material";
 import { HomeContainer, Hero, HeroImage, HeroImagePhone } from "./styles";
-import TextGenerateEffectDemo from "../effects/TextGenerateEffectDemo";
-
+import TextGenerateEffectDemo from "../Effects/TextGenerateEffectDemo";
 import LandingImage from "../../images/nfdmheroimage.png";
 import LandingImagePhone from "../../images/nfdmheroimagemobile.png";
 
