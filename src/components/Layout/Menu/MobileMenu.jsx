@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { Menu, X } from "lucide-react";
 import { Button } from "../../ui/button";
 import { motion, AnimatePresence } from "framer-motion";
@@ -16,6 +17,7 @@ const MobileMenu = ({ categories, isAuthenticated }) => {
   const [openDialog, setOpenDialog] = useState(false);
   const [dialogContent, setDialogContent] = useState(null);
   const navigate = useNavigate();
+  const players = useSelector((state) => state.players.players);
 
   const handleOpenDialog = (content) => {
     setDialogContent(content);
@@ -54,6 +56,58 @@ const MobileMenu = ({ categories, isAuthenticated }) => {
     navigate(`/players/listPlayers?key=${[main, sub].join(",")}&page=1`);
     setOpen(false);
   };
+
+  // Kopierad filtreringslogik från DrawerMenu
+  const filterCategories = useCallback(
+    (filtCat) => {
+      const filteredCategories = filtCat
+        .map((category) => {
+          const subMenusWithPlayers = category.subMenu.filter((subMenu) => {
+            const yearMatch = subMenu.match(/\d{4}/);
+            if (yearMatch) {
+              const year = parseInt(yearMatch[0], 10);
+              const matches = players.some((player) =>
+                player.category.some((cat) => {
+                  const playerYear = parseInt(cat.sub, 10);
+                  const isInDecade =
+                    Math.floor(playerYear / 10) * 10 ===
+                    Math.floor(year / 10) * 10;
+                  return cat.main === category.mainMenu && isInDecade;
+                })
+              );
+              return matches;
+            }
+            const exactMatch = players.some((player) =>
+              player.category.some(
+                (cat) => cat.main === category.mainMenu && cat.sub === subMenu
+              )
+            );
+            return exactMatch;
+          });
+
+          if (subMenusWithPlayers.length > 0) {
+            return { ...category, subMenu: subMenusWithPlayers };
+          }
+          return null;
+        })
+        .filter((category) => category !== null);
+
+      // Sortera subMenu och kategorier
+      const sortedCategories = filteredCategories
+        .map((category) => ({
+          ...category,
+          subMenu: category.subMenu.sort((a, b) => a.localeCompare(b)),
+        }))
+        .sort((a, b) => a.mainMenu.localeCompare(b.mainMenu));
+
+      return sortedCategories;
+    },
+    [players]
+  );
+
+  const displayedCategories = isAuthenticated
+    ? categories
+    : filterCategories(categories);
 
   return (
     <div className="md:hidden">
@@ -107,7 +161,8 @@ const MobileMenu = ({ categories, isAuthenticated }) => {
                     </Button>
                   </div>
                 )}
-                {categories.map(({ _id, mainMenu, subMenu }) => (
+
+                {displayedCategories.map(({ _id, mainMenu, subMenu }) => (
                   <div key={_id}>
                     <div className="flex justify-between items-center">
                       <h3
@@ -139,6 +194,7 @@ const MobileMenu = ({ categories, isAuthenticated }) => {
                         </div>
                       )}
                     </div>
+
                     {expandedMenu === _id && (
                       <ul className="ml-4 mt-1 space-y-1">
                         {subMenu.map((subItem, idx) => (
@@ -170,6 +226,7 @@ const MobileMenu = ({ categories, isAuthenticated }) => {
                   </div>
                 ))}
               </div>
+
               <ScrollDialog open={openDialog} onClose={handleCloseDialog}>
                 {dialogContent}
               </ScrollDialog>
