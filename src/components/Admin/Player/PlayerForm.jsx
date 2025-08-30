@@ -44,6 +44,7 @@ function AddUpdatePlayerForm({
   });
 
   useEffect(() => {
+    console.log("Player form: ", player);
     const categories = category || [];
     const subCategories = {};
 
@@ -73,7 +74,7 @@ function AddUpdatePlayerForm({
       categories: filteredCategories,
       subCategories,
     });
-  }, [category]);
+  }, [category, player]);
 
   useEffect(() => {
     if (player) {
@@ -263,7 +264,7 @@ function AddUpdatePlayerForm({
   return (
     <form onSubmit={handleFormSubmit} encType="multipart/form-data">
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12}>
           <PlayerData
             playerData={playerData}
             handleInputChange={handleInputChange}

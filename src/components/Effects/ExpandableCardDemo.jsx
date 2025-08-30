@@ -1,17 +1,34 @@
 "use client";
 
-import React, { useEffect, useId, useRef, useState } from "react";
+import React, { useCallback, useEffect, useId, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { useOutsideClick } from "../../hooks/use-outside-click";
 import { AnimatedTestimonials } from "../ui/animated-testimonials";
+import { deletePlayer, updatePlayer } from "../../actions/players";
+import PlayerForm from "../Admin/Player/PlayerForm";
+import { useAuth } from "../Auth/AuthContext";
+import ScrollDialog from "../dialog";
+import DeleteIcon from "@mui/icons-material/Delete";
+import UpdateIcon from "@mui/icons-material/Update";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+} from "@mui/material";
+import { useDispatch } from "react-redux";
 
 export function ExpandableCardDemo({ cards }) {
+  const dispatch = useDispatch();
   const [active, setActive] = useState(null);
   const id = useId();
   const { i18n } = useTranslation();
   const ref = useRef(null);
-  const randomStyle = cardStyles[Math.floor(Math.random() * cardStyles.length)];
+  const { isAuthenticated } = useAuth();
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [openUpdateDialog, setOpenUpdateDialog] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(null);
 
   useEffect(() => {
     function onKeyDown(event) {
@@ -31,6 +48,52 @@ export function ExpandableCardDemo({ cards }) {
   }, [active]);
 
   useOutsideClick(ref, () => setActive(null));
+
+  const onClickUpdate = () => {
+    alert("Update!");
+  };
+
+  const handleOpenUpdateDialog = useCallback((playerCard) => {
+    setSelectedCard(playerCard);
+    setOpenUpdateDialog(true);
+  }, []);
+
+  const handleCloseUpdateDialog = useCallback(() => {
+    setSelectedCard(null);
+    setOpenUpdateDialog(false);
+  }, []);
+
+  const handleOpenDeleteDialog = useCallback(() => {
+    setOpenDeleteDialog(true);
+  }, []);
+
+  const handleCloseDeleteDialog = useCallback(() => {
+    setOpenDeleteDialog(false);
+  }, []);
+
+  const handleDeletePlayer = useCallback(() => {
+    dispatch(deletePlayer(cards._id));
+    setOpenDeleteDialog(false);
+  }, [dispatch, cards._id]);
+
+  const handleSubmit = useCallback(
+    (updatedPlayerData) => {
+      const data = new FormData();
+
+      data.append("name", updatedPlayerData.name);
+      data.append("club", updatedPlayerData.club);
+      data.append("infoEnglish", updatedPlayerData.infoEnglish);
+      data.append("infoNorwegian", updatedPlayerData.infoNorwegian);
+      data.append("categories", JSON.stringify(updatedPlayerData.category));
+
+      updatedPlayerData.images.forEach((image) => {
+        data.append("images", image);
+      });
+
+      dispatch(updatePlayer(cards._id, data));
+    },
+    [dispatch, cards._id]
+  );
 
   return (
     <>
@@ -70,20 +133,20 @@ export function ExpandableCardDemo({ cards }) {
             <motion.div
               layoutId={`card-${active.name}-${id}`}
               ref={ref}
-              className={`relative p-1 rounded-3xl w-full max-w-[900px] h-auto md:h-[500px] flex flex-row dark:bg-neutral-900 overflow-hidden ${randomStyle}`}
+              className={`relative p-1 rounded-3xl w-[50vh] md:w-[120vh] max-w-[900px] max-h-[85vh] h-[100vh] md:h-[500px] flex flex-col md:flex-row dark:bg-neutral-900 overflow-hidden ${cardStyle}`}
             >
               <motion.div
                 layoutId={`image-${active.name}-${id}`}
-                className="w-2/5 h-full overflow-hidden pt-4"
+                className="w-full md:w-2/5 md:h-full overflow-hidden pt-4"
               >
                 <AnimatedTestimonials images={active.images} />
               </motion.div>
 
-              <div className="w-3/5 p-4 flex flex-col justify-between">
-                <div className="">
+              <div className="w-full md:w-3/5 max-h-[40vh] md:max-h-[55vh] p-4 flex flex-col md:justify-between">
+                <div className="bg-white bg-opacity-45 p-10 rounded-lg h-full overflow-y-auto">
                   <motion.h3
                     layoutId={`title-${active.name}-${id}`}
-                    className="font-medium text-neutral-700 dark:text-neutral-200 text-[20px] pt-5"
+                    className="font-medium text-neutral-700 text-[20px]"
                   >
                     {active.name}
                   </motion.h3>
@@ -93,7 +156,7 @@ export function ExpandableCardDemo({ cards }) {
                         ? active.infoNorwegian
                         : active.infoEnglish
                     }-${id}`}
-                    className="text-neutral-600 dark:text-neutral-400 text-base pt-5"
+                    className="text-neutral-600  text-base pt-5"
                   >
                     {i18n.language === "no"
                       ? active.infoNorwegian
@@ -121,14 +184,14 @@ export function ExpandableCardDemo({ cards }) {
                   height={100}
                   src={card.images[0]}
                   alt={card.name}
-                  className="h-60 w-full  rounded-lg object-cover object-center"
+                  className="h-[30vh] w-full  rounded-lg object-cover object-center"
                 />
               </motion.div>
               <div className="flex justify-center items-center flex-col relative">
                 <div className="absolute top-0 left-4">
                   <p
                     layoutId={`club-${card.club}-${id}`}
-                    className="text-neutral-600 dark:text-neutral-400 text-base"
+                    className="text-neutral-600 text-base"
                   >
                     {card.club}
                   </p>
@@ -137,7 +200,7 @@ export function ExpandableCardDemo({ cards }) {
                 <div className="absolute top-0 right-4">
                   <p
                     layoutId={`category-${card.category[0].sub}-${id}`}
-                    className="text-neutral-600 dark:text-neutral-400 text-base"
+                    className="text-neutral-600 text-base"
                   >
                     {card.category[0].sub}
                   </p>
@@ -145,15 +208,62 @@ export function ExpandableCardDemo({ cards }) {
 
                 <motion.h3
                   layoutId={`title-${card.name}-${id}`}
-                  className="w-full font-medium text-neutral-800 dark:text-neutral-200 pl-4 text-left text-xl mt-5"
+                  className="w-full font-medium text-neutral-800 pl-4 text-left text-xl mt-5"
                 >
                   {card.name}
                 </motion.h3>
+                {isAuthenticated && (
+                  <div className="flex justify-between w-full mt-2">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleOpenUpdateDialog(card);
+                      }}
+                      className="flex items-center gap-1 px-3 py-1 text-sm rounded-lg bg-slate-600 text-white hover:bg-slate-700 transition"
+                    >
+                      <UpdateIcon fontSize="small" /> Update
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleOpenDeleteDialog();
+                      }}
+                      className="flex items-center gap-1 px-3 py-1 text-sm rounded-lg bg-slate-600 text-white hover:bg-slate-700 transition"
+                    >
+                      <DeleteIcon fontSize="small" /> Delete
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </motion.div>
         ))}
       </ul>
+      <ScrollDialog
+        title="Update Player"
+        open={openUpdateDialog}
+        onClose={handleCloseUpdateDialog}
+      >
+        {selectedCard && (
+          <PlayerForm
+            player={selectedCard}
+            handleSubmit={handleSubmit}
+            handleCloseUpdatePlayer={handleCloseUpdateDialog}
+          />
+        )}
+      </ScrollDialog>
+      <Dialog open={openDeleteDialog} onClose={handleCloseDeleteDialog}>
+        <DialogTitle>Confirm Delete</DialogTitle>
+        <DialogContent>Are you sure you want to delete?</DialogContent>
+        <DialogActions>
+          <button onClick={handleCloseDeleteDialog} color="primary">
+            Cancel
+          </button>
+          <button onClick={handleDeletePlayer} color="secondary">
+            Delete
+          </button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }
@@ -191,9 +301,6 @@ export const CloseIcon = () => {
   );
 };
 
-const cardStyles = [
-  "bg-gradient-to-br from-blue-500 via-sky-300 to-blue-700 border-4 border-blue-800 shadow-[0_0_25px_rgba(173,216,230,0.6)]",
-  "bg-gradient-to-br from-green-500 via-emerald-300 to-green-700 border-4 border-green-800 shadow-[0_0_25px_rgba(144,238,144,0.6)]",
-  "bg-gradient-to-br from-purple-500 via-pink-300 to-purple-700 border-4 border-purple-800 shadow-[0_0_25px_rgba(255,105,180,0.6)]",
-  "bg-gradient-to-br from-cyan-400 via-teal-300 to-cyan-600 border-4 border-teal-700 shadow-[0_0_25px_rgba(0,255,255,0.6)]",
+const cardStyle = [
+  "bg-gradient-to-br from-slate-200 via-slate-400 to-[#1f262d] border-4 border-slate-500 shadow-[0_0_25px_rgba(173,216,230,0.6)]",
 ];

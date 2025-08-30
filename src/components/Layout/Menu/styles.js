@@ -20,25 +20,31 @@ export const StyledButton = styled(Button)(({ theme }) => ({
 // Styled head menu container
 export const MainMenuContainer = styled("div")(({ theme }) => ({
   display: "flex",
-  flexFlow: "column wrap",
-  maxHeight: 500,
-  overflow: "auto",
+  flexDirection: "row",
+  flexWrap: "wrap",
+  gap: theme.spacing(2),
+  justifyContent: "flex-start",
+  alignItems: "flex-start",
+  width: "100%",
 }));
 
 // Styled head menu item
 export const MainMenuItem = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
   fontSize: "1rem",
-  paddingTop: 1,
-  paddingBottom: 1,
+  paddingLeft: theme.spacing(1),
+  minWidth: "150px",
 }));
 
 // Styled sub menu item
 export const SubMenuItem = styled("div")(({ theme }) => ({
   fontSize: "0.2rem",
+  display: "flex",
   color: "#264554",
-  paddingTop: 1,
-  paddingBottom: 1,
   paddingLeft: theme.spacing(3),
+  cursor: "pointer",
 }));
 
 // Styled button for adding a category

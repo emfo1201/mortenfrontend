@@ -26,7 +26,7 @@ function CategorySelect({
 }) {
   return (
     <div>
-      <FormControl variant="outlined">
+      <FormControl variant="outlined" fullWidth>
         <InputLabel id="category">Category</InputLabel>
         <Select
           labelId="category"
@@ -43,7 +43,7 @@ function CategorySelect({
         </Select>
       </FormControl>
       {selectedCategory && (
-        <FormControl variant="outlined">
+        <FormControl variant="outlined" fullWidth>
           <InputLabel id="subCategory">Sub Category</InputLabel>
           <Select
             labelId="subCategory"

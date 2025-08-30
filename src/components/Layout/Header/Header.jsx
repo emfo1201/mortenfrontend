@@ -2,11 +2,14 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import DrawerMenu from "../Menu/DrawerMenu";
+import MobileMenu from "../Menu/MobileMenu";
 import LanguageToggle from "../Menu/LanguageToggle";
 import { useAuth } from "../../Auth/AuthContext";
 import Title from "./Title";
 import SearchBar from "./SearchBar";
 import LogoutButton from "./LogoutButton";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import {
   Root,
   AppBarStyled,
@@ -20,6 +23,8 @@ const Header = () => {
   const category = useSelector((state) => state.menus);
   const navigate = useNavigate();
   const location = useLocation();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const { isAuthenticated, logout } = useAuth();
 
   useEffect(() => {
@@ -65,10 +70,18 @@ const Header = () => {
     <Root>
       <AppBarStyled position="static" location={location}>
         <ToolbarStyled>
-          <DrawerMenu
-            categories={menuItems}
-            isAuthenticated={isAuthenticated}
-          />
+          {!isMobile && (
+            <DrawerMenu
+              categories={menuItems}
+              isAuthenticated={isAuthenticated}
+            />
+          )}
+          {isMobile && (
+            <MobileMenu
+              categories={menuItems}
+              isAuthenticated={isAuthenticated}
+            />
+          )}
           <Title />
           <SearchLanguageWrapper>
             <SearchBar

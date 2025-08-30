@@ -7,31 +7,20 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import AddNewPlayer from "./Player/AddNewPlayer";
-import Player from "./Player/Player";
+import { Trans } from "react-i18next";
 import Paginate from "../Pagination/Pagination";
-import { styled } from "@mui/system"; // Importera styled
+import { styled } from "@mui/system";
 import { useAuth } from "../Auth/AuthContext";
 import { ExpandableCardDemo } from "../Effects/ExpandableCardDemo";
 
-/**
- * useQuery is a custom hook that parses the query string from the current URL.
- *
- * @returns {URLSearchParams} The parsed query parameters.
- */
 function useQuery() {
   const location = useLocation();
-
   return useMemo(() => {
     const params = new URLSearchParams(location.search);
     return params;
   }, [location.search]);
 }
 
-/**
- * Players component displays a list of players, allowing users to filter and view details.
- *
- * @returns {JSX.Element} The rendered Players component.
- */
 const Players = () => {
   const { isLoading, filteredPlayers } = useSelector((state) => state.players);
   const [openDialog, setOpenDialog] = useState(false);
@@ -44,15 +33,25 @@ const Players = () => {
     setFilterOption(event.target.value);
   }, []);
 
-  const sortedPlayers = useMemo(() => {
-    const playersCopy = [...filteredPlayers];
+  // Filtrera bort spelare utan giltig category/sub
+  const safePlayers = useMemo(() => {
+    return filteredPlayers.filter(
+      (p) =>
+        p &&
+        Array.isArray(p.category) &&
+        p.category[0] &&
+        p.category[0].sub != null
+    );
+  }, [filteredPlayers]);
 
-    console.log("players: ", filteredPlayers);
+  const sortedPlayers = useMemo(() => {
+    const playersCopy = [...safePlayers];
+
     switch (filterOption) {
       case 10: // Filtrera efter år
         return playersCopy.sort((a, b) => {
-          const yearA = a.category[0]?.sub || 0;
-          const yearB = b.category[0]?.sub || 0;
+          const yearA = a.category?.[0]?.sub ?? 0;
+          const yearB = b.category?.[0]?.sub ?? 0;
           return yearA - yearB;
         });
       case 20: // Filtrera efter namn
@@ -64,9 +63,9 @@ const Players = () => {
           a.club.localeCompare(b.club, undefined, { sensitivity: "base" })
         );
       default:
-        return playersCopy; // Standard
+        return playersCopy;
     }
-  }, [filteredPlayers, filterOption]);
+  }, [safePlayers, filterOption]);
 
   const handleOpenDialog = useCallback(() => {
     if (isAuthenticated) {
@@ -77,10 +76,6 @@ const Players = () => {
   const handleCloseDialog = useCallback(() => {
     setOpenDialog(false);
   }, []);
-
-  if (isLoading || !filteredPlayers) {
-    return <CircularProgress />;
-  }
 
   return (
     <Root container direction="column" spacing={3}>
@@ -103,7 +98,20 @@ const Players = () => {
 
       {/* Rad för spelarkorten */}
       <Grid item container alignItems="stretch" spacing={3}>
-        <ExpandableCardDemo cards={sortedPlayers} />
+        {isLoading ? (
+          <CircularProgress className="mx-auto my-10" />
+        ) : sortedPlayers.length > 0 ? (
+          <ExpandableCardDemo cards={sortedPlayers} />
+        ) : (
+          <Grid item xs={12} className="text-center py-10">
+            <Trans
+              i18nKey="search_no_result"
+              values={{ query: query.get("searchQuery") }}
+              components={{ strong: <strong /> }}
+              className="text-gray-500 text-lg"
+            />
+          </Grid>
+        )}
         {isAuthenticated && (
           <AddNewPlayer
             handleOpenDialog={handleOpenDialog}
@@ -123,7 +131,6 @@ const Players = () => {
   );
 };
 
-// Styled component for the root container
 const Root = styled(Grid)({
   marginTop: "2rem",
   marginBottom: "2rem",

@@ -26,6 +26,13 @@ const SearchBar = ({ search, setSearch, handleKeyPress }) => {
     handleKeyPress({ key: "Enter" });
   };
 
+  // Mobile onSubmit
+  const onMobileSubmit = (e) => {
+    e.preventDefault();
+    handleKeyPress({ key: "Enter" });
+    setOpen(false);
+  };
+
   const toggleDialog = useCallback(() => {
     setOpen((prev) => !prev);
   }, []);
@@ -59,13 +66,10 @@ const SearchBar = ({ search, setSearch, handleKeyPress }) => {
       {/* Dialog for Mobile */}
       <DialogStyled open={open} onClose={toggleDialog}>
         <DialogContentStyled>
-          <IconButton onClick={toggleDialog} aria-label="Close search">
-            <CloseIcon />
-          </IconButton>
           <PlaceholdersAndVanishInput
             placeholders={placeholders}
             onChange={handleSearchChange}
-            onSubmit={onSubmit}
+            onSubmit={onMobileSubmit}
           />
         </DialogContentStyled>
       </DialogStyled>

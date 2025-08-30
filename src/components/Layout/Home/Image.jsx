@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./ImageFadeTransition.css";
-import Shirt1 from "../../../images/shirt1.png"; // Rätt relativ sökväg
-import Shirt2 from "../../../images/shirt2.png"; // Rätt relativ sökväg
+import Shirt1 from "../../../images/shirt1.png";
+import Shirt2 from "../../../images/shirt2.png";
 
 const ImageFadeTransition = () => {
   const [showFirstImage, setShowFirstImage] = useState(true);

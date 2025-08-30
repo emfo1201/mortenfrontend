@@ -59,8 +59,7 @@ export const MobileSearchIconWrapper = styled("div")(({ theme }) => ({
 // Dialog för mobil sökning
 export const DialogStyled = styled(Dialog)(({ theme }) => ({
   "& .MuiPaper-root": {
-    padding: theme.spacing(2),
-    borderRadius: "8px",
+    background: "transparent",
   },
 }));
 
