@@ -35,12 +35,15 @@ export const DialogContentStyled = styled(DialogContent)(({ theme }) => ({
 }));
 
 // Wrapper för SearchBar och LanguageToggle
-export const SearchLanguageWrapper = styled("div")({
+export const SearchLanguageWrapper = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
-  gap: "16px", // Space between SearchBar and LanguageToggle
-  paddingRight: "50px",
-});
+  gap: "16px",
+  paddingRight: "50px", // default för desktop
+  [theme.breakpoints.down("sm")]: {
+    paddingRight: 0, // tar bort på små skärmar
+  },
+}));
 
 export const MobileSearchIconStyled = styled(SearchIcon)`
   color: #ffffff; /* Vit färg */

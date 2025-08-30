@@ -23,7 +23,7 @@ const LogoutButton = ({ handleLogout }) => {
   return (
     <button
       onClick={handleLogout}
-      className="shadow-[inset_0_0_0_2px_#616467] text-slate-400 px-4 py-2 rounded-full tracking-widest uppercase font-bold bg-transparent hover:bg-slate-800 hover:text-white dark:text-neutral-200 transition duration-200"
+      className="shadow-[inset_0_0_0_2px_#616467] text-slate-400 px-4 py-2 rounded-full tracking-widest uppercase font-bold bg-transparent hover:bg-slate-800 hover:text-white dark:text-neutral-200 transition duration-200 max-w-full truncate"
     >
       Logout
     </button>

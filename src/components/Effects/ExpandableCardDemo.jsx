@@ -133,7 +133,7 @@ export function ExpandableCardDemo({ cards }) {
             <motion.div
               layoutId={`card-${active.name}-${id}`}
               ref={ref}
-              className={`relative p-1 rounded-3xl w-[40vh] md:w-[120vh] max-w-[900px] max-h-[85vh] h-[100vh] md:h-[500px] flex flex-col md:flex-row dark:bg-neutral-900 overflow-hidden ${cardStyle}`}
+              className={`relative p-1 rounded-3xl w-full md:w-[120vh] max-w-[900px] max-h-[75vh] h-[100vh] md:h-[500px] flex flex-col md:flex-row dark:bg-neutral-900 overflow-hidden ${cardStyle}`}
             >
               <motion.div
                 layoutId={`image-${active.name}-${id}`}

@@ -78,7 +78,12 @@ const Players = () => {
   }, []);
 
   return (
-    <Root container direction="column" spacing={3}>
+    <Root
+      container
+      direction="column"
+      spacing={3}
+      style={{ background: "green" }}
+    >
       {/* Rad för filtreringsknappen */}
       <Grid item container justifyContent="flex-end" alignItems="center">
         <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
@@ -97,7 +102,7 @@ const Players = () => {
       </Grid>
 
       {/* Rad för spelarkorten */}
-      <Grid item container alignItems="stretch" spacing={3}>
+      <Grid item container alignItems="stretch" spacing={{ xs: 0, sm: 3 }}>
         {isLoading ? (
           <CircularProgress className="mx-auto my-10" />
         ) : sortedPlayers.length > 0 ? (
