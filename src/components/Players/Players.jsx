@@ -78,12 +78,7 @@ const Players = () => {
   }, []);
 
   return (
-    <Root
-      container
-      direction="column"
-      spacing={3}
-      style={{ background: "green" }}
-    >
+    <Root container direction="column" spacing={3}>
       {/* Rad för filtreringsknappen */}
       <Grid item container justifyContent="flex-end" alignItems="center">
         <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
